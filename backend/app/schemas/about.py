@@ -1,38 +1,75 @@
 from typing import List, Optional
 from pydantic import BaseModel, HttpUrl
+from datetime import date
 
-class Education(BaseModel):
+class EducationBase(BaseModel):
     institution: str
     degree: str
     field: str
-    start_date: str
-    end_date: Optional[str] = None
+    start_date: date
+    end_date: Optional[date] = None
     description: Optional[str] = None
+
+class EducationCreate(EducationBase):
+    pass
+
+class Education(EducationBase):
+    id: int
     
-class Experience(BaseModel):
+    class Config:
+        orm_mode = True
+
+class ExperienceBase(BaseModel):
     company: str
     position: str
-    start_date: str
-    end_date: Optional[str] = None
+    start_date: date
+    end_date: Optional[date] = None
     description: Optional[str] = None
     achievements: Optional[List[str]] = None
 
-class SocialMedia(BaseModel):
+class ExperienceCreate(ExperienceBase):
+    pass
+
+class Experience(ExperienceBase):
+    id: int
+    
+    class Config:
+        orm_mode = True
+
+class SocialMediaBase(BaseModel):
     platform: str
     url: str
     username: Optional[str] = None
 
-class About(BaseModel):
+class SocialMediaCreate(SocialMediaBase):
+    pass
+
+class SocialMedia(SocialMediaBase):
+    id: int
+    
+    class Config:
+        orm_mode = True
+
+class AboutBase(BaseModel):
     name: str
     title: str
     summary: str
     profile_image: str
     bio: str
-    education: List[Education]
-    experience: List[Experience]
-    social_media: List[SocialMedia]
+
+class AboutCreate(AboutBase):
+    education: List[EducationCreate] = []
+    experience: List[ExperienceCreate] = []
+    social_media: List[SocialMediaCreate] = []
+
+class About(AboutBase):
+    id: int
+    education: List[Education] = []
+    experience: List[Experience] = []
+    social_media: List[SocialMedia] = []
     
     class Config:
+        orm_mode = True
         schema_extra = {
             "example": {
                 "name": "青木 俊輔",

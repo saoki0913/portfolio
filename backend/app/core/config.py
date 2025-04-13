@@ -1,35 +1,34 @@
 import os
-from pydantic import BaseSettings, EmailStr
+from pydantic import BaseSettings, validator, EmailStr, PostgresDsn
+from typing import List, Optional, Union
 
 class Settings(BaseSettings):
-    API_V1_STR: str = "/api"
-    PROJECT_NAME: str = "Portfolio API"
+    API_PREFIX: str = ""
+    BACKEND_CORS_ORIGINS: List[str] = ["http://localhost:3000"]
     
-    # Email設定
+    # Supabase
+    SUPABASE_URL: str
+    SUPABASE_KEY: str
+    DATABASE_URL: PostgresDsn
+    
+    # Email
     EMAILS_ENABLED: bool = False
-    SMTP_TLS: bool = True
-    SMTP_PORT: int = 587
-    SMTP_HOST: str = ""
-    SMTP_USER: str = ""
-    SMTP_PASSWORD: str = ""
-    EMAILS_FROM_EMAIL: EmailStr = "noreply@example.com"
-    EMAILS_FROM_NAME: str = "Portfolio Contact"
-    EMAIL_RESET_TOKEN_EXPIRE_HOURS: int = 48
-    EMAIL_TEMPLATES_DIR: str = "app/email-templates"
-    EMAILS_ENABLED: bool = False
+    SMTP_HOST: Optional[str] = None
+    SMTP_PORT: Optional[int] = None
+    SMTP_USER: Optional[str] = None
+    SMTP_PASSWORD: Optional[str] = None
+    EMAIL_RECIPIENT: Optional[EmailStr] = None
     
-    # 受信メールアドレス
-    EMAIL_RECIPIENT: EmailStr = "your-email@example.com"
-    
-    # デモ用のダミーデータを使用するかどうか
-    USE_DUMMY_DATA: bool = True
-    
-    # CORSオリジン
-    BACKEND_CORS_ORIGINS: list = ["*"]
-    
-    class Config:
-        case_sensitive = True
-        env_file = ".env"
+    @validator("BACKEND_CORS_ORIGINS", pre=True)
+    def assemble_cors_origins(cls, v: Union[str, List[str]]) -> List[str]:
+        if isinstance(v, str) and not v.startswith("["):
+            return [i.strip() for i in v.split(",")]
+        elif isinstance(v, (list, str)):
+            return v
+        raise ValueError(v)
 
+    class Config:
+        env_file = ".env"
+        case_sensitive = True
 
 settings = Settings() 
