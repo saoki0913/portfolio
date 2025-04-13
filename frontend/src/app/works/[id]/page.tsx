@@ -27,11 +27,13 @@ export async function generateStaticParams() {
 
 export default async function WorkPage({ params }: Props) {
     let work;
+    const resolvedParams = await Promise.resolve(params);
+    const id = resolvedParams.id;
 
     try {
-        work = await getWorkById(params.id);
+        work = await getWorkById(id);
     } catch (error) {
-        console.error(`Error fetching work with ID ${params.id}:`, error);
+        console.error(`Error fetching work with ID ${id}:`, error);
         notFound();
     }
 
@@ -41,7 +43,7 @@ export default async function WorkPage({ params }: Props) {
 
     return (
         <main className="min-h-screen bg-gradient-to-b from-white via-gray-50 to-white">
-            {/* モダンな背景装飾 */}
+            {/*背景装飾 */}
             <div className="fixed inset-0 -z-10 bg-[url('/patterns/grid.svg')] bg-fixed opacity-[0.02]" />
             <div className="fixed inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,rgba(0,0,0,0.05),transparent_80%)]" />
             <div className="fixed inset-0 -z-10 bg-[url('/patterns/circuit-board.svg')] bg-fixed bg-[length:300px_300px] opacity-10 mix-blend-soft-light" />
@@ -66,15 +68,14 @@ export default async function WorkPage({ params }: Props) {
 
                 {/* スクリーンショット */}
                 {work.screenshots && work.screenshots.length > 0 && (
-                    <div className="my-24 relative">
-                        <div className="absolute -inset-10 bg-gradient-to-b from-gray-100/0 via-gray-100/80 to-gray-100/0 -z-10 blur-3xl" />
+                    <div className="mt-16 mb-16 relative bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-gray-100 shadow-sm">
+                        <div className="absolute -inset-10 bg-gradient-to-b from-gray-100/0 via-gray-100/60 to-gray-100/0 -z-10 blur-3xl" />
                         <Screenshots work={work} />
                     </div>
                 )}
 
                 {/* 技術スタック */}
                 <section className="relative mb-28 mt-16 py-16">
-                    {/* 背景装飾 - より魅力的に */}
                     <div className="absolute -top-20 -left-10 w-72 h-72 bg-gradient-to-tr from-gray-200/50 to-white/5 rounded-full mix-blend-multiply opacity-70 blur-3xl -z-10" />
                     <div className="absolute bottom-0 right-0 w-80 h-80 bg-gradient-to-bl from-gray-200/50 to-white/5 rounded-full mix-blend-multiply opacity-60 blur-3xl -z-10" />
 
@@ -103,7 +104,7 @@ export default async function WorkPage({ params }: Props) {
                     </div>
                 </section>
 
-                {/* 学んだこと（オプショナル） */}
+                {/* 学んだこと*/}
                 {work.learnings && (
                     <section className="border-t border-gray-200 pt-16 mb-20 relative">
                         <div className="absolute left-1/2 top-0 w-96 h-96 -translate-x-1/2 bg-gradient-to-b from-gray-100/50 to-transparent rounded-full mix-blend-multiply opacity-60 blur-3xl -z-10" />

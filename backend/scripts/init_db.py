@@ -13,16 +13,8 @@ supabase: Client = create_client(supabase_url, supabase_key)
 
 def create_tables():
     """Supabaseにテーブルを作成する"""
-    # 注意: PostgreSQLの直接実行が必要な場合もあるため、
-    # Supabaseダッシュボードでのテーブル作成も検討してください
     
     print("Supabaseテーブル作成スクリプト")
-    print("注意: このスクリプトは参考用です。実際のテーブル作成はSupabaseダッシュボードで行うことをお勧めします。")
-    
-    # 以下はSupabaseのREST APIを使用したテーブル作成の参考例です
-    # 実際の環境に応じて調整してください
-    
-    # スキルカテゴリテーブル作成例
     try:
         # スキルカテゴリの作成
         supabase.table("skill_categories").insert([
@@ -57,7 +49,7 @@ def create_tables():
     try:
         # プロフィール情報の追加
         about_response = supabase.table("abouts").insert({
-            "name": "山田 太郎",
+            "name": "青木 駿介",
             "title": "フルスタック開発者",
             "summary": "Webアプリケーション開発に情熱を持つエンジニアです。",
             "profile_image": "/images/profile.jpg",
@@ -69,21 +61,21 @@ def create_tables():
             
             # 学歴情報の追加
             supabase.table("educations").insert({
-                "institution": "○○大学",
+                "institution": "早稲田大学",
                 "degree": "学士",
-                "field": "情報工学",
-                "start_date": "2018-04-01",
-                "end_date": "2022-03-31",
+                "field": "機械工学",
+                "start_date": "2021-04-01",
+                "end_date": "2025-03-31",
                 "about_id": about_id
             }).execute()
             
             # 職歴情報の追加
             supabase.table("experiences").insert({
-                "company": "株式会社サンプル",
-                "position": "Webエンジニア",
-                "start_date": "2022-04-01",
-                "description": "フロントエンド開発とバックエンド開発を担当",
-                "achievements": json.dumps(["新機能の開発", "パフォーマンス最適化"]),
+                "company": "株式会社インテリジェントフォース",
+                "position": "AIエンジニア",
+                "start_date": "2024-10-01",
+                "description": "AI開発とバックエンド開発を担当",
+                "achievements": json.dumps(["Azureを活用したRAGの開発", "スケジュール管理システムの開発"]),
                 "about_id": about_id
             }).execute()
             
