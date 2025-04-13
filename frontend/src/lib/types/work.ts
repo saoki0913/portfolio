@@ -1,17 +1,25 @@
-export type Work = {
+export interface Link {
+    github?: string;
+    demo?: string;
+    blog?: string;
+}
+
+export interface Screenshot {
+    url: string;
+    caption?: string;
+}
+
+export interface Work {
     id: string;
     title: string;
     description: string;
     thumbnail: string;
-    period: string;
-    role: string;
+    category: string;
+    featured: boolean;
     technologies: string[];
-    features: string[];
-    images: string[];
-    links?: {
-        github?: string;
-        demo?: string;
-        article?: string;
-    };
+    links?: Link;
+    screenshots?: Screenshot[];
+    duration?: string;
+    role?: string;
     learnings?: string;
-}; 
+} 

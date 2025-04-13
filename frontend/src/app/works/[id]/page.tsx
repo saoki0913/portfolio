@@ -1,11 +1,11 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { works } from '@/lib/data/works';
 import { ArrowLeft, GraduationCap, ExternalLink } from 'lucide-react';
 import { HeroSection } from '@/components/works/HeroSection';
 import { ProjectInfo } from '@/components/works/ProjectInfo';
 import { Screenshots } from '@/components/works/Screenshots';
 import { TechIcon } from '@/components/works/TechIcon';
+import { getWorkById, getAllWorks } from '@/lib/api/works';
 
 type Props = {
     params: {
@@ -14,14 +14,26 @@ type Props = {
 };
 
 export async function generateStaticParams() {
-    return works.map((work) => ({
-        id: work.id,
-    }));
+    try {
+        const works = await getAllWorks();
+        return works.map((work) => ({
+            id: work.id,
+        }));
+    } catch (error) {
+        console.error('Error fetching works for static paths:', error);
+        return [];
+    }
 }
 
 export default async function WorkPage({ params }: Props) {
-    const resolvedParams = await params;
-    const work = works.find((work) => work.id === resolvedParams.id);
+    let work;
+
+    try {
+        work = await getWorkById(params.id);
+    } catch (error) {
+        console.error(`Error fetching work with ID ${params.id}:`, error);
+        notFound();
+    }
 
     if (!work) {
         notFound();
@@ -53,10 +65,12 @@ export default async function WorkPage({ params }: Props) {
                 </div>
 
                 {/* スクリーンショット */}
-                <div className="my-24 relative">
-                    <div className="absolute -inset-10 bg-gradient-to-b from-gray-100/0 via-gray-100/80 to-gray-100/0 -z-10 blur-3xl" />
-                    <Screenshots work={work} />
-                </div>
+                {work.screenshots && work.screenshots.length > 0 && (
+                    <div className="my-24 relative">
+                        <div className="absolute -inset-10 bg-gradient-to-b from-gray-100/0 via-gray-100/80 to-gray-100/0 -z-10 blur-3xl" />
+                        <Screenshots work={work} />
+                    </div>
+                )}
 
                 {/* 技術スタック */}
                 <section className="relative mb-28 mt-16 py-16">

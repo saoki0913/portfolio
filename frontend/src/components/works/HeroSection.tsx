@@ -41,7 +41,7 @@ export function HeroSection({ work }: Props) {
                                 className="bg-transparent backdrop-blur-sm border-white/20 text-white hover:bg-white hover:text-black transition-all duration-300 rounded-sm"
                                 onClick={() => work.links?.github && window.open(work.links.github, '_blank')}
                             >
-                                <ExternalLink className="w-5 h-5 mr-2" />
+                                <Github className="w-5 h-5 mr-2" />
                                 GitHub
                             </Button>
                         )}
@@ -49,7 +49,7 @@ export function HeroSection({ work }: Props) {
                             <Button
                                 variant="outline"
                                 size="lg"
-                                className="bg-transparent backdrop-blur-sm border-white/20 text-white hover:bg-white hover:text-black transition-all duration-300 rounded-sm"
+                                className="bg-white text-black hover:bg-transparent hover:text-white hover:border-white/30 transition-all duration-300 rounded-sm"
                                 onClick={() => work.links?.demo && window.open(work.links.demo, '_blank')}
                             >
                                 <ExternalLink className="w-5 h-5 mr-2" />
