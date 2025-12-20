@@ -1,6 +1,23 @@
 # ポートフォリオサイト
 
-Next.js（フロントエンド）とFastAPI（バックエンド）を使用した、モダンなポートフォリオサイトのプロジェクトです。
+Next.js 15 (App Router) + FastAPI のフルスタックポートフォリオサイト。
+
+**「モダンなWebエンジニアリングの実践場」** として、高い技術力とUXを両立させるプロジェクトです。
+
+## デザインコンセプト
+
+**"Modern Tech & Minimalist Precision"**
+
+参考デザイン: Linear, Vercel, Stripe
+
+### デザイン要素
+
+- **Bento Grid**: スキル・実績を整然と配置したグリッドレイアウト
+- **Glassmorphism**: ブラー・透明感のレイヤー構造によるモダンなUI
+- **Micro-interactions**: Framer Motionによるスクロール連動アニメーション
+- **Dark Mode First**: `zinc-900`ベース + 青/紫アクセントカラー
+- **パフォーマンス**: Server Components活用、LCP最小化
+- **アクセシビリティ**: Radix UI、キーボードナビゲーション対応
 
 ## 技術スタック
 
@@ -10,6 +27,7 @@ Next.js（フロントエンド）とFastAPI（バックエンド）を使用し
 - **React 19** - UIコンポーネントライブラリ
 - **TypeScript** - 型安全なJavaScript
 - **Tailwind CSS 4** - ユーティリティファーストのCSSフレームワーク
+- **Framer Motion** - アニメーションライブラリ
 - **Axios** - HTTPクライアント
 - **Radix UI** - アクセシビリティに配慮したUIコンポーネント
 - **React Hook Form** - フォーム状態管理
@@ -102,6 +120,28 @@ portfolio/
 - **コンタクトフォーム** - フォーム送信とメール通知機能
 - **パフォーマンス最適化** - 高速ページロードとレンダリング
 
+## キーファイル
+
+| パス | 役割 |
+|------|------|
+| `backend/app/main.py` | FastAPIエントリーポイント、ルーター登録 |
+| `backend/app/database.py` | Supabaseクライアント（Mock fallback対応） |
+| `backend/app/core/config.py` | Pydantic設定、`.env`読み込み |
+| `backend/app/api/` | ドメイン別APIルーター |
+| `backend/app/schemas/` | Pydanticリクエスト/レスポンスモデル |
+| `frontend/src/lib/api/client.ts` | Axiosインスタンス、エラーハンドリング |
+| `frontend/src/lib/api/` | ドメイン別APIクライアント |
+| `frontend/src/lib/types/` | TypeScript型定義 |
+| `frontend/src/components/sections/` | ページセクション (Hero, About, Works, Skills, Contact) |
+| `frontend/src/components/ui/` | Radix UIベース共通コンポーネント |
+
+## 開発モード
+
+### Mock Mode
+
+データベース未接続時でもUI開発が可能な**Mock Mode**を搭載しています。
+
+`backend/app/core/config.py`で`USE_MOCK_DATA`フラグを設定することで、モックデータを使用した開発が可能です。これにより、Supabaseの設定なしでもフロントエンド開発を進められます。
 
 ## API詳細
 
@@ -136,67 +176,63 @@ Supabaseで以下のテーブルを使用:
 - `timeline_items` - タイムライン項目
 - `contact_messages` - 送信されたお問い合わせメッセージ
 
+## 環境変数
+
+### Backend (backend/.env)
+
+```bash
+# Supabase
+SUPABASE_URL=your_supabase_url
+SUPABASE_KEY=your_supabase_key
+
+# CORS設定
+BACKEND_CORS_ORIGINS=["http://localhost:3000"]
+
+# メール設定
+EMAILS_ENABLED=False
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your_email@gmail.com
+SMTP_PASSWORD=your_app_password
+EMAIL_RECIPIENT=recipient@example.com
+```
+
+### Frontend (frontend/.env.local)
+
+```bash
+NEXT_PUBLIC_API_URL=http://localhost:8000
+```
+
 ## 環境構築方法
 
 ### 前提条件
 
 - Node.js 18以上
-- Python 3.10以上
+- Python 3.12以上
 - Supabaseアカウント（または別のPostgreSQLデータベース）
 
-### ローカル開発環境の構築
+### クイックスタート
 
 #### バックエンド (FastAPI)
-
-1. 仮想環境の作成と有効化
 
 ```bash
 cd backend
 python -m venv venv
 source venv/bin/activate  # Windowsの場合: venv\Scripts\activate
-```
-
-2. 依存パッケージのインストール
-
-```bash
 pip install -r requirements.txt
+# .envファイルを設定
+uvicorn app.main:app --reload --port 8000
 ```
 
-3. 環境変数ファイルの作成と編集
-
-```bash
-cp .env.example .env
-# .envファイルを編集してSupabase URLとAPIキーを設定
-```
-
-4. 開発サーバーの起動
-
-```bash
-uvicorn app.main:app --reload
-```
-
-バックエンドAPI: http://localhost:8000  
+バックエンドAPI: http://localhost:8000
 APIドキュメント: http://localhost:8000/docs
 
 #### フロントエンド (Next.js)
 
-1. 依存パッケージのインストール
-
 ```bash
 cd frontend
 npm install
-```
-
-2. 環境変数ファイルの作成と編集
-
-```bash
-cp .env.example .env.local
-# NEXT_PUBLIC_API_URLを設定（デフォルトはhttp://localhost:8000）
-```
-
-3. 開発サーバーの起動
-
-```bash
+# .env.localファイルを設定
 npm run dev
 ```
 
@@ -242,12 +278,26 @@ npm run dev
 
 - **CORS設定**: 許可されたオリジンからのリクエストのみ許可
 - **環境変数保護**: 機密情報は環境変数で管理
+- **型安全性**: TypeScript (Frontend) + Pydantic (Backend) で厳密な型チェック
+- **バリデーション**: Zod (Frontend) + Pydantic (Backend) でデータ検証
 
 ## 将来の拡張予定
 
 - ブログ機能の追加
 - 認証システムの実装
+- Redis キャッシュの導入
 
+## 開発原則
+
+このプロジェクトは以下の原則に基づいて開発されています:
+
+| 原則 | 内容 |
+|------|------|
+| **型安全性の徹底** | TypeScript (Frontend) + Pydantic (Backend) で型の一致を保証 |
+| **スケーラビリティ** | Server Components、API設計、データベース設計を最適化 |
+| **パフォーマンス重視** | LCP最小化、遅延ロード、適切なキャッシング戦略 |
+| **アクセシビリティ** | Radix UI、セマンティックHTML、キーボードナビゲーション |
+| **コード品質** | ESLint、Prettier、Pytestによる品質管理 |
 
 ## 作者
 
