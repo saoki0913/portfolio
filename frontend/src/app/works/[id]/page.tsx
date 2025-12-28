@@ -7,10 +7,13 @@ import { Screenshots } from '@/components/works/Screenshots';
 import { TechIcon } from '@/components/works/TechIcon';
 import { getWorkById, getAllWorks } from '@/lib/api/works';
 
+// 動的レンダリングを強制（ビルド時のAPI接続エラーを回避）
+export const dynamic = 'force-dynamic';
+
 type Props = {
-    params: {
+    params: Promise<{
         id: string;
-    };
+    }>;
 };
 
 export async function generateStaticParams() {
@@ -27,7 +30,7 @@ export async function generateStaticParams() {
 
 export default async function WorkPage({ params }: Props) {
     let work;
-    const resolvedParams = await Promise.resolve(params);
+    const resolvedParams = await params;
     const id = resolvedParams.id;
 
     try {

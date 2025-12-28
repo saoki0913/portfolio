@@ -1,5 +1,5 @@
 import apiClient from './client';
-import { Skill, SkillCategory } from '@/lib/types/skill';
+import { SkillCategory } from '@/lib/types/skill';
 
 export interface SkillListResponse {
     categories: SkillCategory[];

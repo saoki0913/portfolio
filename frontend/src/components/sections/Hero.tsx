@@ -2,12 +2,16 @@
 
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import 'tw-animate-css'
 import { getHeroData, HeroData } from '@/lib/api/hero'
 
 export const Hero = () => {
     const [data, setData] = useState<HeroData | null>(null)
     const [loading, setLoading] = useState(true)
+    const { scrollY } = useScroll()
+    const y = useTransform(scrollY, [0, 500], [0, 150])
+    const opacity = useTransform(scrollY, [0, 300], [1, 0])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -74,58 +78,118 @@ export const Hero = () => {
 
     console.log('Hero component: Rendering with data:', data);
     return (
-        <section id="hero" className="pt-2 md:pt-4 pb-1 md:pb-2 px-4 md:px-6 min-h-screen flex flex-col justify-start">
+        <section id="hero" className="relative pt-2 md:pt-4 pb-1 md:pb-2 px-4 md:px-6 min-h-screen flex flex-col justify-start overflow-hidden">
+            {/* 背景グラデーション */}
+            <div className="absolute inset-0 bg-gradient-hero opacity-50 -z-10" />
+            <motion.div
+                className="absolute top-20 right-10 w-96 h-96 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full blur-3xl -z-10"
+                animate={{
+                    scale: [1, 1.2, 1],
+                    rotate: [0, 90, 0],
+                }}
+                transition={{
+                    duration: 20,
+                    repeat: Infinity,
+                    ease: "linear"
+                }}
+            />
+
             <div className="container mx-auto mt-14 md:mt-16">
                 <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-start">
                     {/* テキストエリア - 常に左側に表示 */}
-                    <div className="w-full md:w-1/2">
-                        <div className="mb-5 md:mb-6">
-                            <p className="text-xl md:text-2xl leading-relaxed animate-fade-in-up animate-delay-600">
+                    <motion.div
+                        className="w-full md:w-1/2"
+                        style={{ y }}
+                    >
+                        <motion.div
+                            className="mb-5 md:mb-6"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.2 }}
+                        >
+                            <p className="text-xl md:text-2xl leading-relaxed bg-gradient-primary bg-clip-text text-transparent font-semibold">
                                 {data.introduction?.content || 'コンテンツがありません'}
                             </p>
-                        </div>
+                        </motion.div>
 
-                        <div>
-                            <h3 className="text-lg md:text-2xl font-medium mb-4 uppercase text-black animate-fade-in-up animate-delay-700 tracking-wider flex items-center">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.4 }}
+                        >
+                            <h3 className="text-lg md:text-2xl font-medium mb-4 uppercase text-black tracking-wider flex items-center">
                                 経歴
                                 <span className="ml-2 text-xs text-gray-500 normal-case font-normal">スクロールして詳細を見る</span>
                             </h3>
-                            <div className="relative animate-fade-in-up animate-delay-800 max-h-[35vh] md:max-h-[45vh] overflow-y-auto pr-4 no-scrollbar">
-                                <div className="absolute top-0 bottom-[-240px] left-[6px] w-[1px] bg-gray-800"></div>
+                            <div className="relative max-h-[35vh] md:max-h-[45vh] overflow-y-auto pr-4 no-scrollbar">
+                                <div className="absolute top-0 bottom-[-240px] left-[6px] w-[1px] bg-gradient-to-b from-primary via-secondary to-primary"></div>
 
-                                {data.timelineItems && data.timelineItems.map((item) => (
-                                    <div key={item.id} className="mb-4 md:mb-5 relative pl-12 group">
-                                        <div className="absolute left-0 top-[8px] w-[14px] h-[14px] rounded-full border-[2px] border-black bg-white transition-all duration-300 group-hover:scale-110 group-hover:bg-black group-hover:border-white"></div>
-                                        <div className="text-sm tracking-wider font-medium uppercase text-gray-500 mb-1 group-hover:text-black transition-colors duration-300">
+                                {data.timelineItems && data.timelineItems.map((item, index) => (
+                                    <motion.div
+                                        key={item.id}
+                                        className="mb-4 md:mb-5 relative pl-12 group"
+                                        initial={{ opacity: 0, x: -20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
+                                    >
+                                        <motion.div
+                                            className="absolute left-0 top-[8px] w-[14px] h-[14px] rounded-full border-[2px] border-primary bg-white"
+                                            whileHover={{
+                                                scale: 1.3,
+                                                backgroundColor: "oklch(65% 0.20 250)",
+                                                borderColor: "white"
+                                            }}
+                                            transition={{ duration: 0.3 }}
+                                        />
+                                        <div className="text-sm tracking-wider font-medium uppercase text-gray-500 mb-1 group-hover:text-primary transition-colors duration-300">
                                             {item.period}
                                         </div>
-                                        <div className="p-3 md:p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm transition-all duration-300 group-hover:shadow-md group-hover:-translate-y-1 group-hover:border-gray-300">
+                                        <motion.div
+                                            className="p-3 md:p-4 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg shadow-sm"
+                                            whileHover={{
+                                                y: -4,
+                                                boxShadow: "0 10px 30px rgba(59, 130, 246, 0.15)",
+                                                borderColor: "oklch(65% 0.20 250)"
+                                            }}
+                                            transition={{ duration: 0.3 }}
+                                        >
                                             <h4 className="text-base md:text-lg font-medium text-black mb-1">{item.title}</h4>
                                             {item.subtitle && <p className="text-sm text-gray-600">{item.subtitle}</p>}
-                                        </div>
-                                    </div>
+                                        </motion.div>
+                                    </motion.div>
                                 ))}
                                 <div className="h-20"></div>
 
                                 {/* スクロールインジケーター */}
                                 <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-t from-white/50 to-transparent pointer-events-none"></div>
                             </div>
-                        </div>
-                    </div>
+                        </motion.div>
+                    </motion.div>
 
                     {/* 画像エリア - 常に右側に表示 */}
-                    <div className="w-full md:w-1/2">
-                        <div className="aspect-[4/3] relative animate-fade-in-right animate-delay-400 md:ml-auto max-h-[50vh] md:max-h-[70vh]">
+                    <motion.div
+                        className="w-full md:w-1/2"
+                        style={{ opacity }}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.8, delay: 0.3 }}
+                    >
+                        <motion.div
+                            className="aspect-[4/3] relative md:ml-auto max-h-[50vh] md:max-h-[70vh] group"
+                            whileHover={{ scale: 1.02 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            <div className="absolute inset-0 bg-gradient-primary rounded-lg blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500"></div>
                             <Image
                                 src="/profile.jpg"
                                 alt="Shunsuke Aoki"
                                 fill
-                                className="object-cover rounded-lg shadow-lg"
+                                className="object-cover rounded-lg shadow-2xl relative z-10"
                                 priority
                             />
-                            <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-transparent rounded-lg"></div>
-                        </div>
-                    </div>
+                            <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 via-transparent to-secondary/20 rounded-lg z-20"></div>
+                        </motion.div>
+                    </motion.div>
                 </div>
             </div>
 

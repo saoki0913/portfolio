@@ -1,6 +1,5 @@
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { SectionTitle } from '@/components/ui/section-title'
 import Image from 'next/image'
 import Link from 'next/link'
 

@@ -51,72 +51,61 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --radius: 1rem;
+
+  /* Light Mode (Japandi Light) - デフォルト */
+  --background: oklch(97% 0.01 90);
+  --foreground: oklch(30% 0.02 280);
+  --card: oklch(100% 0 0);
+  --card-foreground: oklch(30% 0.02 280);
+  --popover: oklch(100% 0 0);
+  --popover-foreground: oklch(30% 0.02 280);
+  --primary: oklch(65% 0.20 250);
+  --primary-foreground: oklch(100% 0 0);
+  --secondary: oklch(65% 0.20 300);
+  --secondary-foreground: oklch(100% 0 0);
+  --muted: oklch(50% 0.02 280);
+  --muted-foreground: oklch(50% 0.02 280);
+  --accent: oklch(65% 0.13 140);
+  --accent-foreground: oklch(100% 0 0);
+  --destructive: oklch(65% 0.25 25);
+  --border: oklch(85% 0.01 90);
+  --input: oklch(85% 0.01 90);
+  --ring: oklch(65% 0.20 250);
+
+  /* Semantic Colors */
+  --success: oklch(70% 0.18 150);
+  --error: oklch(65% 0.25 25);
+  --warning: oklch(75% 0.18 85);
+  --info: oklch(70% 0.15 240);
+
+  /* Subtle Text */
+  --subtle: oklch(50% 0.02 280);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  /* Dark Mode (Deep Focus) */
+  --background: oklch(18% 0.03 260);
+  --foreground: oklch(95% 0.01 90);
+  --card: oklch(24% 0.03 260);
+  --card-foreground: oklch(95% 0.01 90);
+  --popover: oklch(24% 0.03 260);
+  --popover-foreground: oklch(95% 0.01 90);
+  --primary: oklch(65% 0.20 250);
+  --primary-foreground: oklch(100% 0 0);
+  --secondary: oklch(65% 0.20 300);
+  --secondary-foreground: oklch(100% 0 0);
+  --muted: oklch(50% 0.02 260);
+  --muted-foreground: oklch(70% 0.02 260);
+  --accent: oklch(65% 0.13 140);
+  --accent-foreground: oklch(100% 0 0);
+  --destructive: oklch(65% 0.25 25);
+  --border: oklch(30% 0.02 260);
+  --input: oklch(30% 0.02 260);
+  --ring: oklch(65% 0.20 250);
+
+  /* Subtle Text */
+  --subtle: oklch(70% 0.02 260);
 }
 
 @layer base {
@@ -294,11 +283,31 @@ main {
 
 /* ガラスモーフィズム効果 */
 .glass-effect {
-  background-color: #ffffff !important;
-  backdrop-filter: blur(15px) !important;
-  -webkit-backdrop-filter: blur(15px) !important;
-  border-bottom: 1px solid rgba(230, 230, 230, 1) !important;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
+  background: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07) !important;
+}
+
+.dark .glass-effect {
+  background: rgba(24, 25, 33, 0.85) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Glassmorphism Panel */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top-color: rgba(255, 255, 255, 0.2);
+}
+
+.dark .glass-panel {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top-color: rgba(255, 255, 255, 0.2);
 }
 
 /* 波紋アニメーション */
@@ -323,17 +332,17 @@ main {
   animation: ripple 2s ease-out infinite;
 }
 
-/* 水滴エフェクト */
+/* 水滴エフェクト - グラデーション強化 */
 .water-drop {
   position: relative;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(168, 85, 247, 0.1));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.1),
+    0 8px 32px rgba(59, 130, 246, 0.15),
     inset 0 0 0 1px rgba(255, 255, 255, 0.5),
-    inset 0 0 30px rgba(255, 255, 255, 0.2);
+    inset 0 0 40px rgba(168, 85, 247, 0.2);
   overflow: hidden;
 }
 
@@ -411,26 +420,27 @@ main {
   animation: loader-dot 1.5s ease-in-out infinite;
 }
 
-/* クリック可能な水滴エフェクト */
+/* クリック可能な水滴エフェクト - グラデーション強化 */
 .water-drop.clickable {
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .water-drop.clickable:hover {
-  transform: scale(1.03);
+  transform: scale(1.05);
   box-shadow:
-    0 15px 50px rgba(0, 0, 0, 0.2),
+    0 15px 50px rgba(59, 130, 246, 0.3),
+    0 5px 30px rgba(168, 85, 247, 0.2),
     inset 0 0 0 1.5px rgba(255, 255, 255, 0.4),
-    inset 0 0 40px rgba(255, 255, 255, 0.15);
+    inset 0 0 50px rgba(168, 85, 247, 0.2);
 }
 
 .water-drop.clickable:active {
   transform: scale(0.98);
   box-shadow:
-    0 5px 15px rgba(0, 0, 0, 0.1),
+    0 5px 15px rgba(59, 130, 246, 0.15),
     inset 0 0 0 1px rgba(255, 255, 255, 0.5),
-    inset 0 0 20px rgba(255, 255, 255, 0.2);
+    inset 0 0 30px rgba(168, 85, 247, 0.25);
 }
 
 /* クリックヒントのアニメーション */
@@ -471,4 +481,34 @@ main {
   height: 100%;
   animation: click-ripple 0.8s ease-out;
   pointer-events: none;
+}
+
+/* fadeInUp アニメーション (Works/Skills用) */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+/* floatアニメーション */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
 }

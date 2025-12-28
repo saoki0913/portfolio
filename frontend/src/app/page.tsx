@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { Header } from '@/components/sections/Header'
 import { Hero } from '@/components/sections/Hero'
@@ -10,14 +10,55 @@ import { Skills } from '@/components/sections/Skills'
 import { Contact } from '@/components/sections/Contact'
 import 'tw-animate-css'
 
-export default function Home() {
+// useSearchParams()を使用するコンポーネントを分離
+function LoadingController({
+  setIsLoading,
+  setFadeOut,
+  setShowContent
+}: {
+  setIsLoading: (value: boolean) => void
+  setFadeOut: (value: boolean) => void
+  setShowContent: (value: boolean) => void
+}) {
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    const noSkip = searchParams.get('noskip')
+    const sessionVisited = sessionStorage.getItem('visited')
+    const isInternalNavigation = document.referrer.includes(window.location.host)
+
+    if (noSkip === 'true' || (!isInternalNavigation && !sessionVisited)) {
+      sessionStorage.setItem('visited', 'true')
+
+      const fadeTimer = setTimeout(() => {
+        setFadeOut(true)
+      }, 3000)
+
+      const loadingTimer = setTimeout(() => {
+        setIsLoading(false)
+        setShowContent(true)
+      }, 3500)
+
+      return () => {
+        clearTimeout(fadeTimer)
+        clearTimeout(loadingTimer)
+      }
+    } else {
+      setIsLoading(false)
+      setShowContent(true)
+    }
+  }, [searchParams, setIsLoading, setFadeOut, setShowContent])
+
+  return null
+}
+
+function HomeContent() {
   const [isLoading, setIsLoading] = useState(true)
   const [fadeOut, setFadeOut] = useState(false)
   const [showContent, setShowContent] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
   const [showRipple, setShowRipple] = useState(false)
   const waterDropRef = useRef<HTMLDivElement>(null)
-  const searchParams = useSearchParams()
 
   // URLハッシュからセクションへのスクロールを処理
   useEffect(() => {
@@ -62,34 +103,7 @@ export default function Home() {
     }, 800); // コンテンツ表示後に十分な時間を設ける
 
     return () => clearTimeout(timer);
-  }, [showContent]);
-
-  useEffect(() => {
-    const noSkip = searchParams.get('noskip')
-    const sessionVisited = sessionStorage.getItem('visited')
-    const isInternalNavigation = document.referrer.includes(window.location.host)
-
-    if (noSkip === 'true' || (!isInternalNavigation && !sessionVisited)) {
-      sessionStorage.setItem('visited', 'true')
-
-      const fadeTimer = setTimeout(() => {
-        setFadeOut(true)
-      }, 3000)
-
-      const loadingTimer = setTimeout(() => {
-        setIsLoading(false)
-        setShowContent(true)
-      }, 3500)
-
-      return () => {
-        clearTimeout(fadeTimer)
-        clearTimeout(loadingTimer)
-      }
-    } else {
-      setIsLoading(false)
-      setShowContent(true)
-    }
-  }, [searchParams])
+  }, [showContent])
 
   const skipLoading = () => {
     setShowRipple(true)
@@ -106,6 +120,15 @@ export default function Home() {
 
   return (
     <div className="relative">
+      {/* LoadingControllerをSuspenseでラップ */}
+      <Suspense fallback={null}>
+        <LoadingController
+          setIsLoading={setIsLoading}
+          setFadeOut={setFadeOut}
+          setShowContent={setShowContent}
+        />
+      </Suspense>
+
       {/* ヘッダーを最上位に配置（ロード画面が表示されていない時のみ表示） */}
       {!isLoading && (
         <div className="fixed-header-container">
@@ -145,7 +168,7 @@ export default function Home() {
               <div className="water-drop-ripple"></div>
               <div className="text-center px-8 relative z-10">
                 <h1 className="text-6xl md:text-7xl font-bold text-gray-800 mb-3 animate-tracking-in-expand">
-                  AOKI's
+                  AOKI&apos;s
                 </h1>
                 <h2 className="text-5xl md:text-6xl font-bold text-gray-700 animate-tracking-in-expand" style={{ animationDelay: '400ms' }}>
                   Portfolio
@@ -183,4 +206,8 @@ export default function Home() {
       </main>
     </div>
   )
+}
+
+export default function Home() {
+  return <HomeContent />
 }
