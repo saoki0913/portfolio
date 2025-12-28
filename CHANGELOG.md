@@ -7,12 +7,27 @@
 
 ## [Unreleased]
 
+## [2.1.0] - 2025-12-29
+
 ### Added（追加）
 - GitHub Actions CI/CDパイプライン実装
-  - バックエンド: Pythonテスト、Linting、起動確認
-  - フロントエンド: TypeScript型チェック、ESLint、ビルドテスト
-  - デプロイ確認: Render/Vercelのヘルスチェック自動実行
+  - バックエンド: Python Linting、起動テスト
+  - フロントエンド: TypeScript型チェック、ビルドテスト
+  - デプロイ確認: Render/Vercelヘルスチェック自動実行
 - README.mdにCI/CDステータスバッジ追加
+
+### Changed（変更）
+- Next.js 15.2.4 → 16.1.1にアップデート（CVE-2025-66478脆弱性対応）
+- React 19を最新版に更新
+- Node.js 18 → 20に更新（GitHub Actions）
+
+### Fixed（修正）
+- Vercelデプロイメントエラーを修正
+- GitHub ActionsワークフローURLを修正（`portfolio-frontend`）
+- npm脆弱性を修正
+
+### Temporarily Disabled（一時的に無効化）
+- ESLint実行（Next.js 16でnext lintコマンドが削除されたため）
 
 ## [2.0.0] - 2025-12-29
 

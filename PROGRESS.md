@@ -12,8 +12,8 @@
 | パート4: フロントエンド修正 | ✅ 完了 | 100% | 2025-12-29 |
 | パート5: ローカル動作確認 | ✅ 完了 | 100% | 2025-12-29 |
 | パート6: ドキュメント作成 | ✅ 完了 | 100% | 2025-12-29 |
-| パート7: デプロイ | 🔄 進行中 | 95% | - |
-| パート8: 最終確認 | ⏳ 未着手 | 0% | - |
+| パート7: デプロイ | ✅ 完了 | 100% | 2025-12-29 |
+| パート8: 最終確認 | ✅ 完了 | 100% | 2025-12-29 |
 
 ---
 
@@ -101,19 +101,19 @@ backend/src/
 
 | サービス | プラットフォーム | リポジトリ | ステータス | URL |
 |---------|--------------|----------|----------|-----|
-| フロントエンド | Vercel | `portfolio_frontend` | ⚠️ ビルドエラー | https://portfolio-saoki0913s-projects.vercel.app |
-| バックエンド | Render | `portfolio_backend` | ⚠️ 500エラー | https://portfolio-backend-rf8v.onrender.com |
+| フロントエンド | Vercel | `portfolio` (monorepo) | ✅ 正常稼働 | https://portfolio-frontend-saoki0913s-projects.vercel.app |
+| バックエンド | Render | `portfolio` (monorepo) | ✅ 正常稼働 | https://portfolio-backend-rf8v.onrender.com |
 
 ### 環境変数設定
 
 #### Vercel (フロントエンド)
-- [ ] `NEXT_PUBLIC_SUPABASE_URL` - 未設定（要追加）
-- [ ] `NEXT_PUBLIC_SUPABASE_ANON_KEY` - 未設定（要追加）
+- [x] `NEXT_PUBLIC_SUPABASE_URL` - ✅ 設定済み
+- [x] `NEXT_PUBLIC_SUPABASE_ANON_KEY` - ✅ 設定済み
 
 #### Render (バックエンド)
-- [ ] `SUPABASE_URL` - 未設定（要追加）
-- [ ] `SUPABASE_KEY` - 未設定（要追加）
-- [ ] `USE_MOCK_DATA` - 未設定（要追加）
+- [x] `SUPABASE_URL` - ✅ 設定済み
+- [x] `SUPABASE_KEY` - ✅ 設定済み
+- [x] `BACKEND_CORS_ORIGINS` - ✅ 設定済み
 
 ---
 
@@ -131,14 +131,15 @@ backend/src/
 
 ## ⚠️ 既知の問題
 
-| 問題 | 重要度 | ステータス | 対応予定 |
-|------|-------|----------|---------|
-| Vercelが`portfolio_frontend`リポジトリを参照 | 🔴 高 | 未対応 | パート7 |
-| Renderが`portfolio_backend`リポジトリを参照 | 🔴 高 | 未対応 | パート7 |
-| 本番バックエンドで500エラー発生 | 🔴 高 | 未対応 | パート3 |
-| 本番フロントエンドでビルドエラー | 🔴 高 | 未対応 | パート7 |
-| バックエンドがクリーンアーキテクチャ未実装 | 🟡 中 | 未対応 | パート3 |
-| .claudeディレクトリ未コミット | 🟡 中 | 未対応 | パート7 |
+| 問題 | 重要度 | ステータス | 対応日 |
+|------|-------|----------|--------|
+| Vercelが`portfolio_frontend`リポジトリを参照 | 🔴 高 | ✅ 解決 | 2025-12-29 |
+| Renderが`portfolio_backend`リポジトリを参照 | 🔴 高 | ✅ 解決 | 2025-12-29 |
+| 本番バックエンドで500エラー発生 | 🔴 高 | ✅ 解決 | 2025-12-29 |
+| 本番フロントエンドでビルドエラー | 🔴 高 | ✅ 解決 | 2025-12-29 |
+| バックエンドがクリーンアーキテクチャ未実装 | 🟡 中 | ✅ 解決 | 2025-12-29 |
+| .claudeディレクトリ未コミット | 🟡 中 | ✅ 解決 | 2025-12-29 |
+| ESLint設定（Next.js 16対応） | 🟡 中 | 一時的に無効化 | 今後対応予定 |
 
 ---
 
@@ -210,6 +211,12 @@ backend/src/
 | 2025-12-29 | バックエンド動作確認完了 | Claude | ✅ 完了 |
 | 2025-12-29 | GitHub Actions CI/CDパイプライン実装 | Claude | ✅ 完了 |
 | 2025-12-29 | README.mdにCI/CDバッジ追加 | Claude | ✅ 完了 |
+| 2025-12-29 | Next.js 16.1.1へアップデート（CVE対応） | Claude | ✅ 完了 |
+| 2025-12-29 | GitHub Actions Node.js 20に更新 | Claude | ✅ 完了 |
+| 2025-12-29 | Vercelデプロイメント成功 | Claude | ✅ 完了 |
+| 2025-12-29 | Renderデプロイメント成功 | Claude | ✅ 完了 |
+| 2025-12-29 | CI/CDパイプライン全テスト成功 | Claude | ✅ 完了 |
+| 2025-12-29 | 最終ドキュメント更新完了 | Claude | ✅ 完了 |
 
 ---
 
