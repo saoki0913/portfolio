@@ -1,4 +1,4 @@
-import apiClient from './client';
+import { supabase } from '../supabase/client';
 
 export interface TimelineItem {
     id: string;
@@ -22,17 +22,25 @@ export interface HeroData {
 export const getHeroData = async (): Promise<HeroData> => {
     try {
         // 並列でデータを取得
-        console.log('Fetching hero data...');
+        console.log('Fetching hero data from Supabase...');
         const [introResponse, timelineResponse] = await Promise.all([
-            apiClient.get<HeroIntroduction[]>('/hero/introduction'),
-            apiClient.get<TimelineItem[]>('/hero/timeline?order=sort_order.asc')
+            supabase.from('hero_introduction').select('*').limit(1).single(),
+            supabase.from('timeline_items').select('*').order('sort_order', { ascending: true })
         ]);
 
         console.log('Hero introduction response:', introResponse);
         console.log('Timeline items response:', timelineResponse);
 
+        // エラーチェック
+        if (introResponse.error) {
+            console.error('Error fetching introduction:', introResponse.error);
+        }
+        if (timelineResponse.error) {
+            console.error('Error fetching timeline:', timelineResponse.error);
+        }
+
         // 応答データが空かどうかチェック
-        if (!introResponse.data || introResponse.data.length === 0) {
+        if (!introResponse.data) {
             console.warn('Introduction data is empty');
         }
 
@@ -41,8 +49,8 @@ export const getHeroData = async (): Promise<HeroData> => {
         }
 
         const heroData = {
-            introduction: introResponse.data[0], // 通常は1つのレコードのみ
-            timelineItems: timelineResponse.data
+            introduction: introResponse.data || { id: 'default', content: '' },
+            timelineItems: timelineResponse.data || []
         };
 
         console.log('Processed hero data:', heroData);

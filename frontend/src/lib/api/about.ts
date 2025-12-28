@@ -1,4 +1,4 @@
-import apiClient from './client';
+import { supabase } from '../supabase/client';
 import { About } from '../types/about';
 
 /**
@@ -6,10 +6,61 @@ import { About } from '../types/about';
  */
 export const getAboutInfo = async (): Promise<About> => {
     try {
-        console.log('Fetching about info...');
-        const response = await apiClient.get<About>('/about');
-        console.log('About info response:', response);
-        return response.data;
+        console.log('Fetching about info from Supabase...');
+
+        // 全データを並列で取得
+        const [aboutRes, educationRes, experienceRes, socialMediaRes] = await Promise.all([
+            supabase.from('about').select('*').limit(1).single(),
+            supabase.from('education').select('*').order('start_date', { ascending: false }),
+            supabase.from('experience').select('*').order('start_date', { ascending: false }),
+            supabase.from('social_media').select('*')
+        ]);
+
+        if (aboutRes.error) {
+            console.error('Error fetching about:', aboutRes.error);
+            throw aboutRes.error;
+        }
+
+        const aboutData = aboutRes.data;
+        const educationData = educationRes.data || [];
+        const experienceData = experienceRes.data || [];
+        const socialMediaData = socialMediaRes.data || [];
+
+        // 日付をフォーマット
+        const formatDate = (date: string | null) => {
+            if (!date) return '現在';
+            const d = new Date(date);
+            return `${d.getFullYear()}.${d.getMonth() + 1}`;
+        };
+
+        return {
+            name: aboutData.name,
+            title: aboutData.title,
+            summary: aboutData.summary,
+            profile_image: aboutData.profile_image,
+            bio: aboutData.bio,
+            education: educationData.map(edu => ({
+                institution: edu.institution,
+                degree: edu.degree,
+                field: edu.field,
+                start_date: formatDate(edu.start_date),
+                end_date: edu.end_date ? formatDate(edu.end_date) : '現在',
+                description: edu.description || undefined,
+            })),
+            experience: experienceData.map(exp => ({
+                company: exp.company,
+                position: exp.position,
+                start_date: formatDate(exp.start_date),
+                end_date: exp.end_date ? formatDate(exp.end_date) : '現在',
+                description: exp.description || undefined,
+                achievements: exp.achievements || undefined,
+            })),
+            social_media: socialMediaData.map(sm => ({
+                platform: sm.platform,
+                url: sm.url,
+                username: sm.username || undefined,
+            })),
+        };
     } catch (error) {
         console.error('Error fetching about data:', error);
         // エラー時はデフォルトデータを返す（UXを損なわないため）

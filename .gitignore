@@ -11,6 +11,10 @@ __pycache__/
 .env.test.local
 .env.production.local
 
+# MCP Server logs (if any)
+.mcp/
+*.mcp.log
+
 # Build outputs
 .next/
 build/
