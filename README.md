@@ -1,5 +1,7 @@
 # ポートフォリオサイト
 
+[![CI/CD Pipeline](https://github.com/saoki0913/portfolio/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/saoki0913/portfolio/actions/workflows/ci-cd.yml)
+
 Next.js 15 (App Router) + FastAPI のフルスタックポートフォリオサイト。
 
 **「モダンなWebエンジニアリングの実践場」** として、高い技術力とUXを両立させるプロジェクトです。

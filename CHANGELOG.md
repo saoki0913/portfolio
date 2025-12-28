@@ -7,6 +7,13 @@
 
 ## [Unreleased]
 
+### Added（追加）
+- GitHub Actions CI/CDパイプライン実装
+  - バックエンド: Pythonテスト、Linting、起動確認
+  - フロントエンド: TypeScript型チェック、ESLint、ビルドテスト
+  - デプロイ確認: Render/Vercelのヘルスチェック自動実行
+- README.mdにCI/CDステータスバッジ追加
+
 ## [2.0.0] - 2025-12-29
 
 ### Added（追加）
