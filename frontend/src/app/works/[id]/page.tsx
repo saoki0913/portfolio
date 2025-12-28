@@ -16,17 +16,7 @@ type Props = {
     }>;
 };
 
-export async function generateStaticParams() {
-    try {
-        const works = await getAllWorks();
-        return works.map((work) => ({
-            id: work.id,
-        }));
-    } catch (error) {
-        console.error('Error fetching works for static paths:', error);
-        return [];
-    }
-}
+// generateStaticParamsを削除（dynamic='force-dynamic'のため不要）
 
 export default async function WorkPage({ params }: Props) {
     let work;
