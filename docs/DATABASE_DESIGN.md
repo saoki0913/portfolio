@@ -24,15 +24,6 @@ FOR SELECT
 USING (true);
 ```
 
-**データ例**:
-```json
-{
-  "id": 1,
-  "introduction_text": "フルスタックエンジニアとして...",
-  "created_at": "2025-12-29T00:00:00Z"
-}
-```
-
 #### timeline_items
 タイムライン項目（経歴の要約）
 ```sql
@@ -50,20 +41,6 @@ CREATE POLICY "Enable read access for all users"
 ON public.timeline_items
 FOR SELECT
 USING (true);
-```
-
-**データ例**:
-```json
-[
-  {
-    "id": 1,
-    "year": "2023",
-    "title": "製薬業界向けSaaS開発",
-    "description": "AI文書生成システムの開発リード",
-    "order_index": 1,
-    "created_at": "2025-12-29T00:00:00Z"
-  }
-]
 ```
 
 ### 2. 作品紹介
@@ -90,21 +67,6 @@ FOR SELECT
 USING (true);
 ```
 
-**データ例**:
-```json
-{
-  "id": 1,
-  "title": "製薬業界向けSaaS",
-  "description": "AI文書生成システム",
-  "tech_stack": ["Next.js", "FastAPI", "OpenAI"],
-  "github_url": "https://github.com/...",
-  "demo_url": null,
-  "image_url": "/images/pharma.png",
-  "order_index": 1,
-  "created_at": "2025-12-29T00:00:00Z"
-}
-```
-
 ### 3. スキル
 
 #### skills
@@ -126,28 +88,6 @@ FOR SELECT
 USING (true);
 ```
 
-**データ例**:
-```json
-[
-  {
-    "id": 1,
-    "name": "Next.js",
-    "category": "Frontend",
-    "level": 5,
-    "order_index": 1,
-    "created_at": "2025-12-29T00:00:00Z"
-  },
-  {
-    "id": 2,
-    "name": "FastAPI",
-    "category": "Backend",
-    "level": 4,
-    "order_index": 1,
-    "created_at": "2025-12-29T00:00:00Z"
-  }
-]
-```
-
 ### 4. プロフィール
 
 #### about
@@ -164,15 +104,6 @@ CREATE POLICY "Enable read access for all users"
 ON public.about
 FOR SELECT
 USING (true);
-```
-
-**データ例**:
-```json
-{
-  "id": 1,
-  "bio": "フルスタックエンジニアとして、製薬業界向けSaaSの開発をリードしています。",
-  "created_at": "2025-12-29T00:00:00Z"
-}
 ```
 
 #### education
@@ -193,21 +124,6 @@ CREATE POLICY "Enable read access for all users"
 ON public.education
 FOR SELECT
 USING (true);
-```
-
-**データ例**:
-```json
-[
-  {
-    "id": 1,
-    "institution": "〇〇大学",
-    "degree": "工学部 情報工学科",
-    "start_year": "2015",
-    "end_year": "2019",
-    "order_index": 1,
-    "created_at": "2025-12-29T00:00:00Z"
-  }
-]
 ```
 
 #### experience
@@ -231,20 +147,6 @@ FOR SELECT
 USING (true);
 ```
 
-**データ例**:
-```json
-{
-  "id": 1,
-  "company": "株式会社〇〇",
-  "position": "フルスタックエンジニア",
-  "start_year": "2020/04",
-  "end_year": null,
-  "description": "製薬業界向けSaaSの開発リード",
-  "order_index": 1,
-  "created_at": "2025-12-29T00:00:00Z"
-}
-```
-
 ### 5. ソーシャルメディア
 
 #### social_media
@@ -263,26 +165,6 @@ CREATE POLICY "Enable read access for all users"
 ON public.social_media
 FOR SELECT
 USING (true);
-```
-
-**データ例**:
-```json
-[
-  {
-    "id": 1,
-    "platform": "GitHub",
-    "url": "https://github.com/saoki0913",
-    "order_index": 1,
-    "created_at": "2025-12-29T00:00:00Z"
-  },
-  {
-    "id": 2,
-    "platform": "LinkedIn",
-    "url": "https://linkedin.com/in/...",
-    "order_index": 2,
-    "created_at": "2025-12-29T00:00:00Z"
-  }
-]
 ```
 
 ## リレーションシップ
@@ -436,7 +318,7 @@ Supabase Dashboard → Table Editor → Insert Row
 #### 2. SQL INSERT文
 ```sql
 INSERT INTO public.works (title, description, tech_stack, github_url, order_index)
-VALUES ('製薬業界向けSaaS', 'AI文書生成システム', ARRAY['Next.js', 'FastAPI'], 'https://github.com/...', 1);
+VALUES ('サンプルプロジェクト', 'プロジェクトの説明', ARRAY['Next.js', 'FastAPI'], 'https://github.com/...', 1);
 ```
 
 #### 3. Supabase JavaScript Client
@@ -445,8 +327,8 @@ const { data, error } = await supabase
   .from('works')
   .insert([
     {
-      title: '製薬業界向けSaaS',
-      description: 'AI文書生成システム',
+      title: 'サンプルプロジェクト',
+      description: 'プロジェクトの説明',
       tech_stack: ['Next.js', 'FastAPI'],
       github_url: 'https://github.com/...',
       order_index: 1

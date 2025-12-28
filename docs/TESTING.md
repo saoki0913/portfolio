@@ -213,18 +213,18 @@ describe('Works Component', () => {
     const mockWorks = [
       {
         id: 1,
-        title: '製薬業界向けSaaS',
-        description: 'AI文書生成システム',
+        title: 'Eコマースプラットフォーム',
+        description: 'フルスタックECサイト',
         tech_stack: ['Next.js', 'FastAPI'],
         github_url: 'https://github.com/...',
         demo_url: null,
-        image_url: '/images/pharma.png',
+        image_url: '/images/ecommerce.png',
         order_index: 1
       }
     ];
 
     render(<Works works={mockWorks} />);
-    expect(screen.getByText('製薬業界向けSaaS')).toBeInTheDocument();
+    expect(screen.getByText('Eコマースプラットフォーム')).toBeInTheDocument();
   });
 });
 ```
@@ -265,12 +265,12 @@ async def test_get_all_works():
     mock_repository.find_all.return_value = [
         Work(
             id=1,
-            title="製薬業界向けSaaS",
-            description="AI文書生成システム",
+            title="Eコマースプラットフォーム",
+            description="フルスタックECサイト",
             tech_stack=["Next.js", "FastAPI"],
             github_url="https://github.com/...",
             demo_url=None,
-            image_url="/images/pharma.png",
+            image_url="/images/ecommerce.png",
             order_index=1
         )
     ]
@@ -281,7 +281,7 @@ async def test_get_all_works():
 
     # Assert
     assert len(works) == 1
-    assert works[0].title == "製薬業界向けSaaS"
+    assert works[0].title == "Eコマースプラットフォーム"
     mock_repository.find_all.assert_called_once()
 ```
 
@@ -385,9 +385,9 @@ import { test, expect } from '@playwright/test';
 
 test('should navigate to work detail page', async ({ page }) => {
   await page.goto('http://localhost:3000');
-  await page.click('text=製薬業界向けSaaS');
+  await page.click('text=Eコマースプラットフォーム');
   await expect(page).toHaveURL(/.*\/works\/\d+/);
-  await expect(page.locator('h1')).toContainText('製薬業界向けSaaS');
+  await expect(page.locator('h1')).toContainText('Eコマースプラットフォーム');
 });
 ```
 
