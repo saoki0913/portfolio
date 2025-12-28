@@ -9,7 +9,8 @@ from app.core.config import settings
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def send_email(
+
+async def send_email(
     email_to: str,
     subject: str,
     html_content: str,
@@ -35,29 +36,29 @@ def send_email(
             server.sendmail(
                 settings.EMAILS_FROM_EMAIL, email_to, message.as_string()
             )
-        
+
         logger.info(f"Email sent successfully to {email_to}")
         return True
-    
+
     except Exception as e:
         logger.error(f"Failed to send email to {email_to}: {e}")
         return False
 
-def send_contact_email(name: str, email: str, subject: str, message: str) -> bool:
+
+async def send_contact_email(contact) -> bool:
     """
     問い合わせメールを管理者に送信する
     """
     html_content = f"""
     <h2>ポートフォリオサイトからの問い合わせ</h2>
-    <p><strong>名前:</strong> {name}</p>
-    <p><strong>メールアドレス:</strong> {email}</p>
-    <p><strong>件名:</strong> {subject}</p>
+    <p><strong>名前:</strong> {contact.name}</p>
+    <p><strong>メールアドレス:</strong> {contact.email}</p>
     <p><strong>メッセージ:</strong></p>
-    <p>{message}</p>
+    <p>{contact.message}</p>
     """
-    
-    return send_email(
+
+    return await send_email(
         email_to=settings.EMAIL_RECIPIENT,
-        subject=f"ポートフォリオサイトからの問い合わせ: {subject}",
+        subject=f"ポートフォリオサイトからの問い合わせ: {contact.name}様",
         html_content=html_content,
-    ) 
+    )
