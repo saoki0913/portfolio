@@ -8,10 +8,17 @@ on:
     branches:
       - main
 
+env:
+  # デプロイ先URL
+  RENDER_BACKEND_URL: https://portfolio-backend-rf8v.onrender.com
+  VERCEL_FRONTEND_URL: https://portfolio-frontend-saoki0913s-projects.vercel.app
+
 jobs:
-  # バックエンドのテストとビルド
-  backend:
-    name: Backend CI
+  # ============================================
+  # ステージ1: バックエンドの検証
+  # ============================================
+  backend-test:
+    name: 🐍 Backend Test & Validate
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -33,26 +40,68 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Lint with flake8 (if available)
+      - name: Lint with flake8
         run: |
           pip install flake8
-          # stop the build if there are Python syntax errors or undefined names
+          # 致命的なエラーのみチェック（これが失敗するとデプロイも失敗する）
           flake8 src --count --select=E9,F63,F7,F82 --show-source --statistics
-          # exit-zero treats all errors as warnings
-          flake8 src --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-        continue-on-error: true
 
-      - name: Test backend startup
+      - name: Verify FastAPI app can be imported
         run: |
-          # 環境変数を設定してバックエンドが起動できることを確認
           export SUPABASE_URL=https://placeholder.supabase.co
           export SUPABASE_KEY=placeholder-key
           export BACKEND_CORS_ORIGINS='["http://localhost:3000"]'
-          timeout 10s python -c "from src.main import app; print('Backend app loaded successfully')" || echo "Backend startup check completed"
+          python -c "
+          from src.main import app
+          print('✅ FastAPI app imported successfully')
+          
+          # ルートの確認
+          routes = [route.path for route in app.routes]
+          print(f'✅ Routes found: {len(routes)}')
+          for route in routes[:10]:
+              print(f'   - {route}')
+          "
 
-  # フロントエンドのテストとビルド
-  frontend:
-    name: Frontend CI
+      - name: Test API endpoints locally
+        run: |
+          export SUPABASE_URL=https://placeholder.supabase.co
+          export SUPABASE_KEY=placeholder-key
+          export BACKEND_CORS_ORIGINS='["http://localhost:3000"]'
+          
+          # バックグラウンドでサーバー起動
+          python -m uvicorn src.main:app --host 0.0.0.0 --port 8000 &
+          SERVER_PID=$!
+          
+          # サーバー起動待機
+          echo "Waiting for server to start..."
+          sleep 5
+          
+          # ヘルスチェック
+          response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8000/)
+          if [ "$response" -eq 200 ]; then
+            echo "✅ Local backend health check passed (HTTP $response)"
+          else
+            echo "❌ Local backend health check failed (HTTP $response)"
+            kill $SERVER_PID 2>/dev/null || true
+            exit 1
+          fi
+          
+          # OpenAPI schema確認（FastAPIが正しく動作しているか）
+          schema_response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8000/openapi.json)
+          if [ "$schema_response" -eq 200 ]; then
+            echo "✅ OpenAPI schema available"
+          else
+            echo "⚠️ OpenAPI schema not available (HTTP $schema_response)"
+          fi
+          
+          # サーバー停止
+          kill $SERVER_PID 2>/dev/null || true
+
+  # ============================================
+  # ステージ2: フロントエンドの検証
+  # ============================================
+  frontend-test:
+    name: ⚛️ Frontend Test & Build
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -62,7 +111,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Set up Node.js 18
         uses: actions/setup-node@v4
         with:
           node-version: '18'
@@ -74,63 +123,207 @@ jobs:
 
       - name: Lint with ESLint
         run: npm run lint
-        continue-on-error: true
 
       - name: Type check with TypeScript
         run: npx tsc --noEmit
-        continue-on-error: true
 
-      - name: Build frontend
+      - name: Build frontend (Production)
         env:
-          NEXT_PUBLIC_SUPABASE_URL: https://placeholder.supabase.co
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: placeholder-key
-        run: npm run build
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_API_URL: ${{ env.RENDER_BACKEND_URL }}
+        run: |
+          # 環境変数が設定されていない場合はプレースホルダーを使用
+          export NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL:-https://placeholder.supabase.co}
+          export NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY:-placeholder-key}
+          npm run build
+          echo "✅ Frontend build completed successfully"
 
-  # デプロイ確認（mainブランチのみ）
-  deploy-check:
-    name: Deployment Verification
+      - name: Verify build output
+        run: |
+          if [ -d ".next" ]; then
+            echo "✅ .next directory exists"
+            du -sh .next
+          else
+            echo "❌ .next directory not found"
+            exit 1
+          fi
+
+  # ============================================
+  # ステージ3: デプロイ後の検証（mainブランチのみ）
+  # ============================================
+  deploy-verification:
+    name: 🚀 Deployment Verification
     runs-on: ubuntu-latest
-    needs: [backend, frontend]
+    needs: [backend-test, frontend-test]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
     steps:
-      - name: Wait for Render deployment
+      - name: Initial wait for deployments to trigger
         run: |
-          echo "Waiting 60 seconds for Render auto-deploy to complete..."
-          sleep 60
+          echo "⏳ Waiting 30 seconds for deployment triggers..."
+          sleep 30
 
-      - name: Check Render backend health
+      # ------------------------------------------
+      # Render バックエンドの検証
+      # ------------------------------------------
+      - name: 🔄 Poll Render backend until healthy
+        id: render-check
         run: |
-          echo "Checking Render backend health endpoint..."
-          response=$(curl -s -o /dev/null -w "%{http_code}" https://portfolio-backend-rf8v.onrender.com/)
-          if [ "$response" -eq 200 ]; then
-            echo "✅ Render backend is healthy (HTTP $response)"
+          echo "Checking Render backend: ${{ env.RENDER_BACKEND_URL }}"
+          
+          MAX_ATTEMPTS=20
+          WAIT_SECONDS=30
+          
+          for i in $(seq 1 $MAX_ATTEMPTS); do
+            echo "Attempt $i/$MAX_ATTEMPTS..."
+            
+            response=$(curl -s -o /tmp/response.txt -w "%{http_code}" "${{ env.RENDER_BACKEND_URL }}/")
+            
+            if [ "$response" -eq 200 ]; then
+              echo "✅ Render backend is healthy (HTTP $response)"
+              cat /tmp/response.txt
+              echo ""
+              echo "RENDER_STATUS=success" >> $GITHUB_OUTPUT
+              break
+            else
+              echo "⏳ Backend returned HTTP $response, waiting ${WAIT_SECONDS}s..."
+              if [ "$i" -eq "$MAX_ATTEMPTS" ]; then
+                echo "❌ Render backend failed after $MAX_ATTEMPTS attempts"
+                echo "RENDER_STATUS=failed" >> $GITHUB_OUTPUT
+                exit 1
+              fi
+              sleep $WAIT_SECONDS
+            fi
+          done
+
+      - name: 🔍 Verify Render API endpoints
+        run: |
+          echo "Testing API endpoints..."
+          
+          # /docs エンドポイント（Swagger UI）
+          docs_response=$(curl -s -o /dev/null -w "%{http_code}" "${{ env.RENDER_BACKEND_URL }}/docs")
+          if [ "$docs_response" -eq 200 ]; then
+            echo "✅ /docs endpoint available (HTTP $docs_response)"
           else
-            echo "⚠️ Render backend returned HTTP $response"
-            exit 1
+            echo "⚠️ /docs endpoint returned HTTP $docs_response"
+          fi
+          
+          # /openapi.json エンドポイント
+          openapi_response=$(curl -s -o /dev/null -w "%{http_code}" "${{ env.RENDER_BACKEND_URL }}/openapi.json")
+          if [ "$openapi_response" -eq 200 ]; then
+            echo "✅ /openapi.json endpoint available (HTTP $openapi_response)"
+          else
+            echo "⚠️ /openapi.json endpoint returned HTTP $openapi_response"
           fi
 
-      - name: Wait for Vercel deployment
+      # ------------------------------------------
+      # Vercel フロントエンドの検証
+      # ------------------------------------------
+      - name: 🔄 Poll Vercel frontend until healthy
+        id: vercel-check
         run: |
-          echo "Waiting 60 seconds for Vercel auto-deploy to complete..."
-          sleep 60
+          echo "Checking Vercel frontend: ${{ env.VERCEL_FRONTEND_URL }}"
+          
+          MAX_ATTEMPTS=15
+          WAIT_SECONDS=20
+          
+          for i in $(seq 1 $MAX_ATTEMPTS); do
+            echo "Attempt $i/$MAX_ATTEMPTS..."
+            
+            response=$(curl -s -o /dev/null -w "%{http_code}" "${{ env.VERCEL_FRONTEND_URL }}/")
+            
+            if [ "$response" -eq 200 ]; then
+              echo "✅ Vercel frontend is healthy (HTTP $response)"
+              echo "VERCEL_STATUS=success" >> $GITHUB_OUTPUT
+              break
+            else
+              echo "⏳ Frontend returned HTTP $response, waiting ${WAIT_SECONDS}s..."
+              if [ "$i" -eq "$MAX_ATTEMPTS" ]; then
+                echo "❌ Vercel frontend failed after $MAX_ATTEMPTS attempts"
+                echo "VERCEL_STATUS=failed" >> $GITHUB_OUTPUT
+                exit 1
+              fi
+              sleep $WAIT_SECONDS
+            fi
+          done
 
-      - name: Check Vercel frontend health
+      - name: 🔍 Verify Vercel pages
         run: |
-          echo "Checking Vercel frontend..."
-          response=$(curl -s -o /dev/null -w "%{http_code}" https://portfolio-saoki0913s-projects.vercel.app/)
-          if [ "$response" -eq 200 ]; then
-            echo "✅ Vercel frontend is healthy (HTTP $response)"
+          echo "Testing frontend pages..."
+          
+          # メインページのコンテンツ確認
+          content=$(curl -s "${{ env.VERCEL_FRONTEND_URL }}/")
+          if echo "$content" | grep -q "</html>"; then
+            echo "✅ Main page returns valid HTML"
           else
-            echo "⚠️ Vercel frontend returned HTTP $response"
-            exit 1
+            echo "⚠️ Main page might not return valid HTML"
           fi
 
-      - name: Summary
+      # ------------------------------------------
+      # 統合テスト: フロントエンド → バックエンド
+      # ------------------------------------------
+      - name: 🔗 Verify Frontend-Backend Integration
         run: |
-          echo "================================"
-          echo "📊 Deployment Status Summary"
-          echo "================================"
-          echo "Backend (Render): https://portfolio-backend-rf8v.onrender.com/"
-          echo "Frontend (Vercel): https://portfolio-saoki0913s-projects.vercel.app/"
-          echo "================================"
+          echo "Testing CORS and connectivity..."
+          
+          # バックエンドへのCORSプリフライトリクエストをシミュレート
+          cors_response=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X OPTIONS \
+            -H "Origin: ${{ env.VERCEL_FRONTEND_URL }}" \
+            -H "Access-Control-Request-Method: GET" \
+            "${{ env.RENDER_BACKEND_URL }}/")
+          
+          if [ "$cors_response" -eq 200 ] || [ "$cors_response" -eq 204 ]; then
+            echo "✅ CORS preflight successful (HTTP $cors_response)"
+          else
+            echo "⚠️ CORS preflight returned HTTP $cors_response (may still work)"
+          fi
+
+      # ------------------------------------------
+      # 最終サマリー
+      # ------------------------------------------
+      - name: 📊 Deployment Summary
+        run: |
+          echo ""
+          echo "╔════════════════════════════════════════════════════════════╗"
+          echo "║           🎉 DEPLOYMENT VERIFICATION COMPLETE 🎉           ║"
+          echo "╠════════════════════════════════════════════════════════════╣"
+          echo "║                                                            ║"
+          echo "║  📦 Backend (Render):                                      ║"
+          echo "║     ${{ env.RENDER_BACKEND_URL }}"
+          echo "║     Status: ✅ Healthy                                     ║"
+          echo "║                                                            ║"
+          echo "║  🌐 Frontend (Vercel):                                     ║"
+          echo "║     ${{ env.VERCEL_FRONTEND_URL }}"
+          echo "║     Status: ✅ Healthy                                     ║"
+          echo "║                                                            ║"
+          echo "║  📚 API Docs:                                              ║"
+          echo "║     ${{ env.RENDER_BACKEND_URL }}/docs"
+          echo "║                                                            ║"
+          echo "╚════════════════════════════════════════════════════════════╝"
+          echo ""
+
+  # ============================================
+  # ステージ4: デプロイ失敗時の通知（オプション）
+  # ============================================
+  notify-failure:
+    name: 🚨 Notify on Failure
+    runs-on: ubuntu-latest
+    needs: [deploy-verification]
+    if: failure()
+
+    steps:
+      - name: Create failure summary
+        run: |
+          echo "## ❌ Deployment Verification Failed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "The deployment verification has failed. Please check:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "1. **Render Dashboard**: Check if the backend deployment succeeded" >> $GITHUB_STEP_SUMMARY
+          echo "2. **Vercel Dashboard**: Check if the frontend deployment succeeded" >> $GITHUB_STEP_SUMMARY
+          echo "3. **Environment Variables**: Ensure all required variables are set" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Links" >> $GITHUB_STEP_SUMMARY
+          echo "- [Render Dashboard](https://dashboard.render.com/)" >> $GITHUB_STEP_SUMMARY
+          echo "- [Vercel Dashboard](https://vercel.com/)" >> $GITHUB_STEP_SUMMARY
