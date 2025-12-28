@@ -5,7 +5,7 @@ import { HeroSection } from '@/components/works/HeroSection';
 import { ProjectInfo } from '@/components/works/ProjectInfo';
 import { Screenshots } from '@/components/works/Screenshots';
 import { TechIcon } from '@/components/works/TechIcon';
-import { getWorkById, getAllWorks } from '@/lib/api/works';
+import { getWorkById } from '@/lib/api/works';
 
 // 動的レンダリングを強制（ビルド時のAPI接続エラーを回避）
 export const dynamic = 'force-dynamic';
