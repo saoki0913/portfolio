@@ -51,60 +51,114 @@
 }
 
 :root {
+  /* Border Radius Tokens */
   --radius: 1rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
 
-  /* Light Mode (Japandi Light) - デフォルト */
-  --background: oklch(97% 0.01 90);
-  --foreground: oklch(30% 0.02 280);
+  /* ===== Light Mode (Apple HIG Compliant) ===== */
+
+  /* Brand Colors */
+  --brand-50: oklch(97% 0.05 250);
+  --brand-100: oklch(93% 0.08 250);
+  --brand-200: oklch(85% 0.12 250);
+  --brand-300: oklch(75% 0.16 250);
+  --brand-400: oklch(70% 0.18 250);
+  --brand-500: oklch(65% 0.20 250);
+  --brand-600: oklch(55% 0.20 250);
+  --brand-700: oklch(45% 0.18 250);
+  --brand-800: oklch(35% 0.15 250);
+  --brand-900: oklch(25% 0.12 250);
+
+  /* Accent Colors */
+  --accent-50: oklch(97% 0.05 300);
+  --accent-100: oklch(93% 0.08 300);
+  --accent-200: oklch(85% 0.12 300);
+  --accent-300: oklch(75% 0.16 300);
+  --accent-400: oklch(70% 0.18 300);
+  --accent-500: oklch(65% 0.20 300);
+  --accent-600: oklch(55% 0.20 300);
+  --accent-700: oklch(45% 0.18 300);
+  --accent-800: oklch(35% 0.15 300);
+  --accent-900: oklch(25% 0.12 300);
+
+  /* Neutral Colors */
+  --neutral-50: oklch(98% 0.005 280);
+  --neutral-100: oklch(96% 0.005 280);
+  --neutral-200: oklch(92% 0.008 280);
+  --neutral-300: oklch(85% 0.01 280);
+  --neutral-400: oklch(70% 0.015 280);
+  --neutral-500: oklch(55% 0.02 280);
+  --neutral-600: oklch(45% 0.02 280);
+  --neutral-700: oklch(35% 0.025 280);
+  --neutral-800: oklch(25% 0.03 280);
+  --neutral-900: oklch(18% 0.03 280);
+
+  /* Semantic UI Colors - Light Mode */
+  --background: var(--neutral-50);
+  --foreground: var(--neutral-900);
   --card: oklch(100% 0 0);
-  --card-foreground: oklch(30% 0.02 280);
+  --card-foreground: var(--neutral-900);
   --popover: oklch(100% 0 0);
-  --popover-foreground: oklch(30% 0.02 280);
-  --primary: oklch(65% 0.20 250);
+  --popover-foreground: var(--neutral-900);
+  --primary: var(--brand-500);
   --primary-foreground: oklch(100% 0 0);
-  --secondary: oklch(65% 0.20 300);
+  --secondary: var(--accent-500);
   --secondary-foreground: oklch(100% 0 0);
-  --muted: oklch(50% 0.02 280);
-  --muted-foreground: oklch(50% 0.02 280);
-  --accent: oklch(65% 0.13 140);
+  --muted: var(--neutral-200);
+  --muted-foreground: var(--neutral-600);
+  --accent: var(--accent-500);
   --accent-foreground: oklch(100% 0 0);
   --destructive: oklch(65% 0.25 25);
-  --border: oklch(85% 0.01 90);
-  --input: oklch(85% 0.01 90);
-  --ring: oklch(65% 0.20 250);
+  --border: var(--neutral-200);
+  --input: var(--neutral-200);
+  --ring: var(--brand-500);
 
-  /* Semantic Colors */
+  /* Semantic State Colors */
   --success: oklch(70% 0.18 150);
+  --success-light: oklch(85% 0.15 150);
+  --success-dark: oklch(55% 0.18 150);
   --error: oklch(65% 0.25 25);
+  --error-light: oklch(85% 0.20 25);
+  --error-dark: oklch(50% 0.25 25);
   --warning: oklch(75% 0.18 85);
+  --warning-light: oklch(90% 0.15 85);
+  --warning-dark: oklch(60% 0.18 85);
   --info: oklch(70% 0.15 240);
+  --info-light: oklch(85% 0.12 240);
+  --info-dark: oklch(55% 0.15 240);
 
-  /* Subtle Text */
-  --subtle: oklch(50% 0.02 280);
+  /* Text Utilities */
+  --subtle: var(--neutral-600);
 }
 
 .dark {
-  /* Dark Mode (Deep Focus) */
+  /* ===== Dark Mode (Apple HIG Dark Theme) ===== */
+
+  /* Semantic UI Colors - Dark Mode */
   --background: oklch(18% 0.03 260);
   --foreground: oklch(95% 0.01 90);
   --card: oklch(24% 0.03 260);
   --card-foreground: oklch(95% 0.01 90);
   --popover: oklch(24% 0.03 260);
   --popover-foreground: oklch(95% 0.01 90);
-  --primary: oklch(65% 0.20 250);
+  --primary: var(--brand-500);
   --primary-foreground: oklch(100% 0 0);
-  --secondary: oklch(65% 0.20 300);
+  --secondary: var(--accent-500);
   --secondary-foreground: oklch(100% 0 0);
-  --muted: oklch(50% 0.02 260);
+  --muted: oklch(35% 0.02 260);
   --muted-foreground: oklch(70% 0.02 260);
-  --accent: oklch(65% 0.13 140);
+  --accent: var(--accent-500);
   --accent-foreground: oklch(100% 0 0);
   --destructive: oklch(65% 0.25 25);
   --border: oklch(30% 0.02 260);
   --input: oklch(30% 0.02 260);
-  --ring: oklch(65% 0.20 250);
+  --ring: var(--brand-500);
 
-  /* Subtle Text */
+  /* Text Utilities */
   --subtle: oklch(70% 0.02 260);
 }
 

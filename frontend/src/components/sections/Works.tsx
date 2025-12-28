@@ -83,18 +83,18 @@ export const Works = () => {
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.6 }}
                 >
-                    <div className="flex items-center gap-4 mb-4">
+                    <div className="flex items-center gap-4 mb-6">
                         <motion.div
                             className="h-1 w-12 bg-gradient-primary rounded-full"
                             initial={{ width: 0 }}
                             animate={isInView ? { width: "3rem" } : {}}
                             transition={{ duration: 0.8, delay: 0.2 }}
                         />
-                        <h2 className="text-4xl md:text-5xl font-bold tracking-tight bg-gradient-primary bg-clip-text text-transparent">
+                        <h2 className="text-display-md md:text-display-lg tracking-tight bg-gradient-primary bg-clip-text text-transparent">
                             Works
                         </h2>
                     </div>
-                    <p className="text-gray-600 text-lg md:text-xl ml-16 max-w-2xl">
+                    <p className="text-neutral-600 text-body-lg md:text-h4 ml-16 max-w-2xl">
                         これまでに手がけたプロジェクトをご紹介します
                     </p>
                 </motion.div>
@@ -115,15 +115,15 @@ export const Works = () => {
                                 onMouseLeave={() => setHoveredIndex(null)}
                             >
                                 <motion.div
-                                    className="relative bg-white rounded-2xl overflow-hidden shadow-lg"
+                                    className="relative bg-white rounded-2xl overflow-hidden shadow-md border border-neutral-100"
                                     whileHover={{
                                         y: -8,
-                                        boxShadow: "0 20px 60px rgba(59, 130, 246, 0.15)"
+                                        boxShadow: "0 16px 48px rgba(59, 130, 246, 0.15)"
                                     }}
                                     transition={{ duration: 0.3 }}
                                 >
                                     {/* 画像コンテナ */}
-                                    <div className="aspect-[4/3] relative overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10">
+                                    <div className="aspect-[4/3] relative overflow-hidden bg-gradient-to-br from-brand-50 to-accent-50">
                                         <motion.div
                                             className="w-full h-full"
                                             whileHover={{ scale: 1.1, rotate: 1 }}
@@ -138,7 +138,7 @@ export const Works = () => {
                                         </motion.div>
                                         {/* グラデーションオーバーレイ */}
                                         <motion.div
-                                            className="absolute inset-0 bg-gradient-to-t from-primary/40 via-transparent to-secondary/20"
+                                            className="absolute inset-0 bg-gradient-to-t from-brand-500/40 via-transparent to-accent-500/20"
                                             initial={{ opacity: 0 }}
                                             whileHover={{ opacity: 1 }}
                                             transition={{ duration: 0.3 }}
@@ -151,7 +151,7 @@ export const Works = () => {
                                             whileHover={{ opacity: 1, x: 0 }}
                                             transition={{ duration: 0.3 }}
                                         >
-                                            <div className="bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium shadow-lg">
+                                            <div className="bg-white/95 backdrop-blur-sm px-4 py-2 rounded-full text-label-lg font-semibold shadow-md">
                                                 詳しく見る →
                                             </div>
                                         </motion.div>
@@ -159,10 +159,10 @@ export const Works = () => {
 
                                     {/* コンテンツエリア */}
                                     <div className="p-6 md:p-8">
-                                        <h3 className="text-xl md:text-2xl font-bold mb-3 bg-gradient-primary bg-clip-text text-transparent group-hover:opacity-80 transition-opacity duration-300">
+                                        <h3 className="text-h4 md:text-h3 mb-3 bg-gradient-primary bg-clip-text text-transparent group-hover:opacity-80 transition-opacity duration-300">
                                             {work.title}
                                         </h3>
-                                        <p className="text-gray-600 text-sm md:text-base mb-4 line-clamp-2">
+                                        <p className="text-neutral-600 text-body-md md:text-body-lg mb-4 line-clamp-2">
                                             {work.description}
                                         </p>
 
@@ -171,14 +171,15 @@ export const Works = () => {
                                             {work.tags.map((tag, tagIndex) => (
                                                 <motion.span
                                                     key={tagIndex}
-                                                    className="inline-block px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full border border-primary/20"
+                                                    className="inline-block px-3 py-1.5 text-label-md font-semibold bg-brand-50 text-brand-600 rounded-full border border-brand-200"
                                                     initial={{ opacity: 0, scale: 0.8 }}
                                                     animate={hoveredIndex === index ? { opacity: 1, scale: 1 } : { opacity: 1, scale: 1 }}
                                                     transition={{ duration: 0.2, delay: tagIndex * 0.05 }}
                                                     whileHover={{
                                                         scale: 1.05,
                                                         backgroundColor: "oklch(65% 0.20 250)",
-                                                        color: "white"
+                                                        color: "white",
+                                                        borderColor: "oklch(65% 0.20 250)"
                                                     }}
                                                 >
                                                     {tag}

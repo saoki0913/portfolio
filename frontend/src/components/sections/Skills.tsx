@@ -86,18 +86,18 @@ export const Skills = () => {
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.6 }}
                 >
-                    <div className="flex items-center gap-4 mb-4">
+                    <div className="flex items-center gap-4 mb-6">
                         <motion.div
                             className="h-1 w-12 bg-gradient-primary rounded-full"
                             initial={{ width: 0 }}
                             animate={isInView ? { width: "3rem" } : {}}
                             transition={{ duration: 0.8, delay: 0.2 }}
                         />
-                        <h2 className="text-4xl md:text-5xl font-bold tracking-tight bg-gradient-primary bg-clip-text text-transparent">
+                        <h2 className="text-display-md md:text-display-lg tracking-tight bg-gradient-primary bg-clip-text text-transparent">
                             Skills
                         </h2>
                     </div>
-                    <p className="text-gray-600 text-lg md:text-xl ml-16 max-w-2xl">
+                    <p className="text-neutral-600 text-body-lg md:text-h4 ml-16 max-w-2xl">
                         日々の学習と実践で培った技術スタック
                     </p>
                 </motion.div>
@@ -107,18 +107,18 @@ export const Skills = () => {
                     {skillCategories.map((category, categoryIndex) => (
                         <motion.div
                             key={category.title}
-                            className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-lg border border-gray-100 relative overflow-hidden group"
+                            className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-md border border-neutral-100 relative overflow-hidden group"
                             initial={{ opacity: 0, y: 30 }}
                             animate={isInView ? { opacity: 1, y: 0 } : {}}
                             transition={{ duration: 0.5, delay: categoryIndex * 0.1 }}
                             whileHover={{
                                 y: -4,
-                                boxShadow: "0 20px 60px rgba(168, 85, 247, 0.15)",
+                                boxShadow: "0 16px 48px rgba(168, 85, 247, 0.15)",
                                 borderColor: "oklch(65% 0.20 300)"
                             }}
                         >
                             {/* 背景グラデーション */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                            <div className="absolute inset-0 bg-gradient-to-br from-brand-50 via-transparent to-accent-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                             <div className="flex items-center gap-3 mb-6 md:mb-8 relative z-10">
                                 <motion.div
@@ -127,7 +127,7 @@ export const Skills = () => {
                                     animate={isInView ? { height: "2rem" } : {}}
                                     transition={{ duration: 0.6, delay: categoryIndex * 0.1 + 0.3 }}
                                 />
-                                <h3 className="text-xl md:text-2xl font-bold tracking-tight bg-gradient-primary bg-clip-text text-transparent">
+                                <h3 className="text-h4 md:text-h3 tracking-tight bg-gradient-primary bg-clip-text text-transparent">
                                     {category.title}
                                 </h3>
                             </div>
@@ -140,12 +140,12 @@ export const Skills = () => {
                                         transition={{ duration: 0.4, delay: categoryIndex * 0.1 + skillIndex * 0.05 + 0.4 }}
                                     >
                                         <div className="flex justify-between items-center mb-2">
-                                            <span className="text-sm md:text-base flex items-center font-medium">
-                                                <TechIcon tech={skill.icon} className="w-5 h-5 inline-block mr-3 text-primary" />
+                                            <span className="text-body-md md:text-body-lg flex items-center font-semibold text-neutral-900">
+                                                <TechIcon tech={skill.icon} className="w-5 h-5 inline-block mr-3 text-brand-500" />
                                                 {skill.name}
                                             </span>
                                             <motion.span
-                                                className="text-sm md:text-base font-semibold text-primary"
+                                                className="text-body-md md:text-body-lg font-bold text-brand-600"
                                                 initial={{ opacity: 0 }}
                                                 animate={isInView ? { opacity: 1 } : {}}
                                                 transition={{ duration: 0.3, delay: categoryIndex * 0.1 + skillIndex * 0.1 + 1 }}
@@ -153,9 +153,9 @@ export const Skills = () => {
                                                 {skill.level}%
                                             </motion.span>
                                         </div>
-                                        <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
+                                        <div className="h-2 w-full bg-neutral-100 rounded-full overflow-hidden">
                                             <motion.div
-                                                className="h-full bg-gradient-primary rounded-full"
+                                                className="h-full bg-gradient-primary rounded-full shadow-sm"
                                                 initial={{ width: 0 }}
                                                 animate={isInView ? { width: `${skill.level}%` } : {}}
                                                 transition={{

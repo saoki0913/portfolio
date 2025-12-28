@@ -52,10 +52,10 @@ export const Hero = () => {
                 <div className="container mx-auto mt-14 md:mt-16">
                     <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-start">
                         <div className="w-full md:w-1/2 animate-pulse">
-                            <div className="h-24 bg-gray-200 rounded mb-5 md:mb-6"></div>
-                            <div className="h-72 bg-gray-200 rounded"></div>
+                            <div className="h-24 bg-neutral-200 rounded-lg mb-6 md:mb-8"></div>
+                            <div className="h-72 bg-neutral-200 rounded-xl"></div>
                         </div>
-                        <div className="w-full md:w-1/2 aspect-[4/3] bg-gray-200 rounded animate-pulse"></div>
+                        <div className="w-full md:w-1/2 aspect-[4/3] bg-neutral-200 rounded-xl animate-pulse"></div>
                     </div>
                 </div>
             </section>
@@ -67,9 +67,9 @@ export const Hero = () => {
         return (
             <section id="hero" className="pt-2 md:pt-4 pb-1 md:pb-2 px-4 md:px-6 min-h-screen flex flex-col justify-start">
                 <div className="container mx-auto mt-14 md:mt-16">
-                    <div className="p-4 bg-red-100 text-red-700 rounded-lg">
-                        <h2 className="text-xl font-bold mb-2">データの読み込みに失敗しました</h2>
-                        <p>コンソールログを確認してください</p>
+                    <div className="p-6 bg-error-light/20 border border-error/30 text-error-dark rounded-xl shadow-sm">
+                        <h2 className="text-h3 font-bold mb-2">データの読み込みに失敗しました</h2>
+                        <p className="text-body-lg">コンソールログを確認してください</p>
                     </div>
                 </div>
             </section>
@@ -102,12 +102,12 @@ export const Hero = () => {
                         style={{ y }}
                     >
                         <motion.div
-                            className="mb-5 md:mb-6"
+                            className="mb-6 md:mb-8"
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, delay: 0.2 }}
                         >
-                            <p className="text-xl md:text-2xl leading-relaxed bg-gradient-primary bg-clip-text text-transparent font-semibold">
+                            <p className="text-h3 md:text-h2 leading-tight bg-gradient-primary bg-clip-text text-transparent font-bold tracking-tight">
                                 {data.introduction?.content || 'コンテンツがありません'}
                             </p>
                         </motion.div>
@@ -117,44 +117,45 @@ export const Hero = () => {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, delay: 0.4 }}
                         >
-                            <h3 className="text-lg md:text-2xl font-medium mb-4 uppercase text-black tracking-wider flex items-center">
+                            <h3 className="text-h4 md:text-h3 font-semibold mb-6 uppercase text-neutral-900 tracking-wide flex items-center">
                                 経歴
-                                <span className="ml-2 text-xs text-gray-500 normal-case font-normal">スクロールして詳細を見る</span>
+                                <span className="ml-3 text-label-md text-neutral-500 normal-case font-medium">スクロールして詳細を見る</span>
                             </h3>
                             <div className="relative max-h-[35vh] md:max-h-[45vh] overflow-y-auto pr-4 no-scrollbar">
-                                <div className="absolute top-0 bottom-[-240px] left-[6px] w-[1px] bg-gradient-to-b from-primary via-secondary to-primary"></div>
+                                <div className="absolute top-0 bottom-[-240px] left-[6px] w-[1px] bg-gradient-to-b from-brand-500 via-accent-500 to-brand-500"></div>
 
                                 {data.timelineItems && data.timelineItems.map((item, index) => (
                                     <motion.div
                                         key={item.id}
-                                        className="mb-4 md:mb-5 relative pl-12 group"
+                                        className="mb-6 relative pl-12 group"
                                         initial={{ opacity: 0, x: -20 }}
                                         animate={{ opacity: 1, x: 0 }}
                                         transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
                                     >
                                         <motion.div
-                                            className="absolute left-0 top-[8px] w-[14px] h-[14px] rounded-full border-[2px] border-primary bg-white"
+                                            className="absolute left-0 top-[8px] w-[14px] h-[14px] rounded-full border-2 border-brand-500 bg-white shadow-sm"
                                             whileHover={{
                                                 scale: 1.3,
                                                 backgroundColor: "oklch(65% 0.20 250)",
-                                                borderColor: "white"
+                                                borderColor: "white",
+                                                boxShadow: "0 4px 12px rgba(59, 130, 246, 0.3)"
                                             }}
                                             transition={{ duration: 0.3 }}
                                         />
-                                        <div className="text-sm tracking-wider font-medium uppercase text-gray-500 mb-1 group-hover:text-primary transition-colors duration-300">
+                                        <div className="text-label-lg tracking-wide font-semibold uppercase text-neutral-500 mb-2 group-hover:text-brand-600 transition-colors duration-300">
                                             {item.period}
                                         </div>
                                         <motion.div
-                                            className="p-3 md:p-4 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg shadow-sm"
+                                            className="p-4 md:p-6 bg-white/90 backdrop-blur-sm border border-neutral-200 rounded-xl shadow-sm"
                                             whileHover={{
                                                 y: -4,
-                                                boxShadow: "0 10px 30px rgba(59, 130, 246, 0.15)",
+                                                boxShadow: "0 8px 32px rgba(59, 130, 246, 0.15)",
                                                 borderColor: "oklch(65% 0.20 250)"
                                             }}
                                             transition={{ duration: 0.3 }}
                                         >
-                                            <h4 className="text-base md:text-lg font-medium text-black mb-1">{item.title}</h4>
-                                            {item.subtitle && <p className="text-sm text-gray-600">{item.subtitle}</p>}
+                                            <h4 className="text-body-lg md:text-h4 font-semibold text-neutral-900 mb-1">{item.title}</h4>
+                                            {item.subtitle && <p className="text-body-md text-neutral-600">{item.subtitle}</p>}
                                         </motion.div>
                                     </motion.div>
                                 ))}
@@ -179,15 +180,15 @@ export const Hero = () => {
                             whileHover={{ scale: 1.02 }}
                             transition={{ duration: 0.3 }}
                         >
-                            <div className="absolute inset-0 bg-gradient-primary rounded-lg blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500"></div>
+                            <div className="absolute inset-0 bg-gradient-primary rounded-2xl blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500"></div>
                             <Image
                                 src="/profile.jpg"
                                 alt="Shunsuke Aoki"
                                 fill
-                                className="object-cover rounded-lg shadow-2xl relative z-10"
+                                className="object-cover rounded-2xl shadow-xl relative z-10"
                                 priority
                             />
-                            <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 via-transparent to-secondary/20 rounded-lg z-20"></div>
+                            <div className="absolute inset-0 bg-gradient-to-tr from-brand-500/20 via-transparent to-accent-500/20 rounded-2xl z-20"></div>
                         </motion.div>
                     </motion.div>
                 </div>
