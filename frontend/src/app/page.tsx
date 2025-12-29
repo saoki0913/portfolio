@@ -1,64 +1,92 @@
 'use client'
 
-import { useState, useEffect, useRef, Suspense } from 'react'
+import { useState, useEffect, useLayoutEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
+import { AnimatePresence } from 'framer-motion'
 import { Header } from '@/components/sections/Header'
 import { Hero } from '@/components/sections/Hero'
 import { About } from '@/components/sections/About'
 import { Works } from '@/components/sections/Works'
 import { Skills } from '@/components/sections/Skills'
 import { Contact } from '@/components/sections/Contact'
+import { OpeningLoading } from '@/components/ui/OpeningLoading'
 import 'tw-animate-css'
 
-// useSearchParams()を使用するコンポーネントを分離
-function LoadingController({
-  setIsLoading,
-  setFadeOut,
-  setShowContent
-}: {
-  setIsLoading: (value: boolean) => void
-  setFadeOut: (value: boolean) => void
-  setShowContent: (value: boolean) => void
-}) {
-  const searchParams = useSearchParams()
-
-  useEffect(() => {
-    const noSkip = searchParams.get('noskip')
-    const sessionVisited = sessionStorage.getItem('visited')
-    const isInternalNavigation = document.referrer.includes(window.location.host)
-
-    if (noSkip === 'true' || (!isInternalNavigation && !sessionVisited)) {
-      sessionStorage.setItem('visited', 'true')
-
-      const fadeTimer = setTimeout(() => {
-        setFadeOut(true)
-      }, 3000)
-
-      const loadingTimer = setTimeout(() => {
-        setIsLoading(false)
-        setShowContent(true)
-      }, 3500)
-
-      return () => {
-        clearTimeout(fadeTimer)
-        clearTimeout(loadingTimer)
-      }
-    } else {
-      setIsLoading(false)
-      setShowContent(true)
-    }
-  }, [searchParams, setIsLoading, setFadeOut, setShowContent])
-
-  return null
-}
+// サーバーサイドでの警告を防ぐためのIsomorphic Effect
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
 function HomeContent() {
   const [isLoading, setIsLoading] = useState(true)
-  const [fadeOut, setFadeOut] = useState(false)
   const [showContent, setShowContent] = useState(false)
-  const [isHovered, setIsHovered] = useState(false)
-  const [showRipple, setShowRipple] = useState(false)
-  const waterDropRef = useRef<HTMLDivElement>(null)
+  const searchParams = useSearchParams()
+
+  useIsomorphicLayoutEffect(() => {
+    // クライアントサイドでのみ実行
+    if (typeof window === 'undefined') return
+
+    const checkLoadingState = () => {
+      const noSkip = searchParams.get('noskip') === 'true'
+      
+      // リロード判定
+      let isReload = false
+      if (window.performance) {
+        const navEntries = window.performance.getEntriesByType('navigation')
+        if (navEntries.length > 0) {
+          const navTiming = navEntries[0] as PerformanceNavigationTiming
+          if (navTiming.type === 'reload') {
+            isReload = true
+          }
+        } else if (window.performance.navigation) {
+          // Fallback for older browsers
+          if (window.performance.navigation.type === 1) {
+            isReload = true
+          }
+        }
+      }
+
+      // 内部遷移判定（Works -> Homeなど）
+      // リロード時はreferrerが自分自身になることがあるが、isReload判定でカバーする
+      const isInternalNavigation = document.referrer && document.referrer.includes(window.location.host)
+      
+      // 訪問済みフラグ
+      const isVisited = sessionStorage.getItem('visited') === 'true'
+
+      // 判定ロジック
+      // 1. URLパラメータ noskip=true なら常に表示
+      if (noSkip) return
+
+      // 2. 訪問済みなら非表示（最優先）
+      if (isVisited) {
+        setIsLoading(false)
+        setShowContent(true)
+        return
+      }
+
+      // 3. リロードなら非表示（アニメーション途中でのリロード対策など）
+      if (isReload) {
+        setIsLoading(false)
+        setShowContent(true)
+        return
+      }
+
+      // 4. 内部遷移（Works -> Homeなど）なら非表示
+      if (isInternalNavigation) {
+        setIsLoading(false)
+        setShowContent(true)
+        return
+      }
+      
+      // それ以外（真の初回訪問）は表示（初期値trueのまま）
+    }
+
+    checkLoadingState()
+  }, [searchParams])
+
+  const handleLoadingFinish = () => {
+    sessionStorage.setItem('visited', 'true')
+    setIsLoading(false)
+    setShowContent(true)
+  }
 
   // URLハッシュからセクションへのスクロールを処理
   useEffect(() => {
@@ -87,127 +115,64 @@ function HomeContent() {
         }
       } else {
         // ハッシュがない場合はHeroセクションに自動スクロール
+        // ページ遷移時の位置リセットも兼ねる
         const heroSection = document.getElementById('hero');
         if (heroSection) {
-          window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-          });
-
-          // URLのハッシュを更新（履歴に追加せず）
-          if (window.history) {
-            window.history.replaceState(null, '', '#hero');
+          // すでにトップにいる場合はスクロールしない（不自然な動きを防ぐ）
+          if (window.scrollY > 100) {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
           }
         }
       }
-    }, 800); // コンテンツ表示後に十分な時間を設ける
+    }, 500); // アニメーションとの兼ね合いで少し長めに
 
     return () => clearTimeout(timer);
   }, [showContent])
 
-  const skipLoading = () => {
-    setShowRipple(true)
-    setFadeOut(true)
-    setTimeout(() => {
-      setIsLoading(false)
-      setShowContent(true)
-    }, 600)
-
-    setTimeout(() => {
-      setShowRipple(false)
-    }, 800)
-  }
-
   return (
     <div className="relative">
-      {/* LoadingControllerをSuspenseでラップ */}
-      <Suspense fallback={null}>
-        <LoadingController
-          setIsLoading={setIsLoading}
-          setFadeOut={setFadeOut}
-          setShowContent={setShowContent}
-        />
-      </Suspense>
+      <AnimatePresence mode="wait">
+        {isLoading && (
+          <OpeningLoading finishLoading={handleLoadingFinish} />
+        )}
+      </AnimatePresence>
 
-      {/* ヘッダーを最上位に配置（ロード画面が表示されていない時のみ表示） */}
       {!isLoading && (
-        <div className="fixed-header-container">
-          <Header />
-        </div>
-      )}
-
-      {isLoading && (
-        <div
-          className="min-h-screen flex flex-col items-center justify-center fixed top-0 left-0 w-full transition-all duration-700"
-          style={{
-            background: 'linear-gradient(135deg, #f8f8f8 0%, #e6e6e6 100%)',
-            zIndex: 'var(--z-loading)',
-            opacity: fadeOut ? 0 : 1
-          }}
-        >
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[450px] md:w-[800px] md:h-[800px]">
-              <div className="absolute inset-0 border-2 border-gray-200 rounded-full animate-ripple opacity-20" style={{ animationDelay: '0s' }}></div>
-              <div className="absolute inset-0 border-2 border-gray-300 rounded-full animate-ripple opacity-30" style={{ animationDelay: '0.8s' }}></div>
-              <div className="absolute inset-0 border-2 border-gray-300 rounded-full animate-ripple opacity-40" style={{ animationDelay: '1.6s' }}></div>
+        <>
+            <div className="fixed-header-container">
+            <Header />
             </div>
-          </div>
-          <div className="relative z-10 flex flex-col items-center justify-center mb-20 animate-float">
-            <div
-              ref={waterDropRef}
-              className={`w-[320px] h-[320px] md:w-[450px] md:h-[450px] water-drop clickable flex items-center justify-center mb-10 ${isHovered ? 'scale-105' : ''} relative`}
-              onClick={skipLoading}
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
-              role="button"
-              aria-label="スキップしてホーム画面へ"
+            
+            <main
+                className="min-h-screen bg-white text-[#1a1a1a] transition-opacity duration-1000"
+                style={{
+                    paddingTop: '80px',
+                    opacity: showContent ? 1 : 0
+                }}
             >
-              {showRipple && <div className="click-ripple"></div>}
-              <div className="water-drop-inner"></div>
-              <div className="water-drop-shine"></div>
-              <div className="water-drop-ripple"></div>
-              <div className="text-center px-8 relative z-10">
-                <h1 className="text-6xl md:text-7xl font-bold text-gray-800 mb-3 animate-tracking-in-expand">
-                  AOKI&apos;s
-                </h1>
-                <h2 className="text-5xl md:text-6xl font-bold text-gray-700 animate-tracking-in-expand" style={{ animationDelay: '400ms' }}>
-                  Portfolio
-                </h2>
-              </div>
-            </div>
-          </div>
-
-          <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-10">
-            <div className="flex space-x-6">
-              <div className="w-4 h-4 bg-gray-600 rounded-full animate-loader-dot" style={{ animationDelay: '0ms' }}></div>
-              <div className="w-4 h-4 bg-gray-600 rounded-full animate-loader-dot" style={{ animationDelay: '250ms' }}></div>
-              <div className="w-4 h-4 bg-gray-600 rounded-full animate-loader-dot" style={{ animationDelay: '500ms' }}></div>
-            </div>
-          </div>
-        </div>
+                <div className="animate-fade-in animate-delay-300">
+                    <Hero />
+                </div>
+                <div className="animate-fade-in animate-delay-500">
+                    <About />
+                    <Works />
+                    <Skills />
+                    <Contact />
+                </div>
+            </main>
+        </>
       )}
-
-      <main
-        className="min-h-screen bg-white text-[#1a1a1a] transition-opacity duration-700"
-        style={{
-          paddingTop: '80px',
-          opacity: showContent ? 1 : 0
-        }}
-      >
-        <div className="animate-fade-in animate-delay-300">
-          <Hero />
-        </div>
-        <div className="animate-fade-in animate-delay-500">
-          <About />
-          <Works />
-          <Skills />
-          <Contact />
-        </div>
-      </main>
     </div>
   )
 }
 
 export default function Home() {
-  return <HomeContent />
+  return (
+    <Suspense fallback={null}>
+      <HomeContent />
+    </Suspense>
+  )
 }

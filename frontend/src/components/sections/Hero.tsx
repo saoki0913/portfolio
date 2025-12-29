@@ -110,7 +110,7 @@ export const Hero = () => {
                                 経歴
                                 <span className="ml-3 text-label-md text-neutral-500 normal-case font-medium">スクロールして詳細を見る</span>
                             </h3>
-                            <div className="relative max-h-[35vh] md:max-h-[45vh] overflow-y-auto pr-4 no-scrollbar">
+                            <div className="relative max-h-[50vh] md:max-h-[60vh] overflow-y-auto pr-4 no-scrollbar">
                                 <div className="absolute top-0 bottom-[-240px] left-[6px] w-[1px] bg-gradient-to-b from-brand-500 via-accent-500 to-brand-500"></div>
 
                                 {data.timelineItems && data.timelineItems.map((item, index) => (
