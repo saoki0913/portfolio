@@ -1,0 +1,15 @@
+{
+  "types": [
+    { "type": "feat", "section": "Features" },
+    { "type": "fix", "section": "Bug Fixes" },
+    { "type": "refactor", "section": "Refactoring" },
+    { "type": "perf", "section": "Performance" },
+    { "type": "docs", "section": "Documentation" },
+    { "type": "style", "section": "Styling" },
+    { "type": "test", "section": "Tests" },
+    { "type": "chore", "hidden": true },
+    { "type": "build", "hidden": true }
+  ],
+  "commitUrlFormat": "https://github.com/saoki0913/portfolio/commit/{{hash}}",
+  "compareUrlFormat": "https://github.com/saoki0913/portfolio/compare/{{previousTag}}...{{currentTag}}"
+}
