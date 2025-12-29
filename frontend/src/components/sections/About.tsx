@@ -83,7 +83,7 @@ export const About = () => {
 
                 {/* プロフィール概要 */}
                 <div className="w-full mb-12 md:mb-16">
-                    <p className="text-lg md:text-xl leading-relaxed">
+                    <p className="text-lg md:text-xl leading-8 px-2.5">
                         早稲田大学創造理工学研究科の修士1年生として、菅野研究室で「人とロボットの共生」をテーマに研究を行っています。深層予測学習を用いた双腕ヒューマノイドロボットの動作生成に関する研究に取り組み、限られた動作教示から柔軟な動作を生成する技術の開発に注力しています。また、企業では主にAzureを活用したWebアプリ開発やRAGシステムの構築に携わっています。
                     </p>
                 </div>
@@ -91,32 +91,26 @@ export const About = () => {
                 <div className="grid md:grid-cols-2 gap-10 md:gap-16">
                     {/* 研究活動 */}
                     <div>
-                        <h3 className="text-lg md:text-xl font-medium mb-6 md:mb-8 uppercase">研究活動</h3>
-                        {research && (
-                            <div className="space-y-4">
-                                <div className="flex flex-col md:items-start justify-between mb-3">
-                                    <h4 className="text-lg md:text-xl font-medium">
-                                        {research.institution}
-                                    </h4>
-                                    <div className="flex items-center mt-1">
-                                        <span className="text-sm md:text-base text-gray-600">
-                                            {research.start_date} 〜 {research.end_date || '現在'}
-                                        </span>
-                                    </div>
-                                </div>
-                                <p className="text-base md:text-lg leading-relaxed">
-                                    {research.description?.replace('菅野研究室 認知ロボティクス研究。', '')}
-                                </p>
-                            </div>
-                        )}
-                        {!research && (
-                            <p className="text-base md:text-lg leading-relaxed text-gray-500 italic">研究活動データがありません</p>
-                        )}
+                        <h3 className="text-lg md:text-xl font-bold mb-6 md:mb-8 uppercase leading-8">研究活動</h3>
+                        <div className="space-y-4">
+                            <p className="text-base md:text-lg leading-relaxed">
+                                人とロボットが共生する社会の実現に向け、深層学習を用いた双腕ロボットの動作生成研究に取り組んでいます。
+                            </p>
+                            <p className="text-base md:text-lg leading-relaxed">
+                                少子高齢化や人手不足が深刻化する中、ロボットが人の代わりに柔軟に作業できる技術基盤が必要です。特に、物体と接触しながら手先位置の相対関係が変化する「部分拘束協調作業」に着目しました。
+                            </p>
+                            <p className="text-base md:text-lg leading-relaxed">
+                                人間の脳が左右の情報を統合する仕組みを参考に、階層型深層予測学習モデル（HLSTM）を採用。下位層で左右各腕を個別に学習し、上位層で協調パターンを統合することで、ノイズに強く安定した協調動作の生成を実現しました。
+                            </p>
+                            <p className="text-base md:text-lg leading-relaxed">
+                                この研究成果は、介護支援ロボットや家庭用ロボットの実用化を通じて、介護従事者の負担軽減や高齢者の自立支援への貢献が期待されます。今後はタオルたたみや箱詰めなど他の双腕タスクへ応用を進め、人とロボットが共生する社会実現に貢献していきます。
+                            </p>
+                        </div>
                     </div>
 
                     {/* 職務経験 */}
                     <div>
-                        <h3 className="text-lg md:text-xl font-medium mb-6 md:mb-8 uppercase">職務経験</h3>
+                        <h3 className="text-lg md:text-xl font-bold mb-6 md:mb-8 uppercase">職務経験</h3>
                         <div className="space-y-8">
                             {workExperiences.map((exp, index) => (
                                 <div key={index} className="mb-8 last:mb-0">

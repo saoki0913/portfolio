@@ -47,19 +47,6 @@ const skillCategories: SkillCategory[] = [
     }
 ]
 
-// 習熟度レベルを判定する関数
-const getSkillLevel = (level: number): { label: string; color: string; bgColor: string } => {
-    if (level >= 80) {
-        return { label: 'エキスパート', color: 'text-emerald-700', bgColor: 'bg-emerald-100' };
-    } else if (level >= 60) {
-        return { label: '上級', color: 'text-blue-700', bgColor: 'bg-blue-100' };
-    } else if (level >= 40) {
-        return { label: '中級', color: 'text-amber-700', bgColor: 'bg-amber-100' };
-    } else {
-        return { label: '初級', color: 'text-neutral-600', bgColor: 'bg-neutral-100' };
-    }
-};
-
 // プログレスバーの色を取得する関数
 const getProgressColor = (level: number): string => {
     if (level >= 80) {
@@ -112,44 +99,10 @@ export const Skills = () => {
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.6 }}
                 >
-                    <div className="flex items-center gap-4 mb-6">
-                        <motion.div
-                            className="h-1 w-12 bg-gradient-primary rounded-full"
-                            initial={{ width: 0 }}
-                            animate={isInView ? { width: "3rem" } : {}}
-                            transition={{ duration: 0.8, delay: 0.2 }}
-                        />
-                        <h2 className="text-display-md md:text-display-lg tracking-tight bg-gradient-primary bg-clip-text text-transparent font-bold">
-                            Skills
-                        </h2>
-                    </div>
-                    <p className="text-neutral-600 text-body-lg md:text-h4 ml-16 max-w-2xl">
+                    <h2 className="text-3xl md:text-4xl font-medium mb-6">Skills</h2>
+                    <p className="text-neutral-600 text-body-lg md:text-h4 max-w-2xl">
                         日々の学習と実践で培った技術スタック
                     </p>
-                </motion.div>
-
-                {/* レベル凡例 */}
-                <motion.div
-                    className="mb-10 md:mb-14"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.5, delay: 0.1 }}
-                >
-                    <div className="flex flex-wrap justify-center gap-3 md:gap-6">
-                        {[
-                            { label: 'エキスパート', range: '80-100%', color: 'bg-emerald-100 text-emerald-700 border-emerald-200' },
-                            { label: '上級', range: '60-79%', color: 'bg-blue-100 text-blue-700 border-blue-200' },
-                            { label: '中級', range: '40-59%', color: 'bg-amber-100 text-amber-700 border-amber-200' },
-                            { label: '初級', range: '0-39%', color: 'bg-neutral-100 text-neutral-600 border-neutral-200' },
-                        ].map((item) => (
-                            <div
-                                key={item.label}
-                                className={`px-3 py-1.5 rounded-full text-xs md:text-sm font-medium border ${item.color}`}
-                            >
-                                {item.label} ({item.range})
-                            </div>
-                        ))}
-                    </div>
                 </motion.div>
 
                 {/* スキルカテゴリグリッド */}
@@ -183,7 +136,6 @@ export const Skills = () => {
                             </div>
                             <ul className="space-y-5 md:space-y-6 relative z-10">
                                 {category.skills.map((skill, skillIndex) => {
-                                    const skillLevel = getSkillLevel(skill.level);
                                     const progressColor = getProgressColor(skill.level);
 
                                     return (
@@ -199,15 +151,6 @@ export const Skills = () => {
                                                     {skill.name}
                                                 </span>
                                                 <div className="flex items-center gap-2">
-                                                    {/* 習熟度バッジ */}
-                                                    <motion.span
-                                                        className={`text-xs font-bold px-2 py-0.5 rounded-full ${skillLevel.bgColor} ${skillLevel.color}`}
-                                                        initial={{ opacity: 0, scale: 0.8 }}
-                                                        animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                                                        transition={{ duration: 0.3, delay: categoryIndex * 0.1 + skillIndex * 0.1 + 0.8 }}
-                                                    >
-                                                        {skillLevel.label}
-                                                    </motion.span>
                                                     {/* パーセント表示 */}
                                                     <motion.span
                                                         className="text-body-sm font-bold text-neutral-500 min-w-[40px] text-right"

@@ -47,7 +47,7 @@ export const Works = () => {
     const isInView = useInView(sectionRef, { once: true, margin: "-100px" })
 
     return (
-        <section ref={sectionRef} id="works" className="mt-24 md:mt-32 py-16 md:py-24 px-4 md:px-6 relative overflow-hidden">
+        <section ref={sectionRef} id="works" className="mt-24 md:mt-32 py-16 md:py-24 px-4 md:px-6 ml-2 relative overflow-hidden">
             {/* 背景装飾 */}
             <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
             <motion.div
@@ -83,18 +83,8 @@ export const Works = () => {
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.6 }}
                 >
-                    <div className="flex items-center gap-4 mb-6">
-                        <motion.div
-                            className="h-1 w-12 bg-gradient-primary rounded-full"
-                            initial={{ width: 0 }}
-                            animate={isInView ? { width: "3rem" } : {}}
-                            transition={{ duration: 0.8, delay: 0.2 }}
-                        />
-                        <h2 className="text-display-md md:text-display-lg tracking-tight bg-gradient-primary bg-clip-text text-transparent font-bold">
-                            Works
-                        </h2>
-                    </div>
-                    <p className="text-neutral-600 text-body-lg md:text-h4 ml-16 max-w-2xl">
+                    <h2 className="text-3xl md:text-4xl font-medium mb-6">Works</h2>
+                    <p className="text-neutral-600 text-body-lg md:text-h4 max-w-2xl">
                         これまでに手がけたプロジェクトをご紹介します
                     </p>
                 </motion.div>
