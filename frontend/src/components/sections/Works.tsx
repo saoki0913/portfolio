@@ -90,7 +90,7 @@ export const Works = () => {
                             animate={isInView ? { width: "3rem" } : {}}
                             transition={{ duration: 0.8, delay: 0.2 }}
                         />
-                        <h2 className="text-display-md md:text-display-lg tracking-tight bg-gradient-primary bg-clip-text text-transparent">
+                        <h2 className="text-display-md md:text-display-lg tracking-tight bg-gradient-primary bg-clip-text text-transparent font-bold">
                             Works
                         </h2>
                     </div>

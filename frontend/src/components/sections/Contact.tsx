@@ -1,13 +1,75 @@
+'use client'
+
 import { ContactForm } from '@/components/ContactForm'
+import { useRef } from 'react'
+import { motion, useInView } from 'framer-motion'
 
 export const Contact = () => {
+    const sectionRef = useRef<HTMLElement>(null)
+    const isInView = useInView(sectionRef, { once: true, margin: "-100px" })
+
     return (
-        <section id="contact" className="mt-24 md:mt-28 py-12 md:py-20 px-4 md:px-6">
+        <section ref={sectionRef} id="contact" className="mt-24 md:mt-32 py-16 md:py-24 px-4 md:px-6 bg-gradient-to-b from-white via-neutral-50 to-white relative overflow-hidden">
+            {/* 背景装飾 */}
+            <motion.div
+                className="absolute top-20 left-10 w-80 h-80 bg-gradient-to-br from-neutral-200/30 to-neutral-300/20 rounded-full blur-3xl -z-10"
+                animate={{
+                    scale: [1, 1.1, 1],
+                    opacity: [0.2, 0.4, 0.2]
+                }}
+                transition={{
+                    duration: 8,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                }}
+            />
+            <motion.div
+                className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-tl from-neutral-300/20 to-neutral-200/30 rounded-full blur-3xl -z-10"
+                animate={{
+                    scale: [1, 1.2, 1],
+                    opacity: [0.2, 0.3, 0.2]
+                }}
+                transition={{
+                    duration: 10,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                }}
+            />
+
             <div className="container mx-auto">
-                <h2 className="text-3xl md:text-4xl font-medium mb-12 md:mb-20">Contact</h2>
-                <div className="max-w-3xl mx-auto">
-                    <ContactForm />
-                </div>
+                {/* セクションヘッダー */}
+                <motion.div
+                    className="mb-16 md:mb-24"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.6 }}
+                >
+                    <div className="flex items-center gap-4 mb-6">
+                        <motion.div
+                            className="h-1 w-12 bg-gradient-to-r from-neutral-700 to-neutral-500 rounded-full"
+                            initial={{ width: 0 }}
+                            animate={isInView ? { width: "3rem" } : {}}
+                            transition={{ duration: 0.8, delay: 0.2 }}
+                        />
+                        <h2 className="text-display-md md:text-display-lg tracking-tight text-neutral-800 font-bold">
+                            Contact
+                        </h2>
+                    </div>
+                    <p className="text-neutral-600 text-body-lg md:text-h4 ml-16 max-w-2xl">
+                        お気軽にお問い合わせください
+                    </p>
+                </motion.div>
+
+                <motion.div
+                    className="max-w-2xl mx-auto"
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                >
+                    <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 shadow-lg border border-neutral-100">
+                        <ContactForm />
+                    </div>
+                </motion.div>
             </div>
         </section>
     )
