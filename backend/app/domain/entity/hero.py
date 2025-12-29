@@ -1,14 +1,15 @@
 from pydantic import BaseModel
+from typing import Optional
 
 
 class HeroIntroduction(BaseModel):
-    id: int
-    introduction_text: str
+    id: str
+    content: str
 
 
 class TimelineItem(BaseModel):
-    id: int
-    year: str
+    id: str
+    period: str
     title: str
-    description: str
-    order_index: int
+    subtitle: Optional[str] = None
+    sort_order: int

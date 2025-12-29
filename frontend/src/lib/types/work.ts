@@ -1,25 +1,16 @@
-export interface Link {
-    github?: string;
-    demo?: string;
-    blog?: string;
-}
-
-export interface Screenshot {
-    url: string;
-    caption?: string;
-}
-
 export interface Work {
-    id: string;
-    title: string;
-    description: string;
-    thumbnail: string;
-    category: string;
-    featured: boolean;
-    technologies: string[];
-    links?: Link;
-    screenshots?: Screenshot[];
-    duration?: string;
-    role?: string;
-    learnings?: string;
-} 
+  id: string;
+  title: string;
+  description: string;
+  thumbnail: string;
+  category: string;
+  featured?: boolean;
+  technologies: string[];
+  github_link?: string | null;
+  demo_link?: string | null;
+  blog_link?: string | null;
+  screenshots?: Record<string, unknown> | null;
+  duration?: string | null;
+  role?: string | null;
+  learnings?: string | null;
+}

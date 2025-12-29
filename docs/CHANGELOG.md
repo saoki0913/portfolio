@@ -7,6 +7,46 @@
 
 ## [Unreleased]
 
+## [3.0.0] - 2025-12-29
+
+### Added（追加）
+- Supabaseデータベースに詳細なポートフォリオコンテンツを追加
+  - Works: Azure RAGシステム（13技術）、スケジュール管理（11技術）、ポートフォリオ（11技術）の詳細情報
+  - Skills: 21の新しいスキル追加（SQL, Tailwind CSS, MUI, Pydantic, Uvicorn, LangChain, PostgreSQL, Supabase, Azure Cosmos DB, Vercel, Render, Azure OpenAI Service, OpenAI API, RAG, 深層学習, Microsoft Graph API, SharePoint Online, Mypy, Flake8, Vitest, Playwright）
+  - Skills: 新カテゴリ「データベース」「AI・機械学習」を追加
+  - Timeline: EQUES株式会社の経験を追加（2025.2 - 現在、11ヶ月）
+  - Experience: Intelligent Force（5つの成果）、EQUES（7つの成果）の詳細を追加
+  - Education: 双腕ロボット研究の詳細説明を追加
+  - About: 研究内容（階層型深層予測学習モデル、LSTM + Union-LSTM、皿洗い動作実験）を追加
+- フロントエンド型定義ファイルを新規追加
+  - `hero.ts`: HeroIntroduction, TimelineItem型
+  - `SkillCategory`型をskill.tsに追加
+
+### Changed（変更）
+- バックエンドエンティティをSupabaseスキーマに完全同期
+  - Work: id型をstr化、github_link/demo_link/blog_link/screenshots/duration/role/learningsフィールド追加
+  - Skill: icon, descriptionフィールド追加
+  - Hero: introduction_text→content、year→period、description→subtitle、order_index→sort_orderに変更
+  - About: About/Education/Experience/SocialMediaエンティティを完全再構築
+  - AboutResponse: about objectを含む構造に変更
+- バックエンドリポジトリの実装を更新
+  - 全リポジトリのorder_indexをSupabaseの実フィールド（sort_order, start_date等）に変更
+  - work_id型をint→strに変更（全レイヤー）
+- フロントエンドAPI型定義をバックエンドに同期
+  - Work, Skill, About, Education, Experience, SocialMedia, AboutResponse型を完全一致
+  - works.ts, hero.ts APIクライアントで型インポートを整理
+  - AboutResponse型を使用するようAbout.tsxを更新
+  - HeroSection, ProjectInfoコンポーネントをgithub_link/demo_link/blog_linkフィールドに対応
+
+### Fixed（修正）
+- Screenshots.tsxの型エラーを修正（Record型を配列として扱う処理を追加）
+- フロントエンドビルドエラーをすべて解消
+
+### Removed（削除）
+- 未使用ファイル `project-detail-layout.tsx` を削除
+- Pythonキャッシュファイル（`__pycache__`, `*.pyc`）をクリーンアップ
+- .DS_Storeファイルをクリーンアップ
+
 ## [2.1.0] - 2025-12-29
 
 ### Added（追加）

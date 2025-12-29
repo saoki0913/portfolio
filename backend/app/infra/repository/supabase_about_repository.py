@@ -15,16 +15,16 @@ class SupabaseAboutRepository(IAboutRepository):
         return None
 
     async def get_education(self) -> list[Education]:
-        """学歴取得"""
-        response = self.client.table("education").select("*").order("order_index").execute()
+        """学歴取得（新しい順）"""
+        response = self.client.table("education").select("*").order("start_date", desc=True).execute()
         return [Education(**edu) for edu in response.data]
 
     async def get_experience(self) -> list[Experience]:
-        """職歴取得"""
-        response = self.client.table("experience").select("*").order("order_index").execute()
+        """職歴取得（新しい順）"""
+        response = self.client.table("experience").select("*").order("start_date", desc=True).execute()
         return [Experience(**exp) for exp in response.data]
 
     async def get_social_media(self) -> list[SocialMedia]:
         """ソーシャルメディア取得"""
-        response = self.client.table("social_media").select("*").order("order_index").execute()
+        response = self.client.table("social_media").select("*").execute()
         return [SocialMedia(**sm) for sm in response.data]

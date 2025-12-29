@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from 'react'
 import { getAboutInfo } from '@/lib/api/about'
-import { About as AboutType } from '@/lib/types/about'
+import { AboutResponse } from '@/lib/types/about'
 
 export const About = () => {
-    const [aboutData, setAboutData] = useState<AboutType | null>(null)
+    const [aboutData, setAboutData] = useState<AboutResponse | null>(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
 

@@ -34,15 +34,13 @@ export const getAllWorks = async (
         category: work.category,
         featured: work.featured,
         technologies: work.technologies || [],
-        links: {
-            github: work.github_link || undefined,
-            demo: work.demo_link || undefined,
-            blog: work.blog_link || undefined,
-        },
-        screenshots: work.screenshots || undefined,
-        duration: work.duration || undefined,
-        role: work.role || undefined,
-        learnings: work.learnings || undefined,
+        github_link: work.github_link || null,
+        demo_link: work.demo_link || null,
+        blog_link: work.blog_link || null,
+        screenshots: work.screenshots || null,
+        duration: work.duration || null,
+        role: work.role || null,
+        learnings: work.learnings || null,
     }));
 };
 
@@ -67,14 +65,12 @@ export const getWorkById = async (id: string): Promise<Work> => {
         category: data.category,
         featured: data.featured,
         technologies: data.technologies || [],
-        links: {
-            github: data.github_link || undefined,
-            demo: data.demo_link || undefined,
-            blog: data.blog_link || undefined,
-        },
-        screenshots: data.screenshots || undefined,
-        duration: data.duration || undefined,
-        role: data.role || undefined,
-        learnings: data.learnings || undefined,
+        github_link: data.github_link || null,
+        demo_link: data.demo_link || null,
+        blog_link: data.blog_link || null,
+        screenshots: data.screenshots || null,
+        duration: data.duration || null,
+        role: data.role || null,
+        learnings: data.learnings || null,
     };
 }; 

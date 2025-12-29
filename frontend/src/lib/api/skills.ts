@@ -31,11 +31,12 @@ export const getAllSkills = async (
             categoryMap.set(category, []);
         }
         categoryMap.get(category)!.push({
+            id: skill.id,
             name: skill.name,
             level: skill.level,
             category: skill.category,
-            icon: skill.icon || undefined,
-            description: skill.description || undefined,
+            icon: skill.icon || null,
+            description: skill.description || null,
         });
     });
 

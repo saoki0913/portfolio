@@ -11,7 +11,7 @@ class WorkUseCase:
         """全作品取得"""
         return await self.repository.find_all()
 
-    async def get_work_by_id(self, work_id: int) -> Work:
+    async def get_work_by_id(self, work_id: str) -> Work:
         """作品詳細取得"""
         work = await self.repository.find_by_id(work_id)
         if not work:

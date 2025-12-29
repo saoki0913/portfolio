@@ -4,6 +4,11 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { Work } from '@/lib/types/work';
 
+type Screenshot = {
+    url: string;
+    caption?: string;
+};
+
 type Props = {
     work: Work;
 };
@@ -11,11 +16,22 @@ type Props = {
 export function Screenshots({ work }: Props) {
     const [activeIndex, setActiveIndex] = useState(0);
 
-    if (!work.screenshots || work.screenshots.length === 0) {
+    if (!work.screenshots || typeof work.screenshots !== 'object') {
         return null;
     }
 
-    const screenshots = work.screenshots;
+    // screenshotsがオブジェクトの場合、配列に変換（または配列として扱う）
+    const screenshotsArray = Array.isArray(work.screenshots)
+        ? work.screenshots
+        : Object.values(work.screenshots).filter((item): item is Screenshot =>
+            typeof item === 'object' && item !== null && 'url' in item
+          );
+
+    if (screenshotsArray.length === 0) {
+        return null;
+    }
+
+    const screenshots = screenshotsArray as Screenshot[];
 
     return (
         <section>

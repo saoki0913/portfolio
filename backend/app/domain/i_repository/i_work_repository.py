@@ -9,6 +9,6 @@ class IWorkRepository(ABC):
         pass
 
     @abstractmethod
-    async def find_by_id(self, work_id: int) -> Work | None:
+    async def find_by_id(self, work_id: str) -> Work | None:
         """作品詳細取得"""
         pass

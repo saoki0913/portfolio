@@ -1,34 +1,45 @@
+export interface About {
+  id: number;
+  name: string;
+  title: string;
+  summary: string;
+  profile_image: string;
+  bio: string;
+}
+
 export interface Education {
-    institution: string;
-    degree: string;
-    field: string;
-    start_date: string;
-    end_date?: string;
-    description?: string;
+  id: number;
+  about_id?: number | null;
+  institution: string;
+  degree: string;
+  field: string;
+  start_date: string;
+  end_date?: string | null;
+  description?: string | null;
 }
 
 export interface Experience {
-    company: string;
-    position: string;
-    start_date: string;
-    end_date?: string;
-    description?: string;
-    achievements?: string[];
+  id: number;
+  about_id?: number | null;
+  company: string;
+  position: string;
+  start_date: string;
+  end_date?: string | null;
+  description?: string | null;
+  achievements?: string[] | null;
 }
 
 export interface SocialMedia {
-    platform: string;
-    url: string;
-    username?: string;
+  id: number;
+  about_id?: number | null;
+  platform: string;
+  url: string;
+  username?: string | null;
 }
 
-export interface About {
-    name: string;
-    title: string;
-    summary: string;
-    profile_image: string;
-    bio: string;
-    education: Education[];
-    experience: Experience[];
-    social_media: SocialMedia[];
+export interface AboutResponse {
+  about: About;
+  education: Education[];
+  experience: Experience[];
+  social_media: SocialMedia[];
 } 

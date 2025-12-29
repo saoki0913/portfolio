@@ -1,12 +1,19 @@
 from pydantic import BaseModel
+from typing import Optional
 
 
 class Work(BaseModel):
-    id: int
+    id: str
     title: str
     description: str
-    tech_stack: list[str]
-    github_url: str | None = None
-    demo_url: str | None = None
-    image_url: str | None = None
-    order_index: int
+    thumbnail: str
+    category: str
+    featured: Optional[bool] = False
+    technologies: list[str]
+    github_link: Optional[str] = None
+    demo_link: Optional[str] = None
+    blog_link: Optional[str] = None
+    screenshots: Optional[dict] = None
+    duration: Optional[str] = None
+    role: Optional[str] = None
+    learnings: Optional[str] = None

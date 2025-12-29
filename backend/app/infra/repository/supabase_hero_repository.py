@@ -15,6 +15,6 @@ class SupabaseHeroRepository(IHeroRepository):
         return None
 
     async def get_timeline(self) -> list[TimelineItem]:
-        """タイムライン取得"""
-        response = self.client.table("timeline_items").select("*").order("order_index").execute()
+        """タイムライン取得（sort_order順）"""
+        response = self.client.table("timeline_items").select("*").order("sort_order").execute()
         return [TimelineItem(**item) for item in response.data]

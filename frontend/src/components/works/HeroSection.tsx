@@ -34,23 +34,23 @@ export function HeroSection({ work }: Props) {
                         {work.description}
                     </p>
                     <div className="flex flex-wrap justify-center gap-5">
-                        {work.links?.github && (
+                        {work.github_link && (
                             <Button
                                 variant="outline"
                                 size="lg"
                                 className="bg-transparent backdrop-blur-sm border-white/20 text-white hover:bg-white hover:text-black transition-all duration-300 rounded-sm"
-                                onClick={() => work.links?.github && window.open(work.links.github, '_blank')}
+                                onClick={() => work.github_link && window.open(work.github_link, '_blank')}
                             >
                                 <Github className="w-5 h-5 mr-2" />
                                 GitHub
                             </Button>
                         )}
-                        {work.links?.demo && (
+                        {work.demo_link && (
                             <Button
                                 variant="outline"
                                 size="lg"
                                 className="bg-white text-black hover:bg-transparent hover:text-white hover:border-white/30 transition-all duration-300 rounded-sm"
-                                onClick={() => work.links?.demo && window.open(work.links.demo, '_blank')}
+                                onClick={() => work.demo_link && window.open(work.demo_link, '_blank')}
                             >
                                 <ExternalLink className="w-5 h-5 mr-2" />
                                 デモを見る

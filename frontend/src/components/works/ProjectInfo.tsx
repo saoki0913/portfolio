@@ -31,9 +31,9 @@ export function ProjectInfo({ work }: Props) {
                     </div>
 
                     <div className="flex flex-wrap gap-4">
-                        {work.links?.github && (
+                        {work.github_link && (
                             <a
-                                href={work.links.github}
+                                href={work.github_link}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center text-gray-700 hover:text-black transition-colors"
@@ -42,9 +42,9 @@ export function ProjectInfo({ work }: Props) {
                                 ソースコード
                             </a>
                         )}
-                        {work.links?.demo && (
+                        {work.demo_link && (
                             <a
-                                href={work.links.demo}
+                                href={work.demo_link}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center text-gray-700 hover:text-black transition-colors"
@@ -53,9 +53,9 @@ export function ProjectInfo({ work }: Props) {
                                 デモを見る
                             </a>
                         )}
-                        {work.links?.blog && (
+                        {work.blog_link && (
                             <a
-                                href={work.links.blog}
+                                href={work.blog_link}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center text-gray-700 hover:text-black transition-colors"

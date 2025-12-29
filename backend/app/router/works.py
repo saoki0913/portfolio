@@ -13,6 +13,6 @@ async def get_all_works(usecase: WorkUseCase = Depends(get_work_usecase)):
 
 
 @router.get("/{work_id}", response_model=Work)
-async def get_work_by_id(work_id: int, usecase: WorkUseCase = Depends(get_work_usecase)):
+async def get_work_by_id(work_id: str, usecase: WorkUseCase = Depends(get_work_usecase)):
     """作品詳細取得"""
     return await usecase.get_work_by_id(work_id)

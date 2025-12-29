@@ -1,17 +1,5 @@
 import { supabase } from '../supabase/client';
-
-export interface TimelineItem {
-    id: string;
-    period: string;
-    title: string;
-    subtitle?: string;
-    sort_order: number;
-}
-
-export interface HeroIntroduction {
-    id: string;
-    content: string;
-}
+import { HeroIntroduction, TimelineItem } from '../types/hero';
 
 export interface HeroData {
     introduction: HeroIntroduction;

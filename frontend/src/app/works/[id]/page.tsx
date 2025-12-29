@@ -60,7 +60,7 @@ export default async function WorkPage({ params }: Props) {
                 </div>
 
                 {/* スクリーンショット */}
-                {work.screenshots && work.screenshots.length > 0 && (
+                {work.screenshots && Object.keys(work.screenshots).length > 0 && (
                     <div className="mt-16 mb-16 relative bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-gray-100 shadow-sm">
                         <div className="absolute -inset-10 bg-gradient-to-b from-gray-100/0 via-gray-100/60 to-gray-100/0 -z-10 blur-3xl" />
                         <Screenshots work={work} />
@@ -127,9 +127,9 @@ export default async function WorkPage({ params }: Props) {
                             <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
                             他のプロジェクトを見る
                         </Link>
-                        {work.links?.demo && (
+                        {work.demo_link && (
                             <a
-                                href={work.links.demo}
+                                href={work.demo_link}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition-colors shadow-md hover:shadow-lg font-medium"

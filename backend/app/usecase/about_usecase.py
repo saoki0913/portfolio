@@ -7,14 +7,14 @@ class AboutUseCase:
         self.repository = repository
 
     async def get_about_data(self) -> AboutResponse:
-        """About情報全体取得"""
+        """プロフィール総合データ取得"""
         about = await self.repository.get_about()
         education = await self.repository.get_education()
         experience = await self.repository.get_experience()
         social_media = await self.repository.get_social_media()
 
         return AboutResponse(
-            bio=about.bio if about else "",
+            about=about,
             education=education,
             experience=experience,
             social_media=social_media
