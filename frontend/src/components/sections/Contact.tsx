@@ -45,13 +45,7 @@ export const Contact = () => {
                     transition={{ duration: 0.6 }}
                 >
                     <div className="flex items-center gap-4 mb-6">
-                        <motion.div
-                            className="h-1 w-12 bg-gradient-to-r from-neutral-700 to-neutral-500 rounded-full"
-                            initial={{ width: 0 }}
-                            animate={isInView ? { width: "3rem" } : {}}
-                            transition={{ duration: 0.8, delay: 0.2 }}
-                        />
-                        <h2 className="text-display-md md:text-display-lg tracking-tight text-neutral-800 font-bold">
+                        <h2 className="text-display-md md:text-display-lg tracking-tight text-neutral-800 font-bold px-2.5" style={{ width: '200px', height: '50px', fontSize: '32px' }}>
                             Contact
                         </h2>
                     </div>
