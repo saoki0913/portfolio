@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useLayoutEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { AnimatePresence } from 'framer-motion'
 import { Header } from '@/components/sections/Header'
 import { Hero } from '@/components/sections/Hero'
 import { About } from '@/components/sections/About'
@@ -134,37 +133,37 @@ function HomeContent() {
 
   return (
     <div className="relative">
-      <AnimatePresence mode="wait">
-        {isLoading && (
-          <OpeningLoading finishLoading={handleLoadingFinish} />
-        )}
-      </AnimatePresence>
-
-      {!isLoading && (
-        <>
-            <div className="fixed-header-container">
-            <Header />
-            </div>
-            
-            <main
-                className="min-h-screen bg-white text-[#1a1a1a] transition-opacity duration-1000"
-                style={{
-                    paddingTop: '80px',
-                    opacity: showContent ? 1 : 0
-                }}
-            >
-                <div className="animate-fade-in animate-delay-300">
-                    <Hero />
-                </div>
-                <div className="animate-fade-in animate-delay-500">
-                    <About />
-                    <Works />
-                    <Skills />
-                    <Contact />
-                </div>
-            </main>
-        </>
+      {/* ローディング画面 */}
+      {isLoading && (
+        <OpeningLoading finishLoading={handleLoadingFinish} />
       )}
+
+      {/* メインコンテンツ - ローディング完了後に表示 */}
+      <div
+        className={`transition-opacity duration-700 ease-out ${
+          showContent ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
+        style={{ visibility: isLoading ? 'hidden' : 'visible' }}
+      >
+        <div className="fixed-header-container">
+          <Header />
+        </div>
+
+        <main
+          className="min-h-screen bg-white text-[#1a1a1a]"
+          style={{ paddingTop: '80px' }}
+        >
+          <div className="animate-fade-in animate-delay-200">
+            <Hero />
+          </div>
+          <div className="animate-fade-in animate-delay-400">
+            <About />
+            <Works />
+            <Skills />
+            <Contact />
+          </div>
+        </main>
+      </div>
     </div>
   )
 }

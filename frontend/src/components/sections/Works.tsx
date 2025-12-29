@@ -167,10 +167,9 @@ export const Works = () => {
                                                         animate={hoveredIndex === index ? { opacity: 1, scale: 1 } : { opacity: 1, scale: 1 }}
                                                         transition={{ duration: 0.2, delay: techIndex * 0.05 }}
                                                         whileHover={{
-                                                            scale: 1.05,
-                                                            backgroundColor: "oklch(65% 0.20 250)",
-                                                            color: "white",
-                                                            borderColor: "oklch(65% 0.20 250)"
+                                                            scale: 1.02,
+                                                            backgroundColor: "oklch(95% 0.05 250)", // 薄い青背景のまま少し濃く
+                                                            borderColor: "oklch(65% 0.20 250)"      // ボーダーだけ濃く
                                                         }}
                                                     >
                                                         {tech}
