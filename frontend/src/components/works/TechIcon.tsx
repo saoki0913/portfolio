@@ -11,11 +11,12 @@ import {
     SiPytorch, SiTensorflow, SiKeras, SiScikitlearn, SiOpenai,
     SiGoogleanalytics, SiGrafana, SiKibana, SiPrometheus,
     SiAuth0, SiJsonwebtokens, SiAdobeacrobatreader,
-    SiLinux, SiRos
+    SiLinux, SiRos,
+    SiSupabase, SiVercel, SiMui, SiPydantic
 } from 'react-icons/si';
 
 import { FaServer, FaSearchengin, FaJava, FaAws, FaMicrosoft } from 'react-icons/fa';
-import { TbApi, TbLock, TbFileText, TbBrain, TbBrandCSharp } from 'react-icons/tb';
+import { TbApi, TbLock, TbFileText, TbBrain, TbBrandCSharp, TbLink, TbDatabase, TbCloudComputing } from 'react-icons/tb';
 
 type TechIconProps = {
     tech: string;
@@ -49,6 +50,9 @@ export function TechIcon({ tech, className = "w-6 h-6" }: TechIconProps) {
     } else if (techLower.includes('tailwind')) {
         color = "#06B6D4"; // Tailwind Blue
         IconComponent = SiTailwindcss;
+    } else if (techLower.includes('mui') || techLower.includes('material-ui') || techLower.includes('material ui')) {
+        color = "#007FFF"; // MUI Blue
+        IconComponent = SiMui;
     }
 
     // Programming Languages
@@ -112,6 +116,12 @@ export function TechIcon({ tech, className = "w-6 h-6" }: TechIconProps) {
     } else if (techLower.includes('graphql')) {
         color = "#E10098"; // GraphQL Pink
         IconComponent = SiGraphql;
+    } else if (techLower.includes('pydantic')) {
+        color = "#E92063"; // Pydantic Pink
+        IconComponent = SiPydantic;
+    } else if (techLower.includes('uvicorn')) {
+        color = "#499848"; // Uvicorn Green
+        IconComponent = FaServer;
     }
 
     // Databases
@@ -139,6 +149,12 @@ export function TechIcon({ tech, className = "w-6 h-6" }: TechIconProps) {
     } else if (techLower.includes('firestore')) {
         color = "#FFCA28"; // Firestore Yellow
         IconComponent = SiFirebase;
+    } else if (techLower.includes('supabase')) {
+        color = "#3ECF8E"; // Supabase Green
+        IconComponent = SiSupabase;
+    } else if (techLower.includes('cosmos')) {
+        color = "#0078D4"; // Azure Cosmos DB Blue
+        IconComponent = TbDatabase;
     }
 
     // Cloud & Infrastructure
@@ -148,9 +164,30 @@ export function TechIcon({ tech, className = "w-6 h-6" }: TechIconProps) {
     } else if (techLower.includes('kubernetes') || techLower.includes('k8s')) {
         color = "#326CE5"; // Kubernetes Blue
         IconComponent = SiKubernetes;
+    } else if (techLower.includes('azure openai')) {
+        color = "#0078D4"; // Azure OpenAI Blue
+        IconComponent = SiOpenai;
+    } else if (techLower.includes('azure function')) {
+        color = "#0078D4"; // Azure Functions Blue
+        IconComponent = FaServer;
+    } else if (techLower.includes('azure static web')) {
+        color = "#0078D4"; // Azure Static Web Apps Blue
+        IconComponent = TbCloudComputing;
+    } else if (techLower.includes('azure ai search') || techLower.includes('azure cognitive')) {
+        color = "#0078D4"; // Azure AI Search Blue
+        IconComponent = FaSearchengin;
+    } else if (techLower.includes('azure document intelligence')) {
+        color = "#0078D4"; // Azure Document Intelligence Blue
+        IconComponent = TbFileText;
     } else if (techLower.includes('azure')) {
         color = "#0078D4"; // Azure Blue
-        IconComponent = techLower.includes('function') ? FaServer : FaMicrosoft;
+        IconComponent = FaMicrosoft;
+    } else if (techLower.includes('vercel')) {
+        color = "#000000"; // Vercel Black
+        IconComponent = SiVercel;
+    } else if (techLower.includes('render')) {
+        color = "#46E3B7"; // Render Green
+        IconComponent = TbCloudComputing;
     } else if (techLower.includes('aws')) {
         color = "#FF9900"; // AWS Orange
         IconComponent = FaAws;
@@ -193,6 +230,15 @@ export function TechIcon({ tech, className = "w-6 h-6" }: TechIconProps) {
     } else if (techLower.includes('gpt')) {
         color = "#412991"; // GPT Purple
         IconComponent = SiOpenai;
+    } else if (techLower.includes('langchain')) {
+        color = "#1C3C3C"; // LangChain Dark Green
+        IconComponent = TbLink;
+    } else if (techLower.includes('rag') || techLower.includes('retrieval')) {
+        color = "#6366F1"; // RAG Indigo
+        IconComponent = TbBrain;
+    } else if (techLower.includes('深層学習') || techLower.includes('deep learning')) {
+        color = "#FF6F00"; // Deep Learning Orange
+        IconComponent = TbBrain;
     } else if (techLower.includes('ai') || techLower.includes('intelligence') || techLower.includes('ml')) {
         color = "#00A0D6"; // AI Blue
         IconComponent = TbBrain;
@@ -217,6 +263,18 @@ export function TechIcon({ tech, className = "w-6 h-6" }: TechIconProps) {
     } else if (techLower.includes('prometheus')) {
         color = "#E6522C"; // Prometheus Orange
         IconComponent = SiPrometheus;
+    }
+
+    // Microsoft Services
+    else if (techLower.includes('sharepoint')) {
+        color = "#0078D4"; // SharePoint Blue
+        IconComponent = FaMicrosoft;
+    } else if (techLower.includes('microsoft graph') || techLower.includes('graph api')) {
+        color = "#0078D4"; // Microsoft Graph Blue
+        IconComponent = TbApi;
+    } else if (techLower.includes('msal')) {
+        color = "#0078D4"; // MSAL Blue
+        IconComponent = TbLock;
     }
 
     // Networking & Security
