@@ -49,7 +49,7 @@ export const Contact = () => {
                             Contact
                         </h2>
                     </div>
-                    <p className="text-neutral-600 text-body-lg md:text-h4 ml-16 max-w-2xl">
+                    <p className="text-neutral-600 text-body-lg md:text-h4 px-2.5 max-w-2xl">
                         お気軽にお問い合わせください
                     </p>
                 </motion.div>

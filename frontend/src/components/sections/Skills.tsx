@@ -123,17 +123,6 @@ export const Skills = () => {
                             {/* 背景グラデーション */}
                             <div className="absolute inset-0 bg-gradient-to-br from-brand-50 via-transparent to-accent-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                            <div className="flex items-center gap-3 mb-6 md:mb-8 relative z-10">
-                                <motion.div
-                                    className="h-8 w-1 bg-gradient-primary rounded-full"
-                                    initial={{ height: 0 }}
-                                    animate={isInView ? { height: "2rem" } : {}}
-                                    transition={{ duration: 0.6, delay: categoryIndex * 0.1 + 0.3 }}
-                                />
-                                <h3 className="text-h4 md:text-h3 tracking-tight bg-gradient-primary bg-clip-text text-transparent">
-                                    {category.title}
-                                </h3>
-                            </div>
                             <ul className="space-y-5 md:space-y-6 relative z-10">
                                 {category.skills.map((skill, skillIndex) => {
                                     const progressColor = getProgressColor(skill.level);

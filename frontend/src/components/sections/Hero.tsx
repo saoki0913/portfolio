@@ -102,17 +102,6 @@ export const Hero = () => {
                         style={{ y }}
                     >
                         <motion.div
-                            className="mb-6 md:mb-8"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: 0.2 }}
-                        >
-                            <p className="text-h3 md:text-h2 leading-tight bg-gradient-primary bg-clip-text text-transparent font-bold tracking-tight">
-                                {data.introduction?.content || 'コンテンツがありません'}
-                            </p>
-                        </motion.div>
-
-                        <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, delay: 0.4 }}
