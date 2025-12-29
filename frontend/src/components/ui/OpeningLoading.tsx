@@ -212,22 +212,18 @@ export const OpeningLoading = ({ finishLoading }: OpeningLoadingProps) => {
                     transition={{ delay: 0.4, duration: 0.5, ease: "easeOut" }}
                 >
                     {/* プログレスバー */}
-                    <div className="relative h-1.5 w-full bg-neutral-100 rounded-full overflow-hidden mb-4">
-                        <motion.div
-                            className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500 rounded-full"
-                            initial={{ width: "0%" }}
+                    <div className="relative h-2 w-full bg-neutral-200 rounded-full overflow-hidden mb-4 shadow-inner">
+                        {/* プログレスバー本体 */}
+                        <div
+                            className="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500 rounded-full transition-all duration-100 ease-out"
                             style={{ width: `${displayProgress}%` }}
-                            transition={{ duration: 0.1, ease: "linear" }}
                         />
                         {/* シマー効果 */}
-                        <motion.div
-                            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent"
-                            animate={{ x: ["-100%", "200%"] }}
-                            transition={{
-                                duration: 1.5,
-                                repeat: Infinity,
-                                ease: "easeInOut",
-                                repeatDelay: 0.5
+                        <div
+                            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent animate-shimmer"
+                            style={{
+                                backgroundSize: '200% 100%',
+                                animation: 'shimmer 2s infinite linear'
                             }}
                         />
                     </div>
