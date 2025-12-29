@@ -44,7 +44,7 @@ jobs:
         run: |
           pip install flake8
           # 致命的なエラーのみチェック（これが失敗するとデプロイも失敗する）
-          flake8 src --count --select=E9,F63,F7,F82 --show-source --statistics
+          flake8 app --count --select=E9,F63,F7,F82 --show-source --statistics
 
       - name: Verify FastAPI app can be imported
         run: |
@@ -52,9 +52,9 @@ jobs:
           export SUPABASE_KEY=placeholder-key
           export BACKEND_CORS_ORIGINS='["http://localhost:3000"]'
           python -c "
-          from src.main import app
+          from app.main import app
           print('✅ FastAPI app imported successfully')
-          
+
           # ルートの確認
           routes = [route.path for route in app.routes]
           print(f'✅ Routes found: {len(routes)}')
@@ -67,9 +67,9 @@ jobs:
           export SUPABASE_URL=https://placeholder.supabase.co
           export SUPABASE_KEY=placeholder-key
           export BACKEND_CORS_ORIGINS='["http://localhost:3000"]'
-          
+
           # バックグラウンドでサーバー起動
-          python -m uvicorn src.main:app --host 0.0.0.0 --port 8000 &
+          python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 &
           SERVER_PID=$!
           
           # サーバー起動待機
