@@ -162,17 +162,24 @@ export const Works = () => {
                                                 {work.technologies.slice(0, 4).map((tech, techIndex) => (
                                                     <motion.span
                                                         key={techIndex}
-                                                        className="inline-block px-3 py-1.5 text-label-md font-semibold bg-brand-50 text-brand-600 rounded-full border border-brand-200"
+                                                        className="relative inline-block px-3 py-1.5 text-label-md font-semibold text-brand-600 rounded-full border border-brand-200 overflow-hidden isolate cursor-default"
                                                         initial={{ opacity: 0, scale: 0.8 }}
                                                         animate={hoveredIndex === index ? { opacity: 1, scale: 1 } : { opacity: 1, scale: 1 }}
                                                         transition={{ duration: 0.2, delay: techIndex * 0.05 }}
-                                                        whileHover={{
-                                                            scale: 1.02,
-                                                            backgroundColor: "oklch(95% 0.05 250)", // 薄い青背景のまま少し濃く
-                                                            borderColor: "oklch(65% 0.20 250)"      // ボーダーだけ濃く
-                                                        }}
+                                                        whileHover={{ scale: 1.05 }}
                                                     >
-                                                        {tech}
+                                                        {/* ベースの背景 */}
+                                                        <div className="absolute inset-0 bg-brand-50 -z-20" />
+
+                                                        {/* ホバー時のグラデーション背景 */}
+                                                        <motion.div
+                                                            className="absolute inset-0 bg-gradient-to-br from-brand-100 via-white/50 to-accent-100 -z-10"
+                                                            initial={{ opacity: 0 }}
+                                                            whileHover={{ opacity: 1 }}
+                                                            transition={{ duration: 0.3 }}
+                                                        />
+                                                        
+                                                        <span className="relative z-10">{tech}</span>
                                                     </motion.span>
                                                 ))}
                                                 {work.technologies.length > 4 && (
