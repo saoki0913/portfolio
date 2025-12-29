@@ -89,13 +89,13 @@ export function ContactForm() {
                 >
                     <label
                         htmlFor={field.id}
-                        className="block text-sm font-semibold text-neutral-700 mb-2"
+                        className="block text-sm font-semibold text-neutral-600 mb-2"
                     >
                         {field.label}
                         {field.required && <span className="text-red-500 ml-1">*</span>}
                     </label>
                     <div className="relative group">
-                        <div className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors duration-200 ${focusedField === field.id ? 'text-neutral-700' : 'text-neutral-400'}`}>
+                        <div className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors duration-200 ${focusedField === field.id ? 'text-brand-600' : 'text-neutral-500'}`}>
                             <field.icon className="w-5 h-5" />
                         </div>
                         <input
@@ -106,7 +106,7 @@ export function ContactForm() {
                             placeholder={field.placeholder}
                             onFocus={() => setFocusedField(field.id)}
                             onBlur={() => setFocusedField(null)}
-                            className="w-full pl-12 pr-4 py-4 bg-neutral-50/50 border-2 border-neutral-200 rounded-xl text-neutral-800 placeholder:text-neutral-400 transition-all duration-200 focus:outline-none focus:border-neutral-400 focus:bg-white focus:shadow-md hover:border-neutral-300"
+                            className="w-full pl-12 pr-4 py-4 bg-neutral-50 border border-neutral-200 rounded-xl text-neutral-800 placeholder:text-neutral-400 transition-all duration-200 focus:bg-white focus:outline-none focus:border-brand-400 focus:ring-4 focus:ring-brand-500/10 hover:border-neutral-300"
                         />
                     </div>
                 </motion.div>
@@ -120,13 +120,13 @@ export function ContactForm() {
             >
                 <label
                     htmlFor="message"
-                    className="block text-sm font-semibold text-neutral-700 mb-2"
+                    className="block text-sm font-semibold text-neutral-600 mb-2"
                 >
                     メッセージ
                     <span className="text-red-500 ml-1">*</span>
                 </label>
                 <div className="relative group">
-                    <div className={`absolute left-4 top-4 transition-colors duration-200 ${focusedField === 'message' ? 'text-neutral-700' : 'text-neutral-400'}`}>
+                    <div className={`absolute left-4 top-4 transition-colors duration-200 ${focusedField === 'message' ? 'text-brand-600' : 'text-neutral-500'}`}>
                         <MessageSquare className="w-5 h-5" />
                     </div>
                     <textarea
@@ -137,7 +137,7 @@ export function ContactForm() {
                         placeholder="お問い合わせ内容をご記入ください"
                         onFocus={() => setFocusedField('message')}
                         onBlur={() => setFocusedField(null)}
-                        className="w-full pl-12 pr-4 py-4 bg-neutral-50/50 border-2 border-neutral-200 rounded-xl text-neutral-800 placeholder:text-neutral-400 transition-all duration-200 focus:outline-none focus:border-neutral-400 focus:bg-white focus:shadow-md hover:border-neutral-300 resize-none"
+                        className="w-full pl-12 pr-4 py-4 bg-neutral-50 border border-neutral-200 rounded-xl text-neutral-800 placeholder:text-neutral-400 transition-all duration-200 focus:bg-white focus:outline-none focus:border-brand-400 focus:ring-4 focus:ring-brand-500/10 hover:border-neutral-300 resize-none"
                     />
                 </div>
             </motion.div>
@@ -168,19 +168,21 @@ export function ContactForm() {
                 <Button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full py-6 text-base font-semibold bg-neutral-800 hover:bg-neutral-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed group"
+                    className="w-full py-6 text-base font-semibold bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed group relative overflow-hidden"
                 >
-                    {isSubmitting ? (
-                        <>
-                            <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                            送信中...
-                        </>
-                    ) : (
-                        <>
-                            <Send className="w-5 h-5 mr-2 transition-transform duration-300 group-hover:translate-x-1" />
-                            送信する
-                        </>
-                    )}
+                    <div className="relative flex items-center justify-center">
+                        {isSubmitting ? (
+                            <>
+                                <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                                送信中...
+                            </>
+                        ) : (
+                            <>
+                                <Send className="w-5 h-5 mr-2 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
+                                送信する
+                            </>
+                        )}
+                    </div>
                 </Button>
             </motion.div>
         </form>

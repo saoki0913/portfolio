@@ -9,13 +9,14 @@ export const Contact = () => {
     const isInView = useInView(sectionRef, { once: true, margin: "-100px" })
 
     return (
-        <section ref={sectionRef} id="contact" className="mt-24 md:mt-32 py-16 md:py-24 px-4 md:px-6 bg-gradient-to-b from-white via-neutral-50 to-white relative overflow-hidden">
+        <section ref={sectionRef} id="contact" className="mt-24 md:mt-32 py-16 md:py-24 px-4 md:px-6 ml-2 bg-white relative overflow-hidden">
             {/* 背景装飾 */}
+            <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
             <motion.div
-                className="absolute top-20 left-10 w-80 h-80 bg-gradient-to-br from-neutral-200/30 to-neutral-300/20 rounded-full blur-3xl -z-10"
+                className="absolute top-20 left-10 w-80 h-80 bg-gradient-to-br from-brand-200/30 to-accent-200/20 rounded-full blur-3xl -z-10"
                 animate={{
                     scale: [1, 1.1, 1],
-                    opacity: [0.2, 0.4, 0.2]
+                    opacity: [0.3, 0.5, 0.3]
                 }}
                 transition={{
                     duration: 8,
@@ -24,10 +25,10 @@ export const Contact = () => {
                 }}
             />
             <motion.div
-                className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-tl from-neutral-300/20 to-neutral-200/30 rounded-full blur-3xl -z-10"
+                className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-tl from-accent-200/20 to-brand-200/30 rounded-full blur-3xl -z-10"
                 animate={{
                     scale: [1, 1.2, 1],
-                    opacity: [0.2, 0.3, 0.2]
+                    opacity: [0.3, 0.4, 0.3]
                 }}
                 transition={{
                     duration: 10,
@@ -45,11 +46,11 @@ export const Contact = () => {
                     transition={{ duration: 0.6 }}
                 >
                     <div className="flex items-center gap-4 mb-6">
-                        <h2 className="text-display-md md:text-display-lg tracking-tight text-neutral-800 font-bold px-2.5" style={{ width: '200px', height: '50px', fontSize: '32px' }}>
+                        <h2 className="text-3xl md:text-4xl font-medium text-neutral-900">
                             Contact
                         </h2>
                     </div>
-                    <p className="text-neutral-600 text-body-lg md:text-h4 px-2.5 max-w-2xl">
+                    <p className="text-neutral-600 text-body-lg md:text-h4 max-w-2xl">
                         お気軽にお問い合わせください
                     </p>
                 </motion.div>
@@ -60,9 +61,31 @@ export const Contact = () => {
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.5, delay: 0.2 }}
                 >
-                    <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 shadow-lg border border-neutral-100">
-                        <ContactForm />
-                    </div>
+                    <motion.div 
+                        className="bg-white rounded-2xl overflow-hidden shadow-md border border-neutral-100 relative"
+                        whileHover={{
+                            y: -8,
+                            boxShadow: "0 16px 48px rgba(59, 130, 246, 0.15)"
+                        }}
+                        transition={{ duration: 0.3 }}
+                    >
+                        {/* フォームヘッダー */}
+                        <div className="relative px-8 py-6 bg-gradient-to-r from-neutral-50 to-neutral-100 border-b border-neutral-100">
+                            <h3 className="text-h4 font-medium text-center text-neutral-800">お問い合わせフォーム</h3>
+                        </div>
+                        <div className="p-8 md:p-12">
+                            <ContactForm />
+                        </div>
+
+                        {/* 装飾的なボーダー */}
+                        <motion.div
+                            className="absolute inset-0 rounded-2xl border-2 border-transparent pointer-events-none"
+                            whileHover={{
+                                borderColor: "oklch(65% 0.20 250)"
+                            }}
+                            transition={{ duration: 0.3 }}
+                        />
+                    </motion.div>
                 </motion.div>
             </div>
         </section>
