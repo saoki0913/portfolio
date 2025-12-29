@@ -7,6 +7,31 @@
 
 ## [Unreleased]
 
+## [3.1.0] - 2025-12-30
+
+### Added（追加）
+- GitHub Actions CHANGELOGワークフローを追加
+  - pushトリガーでdocs/CHANGELOG.mdを自動更新
+  - Conventional Commitsに対応（feat, fix, refactor等）
+  - [skip changelog]でスキップ可能
+
+### Changed（変更）
+- オープニングアニメーションのプログレスバーを修正
+  - motion.div → div + CSS transitionに変更（Framer Motionの制限回避）
+  - プログレスバーの高さを増加（h-1.5 → h-2）
+  - シマーアニメーションを追加
+- Contactセクションのデザイン改善
+  - フォーム入力のフォーカス状態にbrandカラーを適用
+  - フォーカスリングエフェクトを追加
+  - ボタンスタイリングをホバーアニメーション付きに更新
+  - セクション背景をWorks/Skillsセクションと統一
+  - カードヘッダーとホバー時の装飾ボーダーを追加
+
+### Infrastructure（インフラ）
+- フロントエンド: Vercel デプロイ成功（ca68fdc）
+- バックエンド: Render デプロイ成功（a3d2fe0）
+- Supabase: 全テーブル正常稼働（8テーブル、RLS設定済み）
+
 ## [3.0.0] - 2025-12-29
 
 ### Added（追加）
