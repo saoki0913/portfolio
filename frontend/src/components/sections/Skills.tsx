@@ -65,7 +65,7 @@ export const Skills = () => {
     const isInView = useInView(sectionRef, { once: true, margin: "-100px" })
 
     return (
-        <section ref={sectionRef} id="skills" className="mt-24 md:mt-32 py-16 md:py-24 px-4 md:px-6 bg-gradient-to-b from-white via-secondary/5 to-white relative overflow-hidden">
+        <section ref={sectionRef} id="skills" className="mt-24 md:mt-32 py-16 md:py-24 px-4 md:px-6 bg-gradient-to-b from-white via-secondary/5 to-white dark:from-neutral-900 dark:via-secondary/10 dark:to-neutral-900 relative overflow-hidden transition-colors duration-300">
             {/* 背景装飾 */}
             <motion.div
                 className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-secondary/10 to-transparent -z-10"
@@ -99,8 +99,8 @@ export const Skills = () => {
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.6 }}
                 >
-                    <h2 className="text-3xl md:text-4xl font-medium mb-6">Skills</h2>
-                    <p className="text-neutral-600 text-body-lg md:text-h4 max-w-2xl">
+                    <h2 className="text-3xl md:text-4xl font-medium mb-6 text-neutral-900 dark:text-neutral-100">Skills</h2>
+                    <p className="text-neutral-600 dark:text-neutral-400 text-body-lg md:text-h4 max-w-2xl">
                         日々の学習と実践で培った技術スタック
                     </p>
                 </motion.div>
@@ -110,7 +110,7 @@ export const Skills = () => {
                     {skillCategories.map((category, categoryIndex) => (
                         <motion.div
                             key={category.title}
-                            className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-md border border-neutral-100 relative overflow-hidden group"
+                            className="bg-white/90 dark:bg-neutral-800/90 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-md border border-neutral-100 dark:border-neutral-700 relative overflow-hidden group cursor-default transition-colors duration-300"
                             initial={{ opacity: 0, y: 30 }}
                             animate={isInView ? { opacity: 1, y: 0 } : {}}
                             transition={{ duration: 0.5, delay: categoryIndex * 0.1 }}
@@ -121,7 +121,17 @@ export const Skills = () => {
                             }}
                         >
                             {/* 背景グラデーション */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-brand-50 via-transparent to-accent-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                            <div className="absolute inset-0 bg-gradient-to-br from-brand-50 via-transparent to-accent-50 dark:from-brand-900/30 dark:via-transparent dark:to-accent-900/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                            {/* カテゴリタイトル */}
+                            <motion.h3
+                                className="text-h4 font-semibold text-neutral-800 dark:text-neutral-100 mb-6 pb-3 border-b border-neutral-100 dark:border-neutral-700 relative z-10"
+                                initial={{ opacity: 0 }}
+                                animate={isInView ? { opacity: 1 } : {}}
+                                transition={{ duration: 0.4, delay: categoryIndex * 0.1 + 0.2 }}
+                            >
+                                {category.title}
+                            </motion.h3>
 
                             <ul className="space-y-5 md:space-y-6 relative z-10">
                                 {category.skills.map((skill, skillIndex) => {
@@ -135,14 +145,14 @@ export const Skills = () => {
                                             transition={{ duration: 0.4, delay: categoryIndex * 0.1 + skillIndex * 0.05 + 0.4 }}
                                         >
                                             <div className="flex justify-between items-center mb-2">
-                                                <span className="text-body-md md:text-body-lg flex items-center font-semibold text-neutral-900">
-                                                    <TechIcon tech={skill.icon} className="w-5 h-5 inline-block mr-3 text-brand-500" />
+                                                <span className="text-body-md md:text-body-lg flex items-center font-semibold text-neutral-900 dark:text-neutral-100">
+                                                    <TechIcon tech={skill.icon} className="w-5 h-5 inline-block mr-3" />
                                                     {skill.name}
                                                 </span>
                                                 <div className="flex items-center gap-2">
                                                     {/* パーセント表示 */}
                                                     <motion.span
-                                                        className="text-body-sm font-bold text-neutral-500 min-w-[40px] text-right"
+                                                        className="text-body-sm font-bold text-neutral-500 dark:text-neutral-400 min-w-[40px] text-right"
                                                         initial={{ opacity: 0 }}
                                                         animate={isInView ? { opacity: 1 } : {}}
                                                         transition={{ duration: 0.3, delay: categoryIndex * 0.1 + skillIndex * 0.1 + 1 }}
@@ -152,7 +162,7 @@ export const Skills = () => {
                                                 </div>
                                             </div>
                                             {/* プログレスバー */}
-                                            <div className="h-3 w-full bg-neutral-100 rounded-full overflow-hidden relative">
+                                            <div className="h-3 w-full bg-neutral-100 dark:bg-neutral-700 rounded-full overflow-hidden relative">
                                                 <motion.div
                                                     className={`h-full bg-gradient-to-r ${progressColor} rounded-full shadow-sm relative`}
                                                     initial={{ width: 0 }}

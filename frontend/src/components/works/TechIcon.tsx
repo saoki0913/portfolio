@@ -1,6 +1,7 @@
 "use client";
 
 import { Code2 } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import {
     SiReact, SiVuedotjs, SiAngular, SiNextdotjs, SiSvelte, SiTailwindcss,
     SiTypescript, SiJavascript, SiPython, SiGo, SiRust, SiPhp,
@@ -24,11 +25,32 @@ type TechIconProps = {
 };
 
 export function TechIcon({ tech, className = "w-6 h-6" }: TechIconProps) {
+    const [isDark, setIsDark] = useState(false);
+
+    useEffect(() => {
+        // 初期状態を確認
+        setIsDark(document.documentElement.classList.contains('dark'));
+
+        // ダークモード変更を監視
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.attributeName === 'class') {
+                    setIsDark(document.documentElement.classList.contains('dark'));
+                }
+            });
+        });
+
+        observer.observe(document.documentElement, { attributes: true });
+
+        return () => observer.disconnect();
+    }, []);
+
     // 技術名を小文字に変換して比較する
     const techLower = tech.toLowerCase();
 
     // 技術に応じた色を定義
     let color = "";
+    let darkColor = ""; // ダークモード用の色
     let IconComponent: React.ElementType = Code2;
 
     // Frontend Frameworks & Libraries
@@ -43,6 +65,7 @@ export function TechIcon({ tech, className = "w-6 h-6" }: TechIconProps) {
         IconComponent = SiAngular;
     } else if (techLower.includes('next.js') || techLower.includes('nextjs')) {
         color = "#000000"; // Next.js Black
+        darkColor = "#FFFFFF"; // White for dark mode
         IconComponent = SiNextdotjs;
     } else if (techLower.includes('svelte')) {
         color = "#FF3E00"; // Svelte Orange
@@ -70,6 +93,7 @@ export function TechIcon({ tech, className = "w-6 h-6" }: TechIconProps) {
         IconComponent = SiGo;
     } else if (techLower.includes('rust')) {
         color = "#000000"; // Rust Black
+        darkColor = "#FFFFFF"; // White for dark mode
         IconComponent = SiRust;
     } else if (techLower.includes('java')) {
         color = "#007396"; // Java Blue
@@ -97,6 +121,7 @@ export function TechIcon({ tech, className = "w-6 h-6" }: TechIconProps) {
         IconComponent = SiNodedotjs;
     } else if (techLower.includes('express')) {
         color = "#000000"; // Express Black
+        darkColor = "#FFFFFF"; // White for dark mode
         IconComponent = SiExpress;
     } else if (techLower.includes('nest')) {
         color = "#E0234E"; // NestJS Red
@@ -109,6 +134,7 @@ export function TechIcon({ tech, className = "w-6 h-6" }: TechIconProps) {
         IconComponent = SiDjango;
     } else if (techLower.includes('flask')) {
         color = "#000000"; // Flask Black
+        darkColor = "#FFFFFF"; // White for dark mode
         IconComponent = SiFlask;
     } else if (techLower.includes('spring')) {
         color = "#6DB33F"; // Spring Green
@@ -184,6 +210,7 @@ export function TechIcon({ tech, className = "w-6 h-6" }: TechIconProps) {
         IconComponent = FaMicrosoft;
     } else if (techLower.includes('vercel')) {
         color = "#000000"; // Vercel Black
+        darkColor = "#FFFFFF"; // White for dark mode
         IconComponent = SiVercel;
     } else if (techLower.includes('render')) {
         color = "#46E3B7"; // Render Green
@@ -286,6 +313,7 @@ export function TechIcon({ tech, className = "w-6 h-6" }: TechIconProps) {
         IconComponent = SiAuth0;
     } else if (techLower.includes('jwt')) {
         color = "#000000"; // JWT Black
+        darkColor = "#FFFFFF"; // White for dark mode
         IconComponent = SiJsonwebtokens;
     } else if (techLower.includes('auth') || techLower.includes('oauth')) {
         color = "#0066CC"; // Auth Blue
@@ -301,8 +329,11 @@ export function TechIcon({ tech, className = "w-6 h-6" }: TechIconProps) {
         IconComponent = TbFileText;
     }
 
+    // ダークモード時に黒いアイコンは白に変更
+    const finalColor = isDark && darkColor ? darkColor : color;
+
     // スタイルオブジェクトを作成
-    const style = { color };
+    const style = { color: finalColor };
 
     // 色付きのアイコンを返す
     return <IconComponent className={className} style={style} />;

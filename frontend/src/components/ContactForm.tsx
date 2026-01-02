@@ -89,13 +89,13 @@ export function ContactForm() {
                 >
                     <label
                         htmlFor={field.id}
-                        className="block text-sm font-semibold text-neutral-600 mb-2"
+                        className="block text-sm font-semibold text-neutral-600 dark:text-neutral-300 mb-2"
                     >
                         {field.label}
                         {field.required && <span className="text-red-500 ml-1">*</span>}
                     </label>
                     <div className="relative group">
-                        <div className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors duration-200 ${focusedField === field.id ? 'text-brand-600' : 'text-neutral-500'}`}>
+                        <div className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors duration-200 ${focusedField === field.id ? 'text-brand-600 dark:text-brand-400' : 'text-neutral-500 dark:text-neutral-400'}`}>
                             <field.icon className="w-5 h-5" />
                         </div>
                         <input
@@ -106,7 +106,7 @@ export function ContactForm() {
                             placeholder={field.placeholder}
                             onFocus={() => setFocusedField(field.id)}
                             onBlur={() => setFocusedField(null)}
-                            className="w-full pl-12 pr-4 py-4 bg-neutral-50 border border-neutral-200 rounded-xl text-neutral-800 placeholder:text-neutral-400 transition-all duration-200 focus:bg-white focus:outline-none focus:border-brand-400 focus:ring-4 focus:ring-brand-500/10 hover:border-neutral-300"
+                            className="w-full pl-12 pr-4 py-4 bg-neutral-50 dark:bg-neutral-700 border border-neutral-200 dark:border-neutral-600 rounded-xl text-neutral-800 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 transition-all duration-200 focus:bg-white dark:focus:bg-neutral-600 focus:outline-none focus:border-brand-400 dark:focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 dark:focus:ring-brand-500/20 hover:border-neutral-300 dark:hover:border-neutral-500"
                         />
                     </div>
                 </motion.div>
@@ -120,13 +120,13 @@ export function ContactForm() {
             >
                 <label
                     htmlFor="message"
-                    className="block text-sm font-semibold text-neutral-600 mb-2"
+                    className="block text-sm font-semibold text-neutral-600 dark:text-neutral-300 mb-2"
                 >
                     メッセージ
                     <span className="text-red-500 ml-1">*</span>
                 </label>
                 <div className="relative group">
-                    <div className={`absolute left-4 top-4 transition-colors duration-200 ${focusedField === 'message' ? 'text-brand-600' : 'text-neutral-500'}`}>
+                    <div className={`absolute left-4 top-4 transition-colors duration-200 ${focusedField === 'message' ? 'text-brand-600 dark:text-brand-400' : 'text-neutral-500 dark:text-neutral-400'}`}>
                         <MessageSquare className="w-5 h-5" />
                     </div>
                     <textarea
@@ -137,7 +137,7 @@ export function ContactForm() {
                         placeholder="お問い合わせ内容をご記入ください"
                         onFocus={() => setFocusedField('message')}
                         onBlur={() => setFocusedField(null)}
-                        className="w-full pl-12 pr-4 py-4 bg-neutral-50 border border-neutral-200 rounded-xl text-neutral-800 placeholder:text-neutral-400 transition-all duration-200 focus:bg-white focus:outline-none focus:border-brand-400 focus:ring-4 focus:ring-brand-500/10 hover:border-neutral-300 resize-none"
+                        className="w-full pl-12 pr-4 py-4 bg-neutral-50 dark:bg-neutral-700 border border-neutral-200 dark:border-neutral-600 rounded-xl text-neutral-800 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 transition-all duration-200 focus:bg-white dark:focus:bg-neutral-600 focus:outline-none focus:border-brand-400 dark:focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 dark:focus:ring-brand-500/20 hover:border-neutral-300 dark:hover:border-neutral-500 resize-none"
                     />
                 </div>
             </motion.div>
@@ -147,8 +147,8 @@ export function ContactForm() {
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     className={`flex items-center gap-3 p-4 rounded-xl ${submitMessage.type === 'success'
-                            ? 'bg-green-50 text-green-700 border border-green-200'
-                            : 'bg-red-50 text-red-700 border border-red-200'
+                            ? 'bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800'
+                            : 'bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800'
                         }`}
                 >
                     {submitMessage.type === 'success' ? (
@@ -168,7 +168,7 @@ export function ContactForm() {
                 <Button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full py-6 text-base font-semibold bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed group relative overflow-hidden"
+                    className="w-full py-6 text-base font-semibold bg-neutral-900 dark:bg-neutral-100 hover:bg-neutral-800 dark:hover:bg-neutral-200 text-white dark:text-neutral-900 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed group relative overflow-hidden"
                 >
                     <div className="relative flex items-center justify-center">
                         {isSubmitting ? (

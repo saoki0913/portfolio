@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
+import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import 'tw-animate-css'
 
 export const Header = () => {
@@ -123,28 +124,33 @@ export const Header = () => {
     // ナビゲーションリンクのアクティブ状態スタイルを定義
     const navLinkStyles = (id: string) =>
         `text-base md:text-lg cursor-pointer transition-colors ${activeSection === id
-            ? 'font-medium text-black border-b-2 border-black'
-            : 'text-gray-700 hover:text-black'
+            ? 'font-medium text-neutral-900 dark:text-neutral-100 border-b-2 border-neutral-900 dark:border-neutral-100'
+            : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100'
         }`
 
     return (
         <header id="main-header" className={`w-full ${scrolled
             ? 'glass-effect shadow-md'
-            : 'bg-white border-b border-gray-200'
+            : 'bg-white dark:bg-neutral-900 border-b border-gray-200 dark:border-neutral-800'
             }`}>
             <div className="container mx-auto flex justify-between items-center py-4 md:py-5 px-4 md:px-6">
                 <h1 className="text-2xl md:text-3xl font-medium animate-fade-in-down animate-delay-200">
-                    <Link href="/" className="hover:opacity-70 transition-opacity">AOKI SHUNSUKE</Link>
+                    <Link href="/" className="hover:opacity-70 transition-opacity text-neutral-900 dark:text-neutral-100">AOKI SHUNSUKE</Link>
                 </h1>
-                <nav className="animate-fade-in-down animate-delay-300">
-                    <ul className="flex space-x-4 md:space-x-8">
-                        <li><a href="#hero" onClick={(e) => scrollToSection(e, 'hero')} className={navLinkStyles('hero')}>Home</a></li>
-                        <li><a href="#about" onClick={(e) => scrollToSection(e, 'about')} className={navLinkStyles('about')}>About</a></li>
-                        <li><a href="#works" onClick={(e) => scrollToSection(e, 'works')} className={navLinkStyles('works')}>Works</a></li>
-                        <li><a href="#skills" onClick={(e) => scrollToSection(e, 'skills')} className={navLinkStyles('skills')}>Skills</a></li>
-                        <li><a href="#contact" onClick={(e) => scrollToSection(e, 'contact')} className={navLinkStyles('contact')}>Contact</a></li>
-                    </ul>
-                </nav>
+                <div className="flex items-center gap-6">
+                    <nav className="animate-fade-in-down animate-delay-300">
+                        <ul className="flex space-x-4 md:space-x-8">
+                            <li><a href="#hero" onClick={(e) => scrollToSection(e, 'hero')} className={navLinkStyles('hero')}>Home</a></li>
+                            <li><a href="#about" onClick={(e) => scrollToSection(e, 'about')} className={navLinkStyles('about')}>About</a></li>
+                            <li><a href="#works" onClick={(e) => scrollToSection(e, 'works')} className={navLinkStyles('works')}>Works</a></li>
+                            <li><a href="#skills" onClick={(e) => scrollToSection(e, 'skills')} className={navLinkStyles('skills')}>Skills</a></li>
+                            <li><a href="#contact" onClick={(e) => scrollToSection(e, 'contact')} className={navLinkStyles('contact')}>Contact</a></li>
+                        </ul>
+                    </nav>
+                    <div className="animate-fade-in-down animate-delay-400">
+                        <ThemeToggle />
+                    </div>
+                </div>
             </div>
         </header>
     )
