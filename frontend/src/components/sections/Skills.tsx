@@ -1,7 +1,7 @@
 'use client'
 
 import { TechIcon } from "@/components/works/TechIcon";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 
 interface Skill {
@@ -63,6 +63,43 @@ const getProgressColor = (level: number): string => {
 export const Skills = () => {
     const sectionRef = useRef<HTMLElement>(null)
     const isInView = useInView(sectionRef, { once: true, margin: "-100px" })
+    const [isDark, setIsDark] = useState(false)
+
+    useEffect(() => {
+        // 初期状態を確認
+        setIsDark(document.documentElement.classList.contains('dark'))
+
+        // ダークモード変更を監視
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.attributeName === 'class') {
+                    setIsDark(document.documentElement.classList.contains('dark'))
+                }
+            })
+        })
+
+        observer.observe(document.documentElement, { attributes: true })
+
+        return () => observer.disconnect()
+    }, [])
+
+    // ライトモード: 青系の控えめなシャドウとボーダー（フレームワークカードのスタイル）
+    // ダークモード: 紫系のグローとボーダー
+    const getHoverAnimation = () => {
+        if (isDark) {
+            return {
+                y: -4,
+                boxShadow: "0 16px 48px rgba(168, 85, 247, 0.25)",
+                borderColor: "rgba(168, 85, 247, 0.5)"
+            }
+        } else {
+            return {
+                y: -4,
+                boxShadow: "0 10px 30px rgba(59, 130, 246, 0.12)",
+                borderColor: "rgba(59, 130, 246, 0.3)"
+            }
+        }
+    }
 
     return (
         <section ref={sectionRef} id="skills" className="mt-24 md:mt-32 py-16 md:py-24 px-4 md:px-6 bg-gradient-to-b from-white via-secondary/5 to-white dark:from-neutral-900 dark:via-secondary/10 dark:to-neutral-900 relative overflow-hidden transition-colors duration-300">
@@ -114,11 +151,7 @@ export const Skills = () => {
                             initial={{ opacity: 0, y: 30 }}
                             animate={isInView ? { opacity: 1, y: 0 } : {}}
                             transition={{ duration: 0.5, delay: categoryIndex * 0.1 }}
-                            whileHover={{
-                                y: -4,
-                                boxShadow: "0 16px 48px rgba(168, 85, 247, 0.15)",
-                                borderColor: "oklch(65% 0.20 300)"
-                            }}
+                            whileHover={getHoverAnimation()}
                         >
                             {/* 背景グラデーション */}
                             <div className="absolute inset-0 bg-gradient-to-br from-brand-50 via-transparent to-accent-50 dark:from-brand-900/30 dark:via-transparent dark:to-accent-900/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
