@@ -196,6 +196,24 @@
     isolation: isolate;
     position: relative;
   }
+
+  /* フォーカス状態の強化（キーボードナビゲーション） */
+  a:focus-visible,
+  button:focus-visible,
+  [role="button"]:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid var(--brand-500);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* ダークモードでのフォーカスリング */
+  .dark a:focus-visible,
+  .dark button:focus-visible,
+  .dark [role="button"]:focus-visible,
+  .dark [tabindex]:focus-visible {
+    outline-color: var(--brand-400);
+  }
 }
 
 @tailwind base;

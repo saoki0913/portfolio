@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
-import { GraduationCap, Briefcase, FlaskConical } from 'lucide-react'
+import { GraduationCap, Briefcase, FlaskConical, ChevronDown } from 'lucide-react'
 import 'tw-animate-css'
 import { getHeroData, HeroData } from '@/lib/api/hero'
 
@@ -192,6 +192,48 @@ export const Hero = () => {
                     </motion.div>
                 </div>
             </div>
+
+            {/* スクロールインジケーター */}
+            <motion.div
+                className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.2 }}
+                onClick={() => {
+                    const aboutSection = document.getElementById('about')
+                    if (aboutSection) {
+                        const header = document.getElementById('main-header')
+                        const headerHeight = header ? header.offsetHeight : 80
+                        const offsetPosition = aboutSection.offsetTop - headerHeight - 20
+                        window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
+                    }
+                }}
+                role="button"
+                aria-label="次のセクションへスクロール"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault()
+                        const aboutSection = document.getElementById('about')
+                        if (aboutSection) {
+                            const header = document.getElementById('main-header')
+                            const headerHeight = header ? header.offsetHeight : 80
+                            const offsetPosition = aboutSection.offsetTop - headerHeight - 20
+                            window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
+                        }
+                    }
+                }}
+            >
+                <span className="text-xs text-neutral-500 dark:text-neutral-400 font-medium tracking-wider uppercase">
+                    Scroll
+                </span>
+                <motion.div
+                    animate={shouldReduceMotion ? {} : { y: [0, 6, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                >
+                    <ChevronDown className="w-5 h-5 text-neutral-400 dark:text-neutral-500" />
+                </motion.div>
+            </motion.div>
 
             {/* スクロールバーを非表示にするスタイル */}
             <style jsx global>{`
