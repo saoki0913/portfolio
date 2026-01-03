@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Github, Linkedin, Mail, Heart } from 'lucide-react'
+import { Github, Linkedin, Mail } from 'lucide-react'
 
 const navLinks = [
     { id: 'hero', label: 'Home' },
@@ -160,11 +160,9 @@ export const Footer = () => {
                             whileInView={{ opacity: 1 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: 0.4 }}
-                            className="text-neutral-500 dark:text-neutral-500 text-sm flex items-center gap-1.5"
+                            className="text-neutral-500 dark:text-neutral-500 text-sm"
                         >
-                            Made with
-                            <Heart className="w-4 h-4 text-red-500 fill-red-500" />
-                            using Next.js & FastAPI
+                            Built with Next.js & FastAPI
                         </motion.p>
                     </div>
                 </div>

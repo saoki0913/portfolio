@@ -141,8 +141,8 @@ export const Hero = () => {
                                 {/* 最後のアイテムがグラデーションに隠れないようにするスペーサー */}
                                 <div className="h-32"></div>
 
-                                {/* スクロールインジケーター（フェードアウト効果） */}
-                                <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white dark:from-neutral-900 to-transparent pointer-events-none"></div>
+                                {/* スクロールインジケーター（フェードアウト効果） - アイコン部分を避ける */}
+                                <div className="absolute bottom-0 left-14 right-0 h-10 bg-gradient-to-t from-white dark:from-neutral-900 to-transparent pointer-events-none"></div>
                             </div>
                         </motion.div>
                     </motion.div>
