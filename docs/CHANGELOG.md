@@ -8,6 +8,7 @@
 ## [Unreleased]
 
 ### Added
+- Add Footer component matching portfolio design ([`e756b5b`](https://github.com/saoki0913/portfolio/commit/e756b5b0b688b04d124884f8b4627e78800999f9))
 - Add comprehensive dark mode support across all sections ([`562e12a`](https://github.com/saoki0913/portfolio/commit/562e12a072ecb2cf96a7b18f637efea973897336))
 
 ### Fixed
