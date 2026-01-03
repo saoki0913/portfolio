@@ -11,6 +11,7 @@
 - Add comprehensive dark mode support across all sections ([`562e12a`](https://github.com/saoki0913/portfolio/commit/562e12a072ecb2cf96a7b18f637efea973897336))
 
 ### Fixed
+- Use CSS-based hover effects for Hero timeline cards ([`513edef`](https://github.com/saoki0913/portfolio/commit/513edef6e3ad3a396acbcaab77bcd23df5abeed2))
 - Use CSS-based hover effects for Skills cards to prevent theme interference ([`ae24e31`](https://github.com/saoki0913/portfolio/commit/ae24e318aaffaf3e862e03102b2660ae15daf363))
 - Unify Skills section hover animation for light/dark mode ([`778f784`](https://github.com/saoki0913/portfolio/commit/778f78452266354eb974feeeb41146053fa96aed))
 
