@@ -2,7 +2,7 @@
 
 import { TechIcon } from "@/components/works/TechIcon";
 import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 
 interface Skill {
     name: string
@@ -63,13 +63,14 @@ const getProgressColor = (level: number): string => {
 export const Skills = () => {
     const sectionRef = useRef<HTMLElement>(null)
     const isInView = useInView(sectionRef, { once: true, margin: "-100px" })
+    const shouldReduceMotion = useReducedMotion()
 
     return (
         <section ref={sectionRef} id="skills" className="mt-24 md:mt-32 py-16 md:py-24 px-4 md:px-6 bg-gradient-to-b from-white via-secondary/5 to-white dark:from-neutral-900 dark:via-secondary/10 dark:to-neutral-900 relative overflow-hidden transition-colors duration-300">
             {/* 背景装飾 */}
             <motion.div
                 className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-secondary/10 to-transparent -z-10"
-                animate={{
+                animate={shouldReduceMotion ? {} : {
                     opacity: [0.3, 0.6, 0.3]
                 }}
                 transition={{
@@ -80,7 +81,7 @@ export const Skills = () => {
             />
             <motion.div
                 className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-primary/20 to-transparent rounded-full blur-3xl -z-10"
-                animate={{
+                animate={shouldReduceMotion ? {} : {
                     scale: [1, 1.15, 1],
                     opacity: [0.3, 0.5, 0.3]
                 }}

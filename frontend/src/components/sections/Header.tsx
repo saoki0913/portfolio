@@ -3,11 +3,13 @@
 import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
+import { Menu, X } from 'lucide-react'
 import 'tw-animate-css'
 
 export const Header = () => {
     const [scrolled, setScrolled] = useState(false)
     const [activeSection, setActiveSection] = useState('')
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
     const isManualScrolling = useRef(false)
     const scrollingTimeout = useRef<NodeJS.Timeout | null>(null)
 
@@ -121,11 +123,22 @@ export const Header = () => {
         }, 1000)
     }
 
+    const handleMobileNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+        scrollToSection(e, id)
+        setMobileMenuOpen(false)
+    }
+
     // ナビゲーションリンクのアクティブ状態スタイルを定義
     const navLinkStyles = (id: string) =>
         `text-base md:text-lg cursor-pointer transition-colors ${activeSection === id
             ? 'font-medium text-neutral-900 dark:text-neutral-100 border-b-2 border-neutral-900 dark:border-neutral-100'
             : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100'
+        }`
+
+    const mobileNavLinkStyles = (id: string) =>
+        `block py-3 px-4 text-lg cursor-pointer transition-colors rounded-lg ${activeSection === id
+            ? 'font-medium text-neutral-900 dark:text-neutral-100 bg-neutral-100 dark:bg-neutral-800'
+            : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 hover:bg-neutral-50 dark:hover:bg-neutral-800/50'
         }`
 
     return (
@@ -137,8 +150,9 @@ export const Header = () => {
                 <h1 className="text-2xl md:text-3xl font-medium animate-fade-in-down animate-delay-200">
                     <Link href="/" className="hover:opacity-70 transition-opacity text-neutral-900 dark:text-neutral-100">AOKI SHUNSUKE</Link>
                 </h1>
-                <div className="flex items-center gap-6">
-                    <nav className="animate-fade-in-down animate-delay-300">
+                <div className="flex items-center gap-4 md:gap-6">
+                    {/* デスクトップナビゲーション */}
+                    <nav className="hidden md:block animate-fade-in-down animate-delay-300">
                         <ul className="flex space-x-4 md:space-x-8">
                             <li><a href="#hero" onClick={(e) => scrollToSection(e, 'hero')} className={navLinkStyles('hero')}>Home</a></li>
                             <li><a href="#about" onClick={(e) => scrollToSection(e, 'about')} className={navLinkStyles('about')}>About</a></li>
@@ -150,8 +164,30 @@ export const Header = () => {
                     <div className="animate-fade-in-down animate-delay-400">
                         <ThemeToggle />
                     </div>
+                    {/* モバイルメニューボタン */}
+                    <button
+                        className="md:hidden p-2 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors cursor-pointer"
+                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                        aria-label={mobileMenuOpen ? 'メニューを閉じる' : 'メニューを開く'}
+                        aria-expanded={mobileMenuOpen}
+                    >
+                        {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                    </button>
                 </div>
             </div>
+
+            {/* モバイルナビゲーション */}
+            {mobileMenuOpen && (
+                <nav className="md:hidden border-t border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900">
+                    <ul className="container mx-auto px-4 py-4 space-y-1">
+                        <li><a href="#hero" onClick={(e) => handleMobileNavClick(e, 'hero')} className={mobileNavLinkStyles('hero')}>Home</a></li>
+                        <li><a href="#about" onClick={(e) => handleMobileNavClick(e, 'about')} className={mobileNavLinkStyles('about')}>About</a></li>
+                        <li><a href="#works" onClick={(e) => handleMobileNavClick(e, 'works')} className={mobileNavLinkStyles('works')}>Works</a></li>
+                        <li><a href="#skills" onClick={(e) => handleMobileNavClick(e, 'skills')} className={mobileNavLinkStyles('skills')}>Skills</a></li>
+                        <li><a href="#contact" onClick={(e) => handleMobileNavClick(e, 'contact')} className={mobileNavLinkStyles('contact')}>Contact</a></li>
+                    </ul>
+                </nav>
+            )}
         </header>
     )
 } 

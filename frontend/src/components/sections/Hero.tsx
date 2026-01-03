@@ -2,8 +2,8 @@
 
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
-import { GraduationCap, Briefcase, FlaskConical } from 'lucide-react'
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
+import { GraduationCap, Briefcase, FlaskConical, ArrowDown, Mail } from 'lucide-react'
 import 'tw-animate-css'
 import { getHeroData, HeroData } from '@/lib/api/hero'
 
@@ -11,8 +11,9 @@ export const Hero = () => {
     const [data, setData] = useState<HeroData | null>(null)
     const [loading, setLoading] = useState(true)
     const { scrollY } = useScroll()
-    const y = useTransform(scrollY, [0, 500], [0, 150])
-    const opacity = useTransform(scrollY, [0, 300], [1, 0])
+    const shouldReduceMotion = useReducedMotion()
+    const y = useTransform(scrollY, [0, 500], [0, shouldReduceMotion ? 0 : 150])
+    const opacity = useTransform(scrollY, [0, 300], [1, shouldReduceMotion ? 1 : 0])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -68,13 +69,39 @@ export const Hero = () => {
         )
     }
 
+    const scrollToContact = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault()
+        const element = document.getElementById('contact')
+        if (!element) return
+        const header = document.getElementById('main-header')
+        const headerHeight = header ? header.offsetHeight : 80
+        const offsetPosition = element.offsetTop - headerHeight - 20
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+        })
+    }
+
+    const scrollToAbout = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault()
+        const element = document.getElementById('about')
+        if (!element) return
+        const header = document.getElementById('main-header')
+        const headerHeight = header ? header.offsetHeight : 80
+        const offsetPosition = element.offsetTop - headerHeight - 20
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+        })
+    }
+
     return (
         <section id="hero" className="relative pt-2 md:pt-4 pb-1 md:pb-2 px-4 md:px-6 min-h-screen flex flex-col justify-start overflow-hidden">
             {/* 背景グラデーション */}
             <div className="absolute inset-0 bg-gradient-hero opacity-50 -z-10" />
             <motion.div
                 className="absolute top-20 right-10 w-96 h-96 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full blur-3xl -z-10"
-                animate={{
+                animate={shouldReduceMotion ? {} : {
                     scale: [1, 1.2, 1],
                     rotate: [0, 90, 0],
                 }}
@@ -86,6 +113,46 @@ export const Hero = () => {
             />
 
             <div className="container mx-auto mt-14 md:mt-16">
+                {/* ヒーローヘッドライン */}
+                <motion.div
+                    className="mb-8 md:mb-12"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                >
+                    <p className="text-brand-600 dark:text-brand-400 text-body-md md:text-body-lg font-medium mb-2 tracking-wide">
+                        AI × Web Engineer
+                    </p>
+                    <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-neutral-900 dark:text-neutral-100 mb-4 leading-tight">
+                        青木 俊介
+                        <span className="block text-xl md:text-2xl lg:text-3xl font-normal text-neutral-600 dark:text-neutral-400 mt-2">
+                            Shunsuke Aoki
+                        </span>
+                    </h2>
+                    <p className="text-body-lg md:text-h4 text-neutral-600 dark:text-neutral-400 max-w-xl leading-relaxed">
+                        AIとWebテクノロジーで、
+                        <span className="text-neutral-900 dark:text-neutral-100 font-medium">複雑な課題をシンプルに解決</span>
+                        するエンジニア
+                    </p>
+                    {/* CTAボタン */}
+                    <div className="flex flex-wrap gap-4 mt-6">
+                        <button
+                            onClick={scrollToContact}
+                            className="inline-flex items-center gap-2 px-6 py-3 bg-brand-600 hover:bg-brand-700 dark:bg-brand-500 dark:hover:bg-brand-600 text-white font-medium rounded-lg transition-colors duration-200 cursor-pointer"
+                        >
+                            <Mail className="w-5 h-5" />
+                            お問い合わせ
+                        </button>
+                        <button
+                            onClick={scrollToAbout}
+                            className="inline-flex items-center gap-2 px-6 py-3 border border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 font-medium rounded-lg transition-colors duration-200 cursor-pointer"
+                        >
+                            <ArrowDown className="w-5 h-5" />
+                            詳しく見る
+                        </button>
+                    </div>
+                </motion.div>
+
                 <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-start">
                     {/* 左側: タイムライン（スクロール可能） */}
                     <motion.div
