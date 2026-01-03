@@ -128,12 +128,8 @@ export const Hero = () => {
 
                                             {/* コンテンツカード */}
                                             <motion.div
-                                                className="p-4 md:p-6 bg-white/90 dark:bg-neutral-800/90 backdrop-blur-sm border border-neutral-200 dark:border-neutral-700 rounded-xl shadow-sm cursor-pointer"
-                                                whileHover={{
-                                                    y: -4,
-                                                    boxShadow: "0 8px 32px rgba(59, 130, 246, 0.15)",
-                                                    borderColor: "oklch(65% 0.20 250)"
-                                                }}
+                                                className="p-4 md:p-6 bg-white/90 dark:bg-neutral-800/90 backdrop-blur-sm border border-neutral-200 dark:border-neutral-700 rounded-xl shadow-sm cursor-pointer transition-all duration-300 hover:shadow-[0_8px_32px_rgba(59,130,246,0.15)] hover:border-blue-300/50 dark:hover:shadow-[0_12px_40px_rgba(168,85,247,0.25)] dark:hover:border-purple-500/50"
+                                                whileHover={{ y: -4 }}
                                                 transition={{ duration: 0.3 }}
                                             >
                                                 <h4 className="text-body-lg md:text-h4 font-semibold text-neutral-900 dark:text-neutral-100 mb-1">{item.title}</h4>
