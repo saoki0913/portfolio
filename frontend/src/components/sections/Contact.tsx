@@ -2,11 +2,12 @@
 
 import { ContactForm } from '@/components/ContactForm'
 import { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { motion, useInView, useReducedMotion } from 'framer-motion'
 
 export const Contact = () => {
     const sectionRef = useRef<HTMLElement>(null)
     const isInView = useInView(sectionRef, { once: true, margin: "-100px" })
+    const shouldReduceMotion = useReducedMotion()
 
     return (
         <section ref={sectionRef} id="contact" className="mt-24 md:mt-32 py-16 md:py-24 px-4 md:px-6 ml-2 bg-white dark:bg-neutral-900 relative overflow-hidden transition-colors duration-300">
@@ -14,7 +15,7 @@ export const Contact = () => {
             <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-primary/5 dark:via-primary/10 to-transparent" />
             <motion.div
                 className="absolute top-20 left-10 w-80 h-80 bg-gradient-to-br from-brand-200/30 to-accent-200/20 rounded-full blur-3xl -z-10"
-                animate={{
+                animate={shouldReduceMotion ? {} : {
                     scale: [1, 1.1, 1],
                     opacity: [0.3, 0.5, 0.3]
                 }}
@@ -26,7 +27,7 @@ export const Contact = () => {
             />
             <motion.div
                 className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-tl from-accent-200/20 to-brand-200/30 rounded-full blur-3xl -z-10"
-                animate={{
+                animate={shouldReduceMotion ? {} : {
                     scale: [1, 1.2, 1],
                     opacity: [0.3, 0.4, 0.3]
                 }}
