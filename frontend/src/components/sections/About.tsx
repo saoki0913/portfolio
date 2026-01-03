@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { getAboutInfo } from '@/lib/api/about'
 import { AboutResponse, Experience } from '@/lib/types/about'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { Calendar, MapPin, X, Target, Lightbulb, Cpu, TrendingUp, ChevronRight, BookOpen, Zap, Users, Brain, Cog } from 'lucide-react'
 
 // 研究詳細モーダルコンポーネント
@@ -302,6 +302,7 @@ export const About = () => {
     const [error, setError] = useState<string | null>(null)
     const [selectedExperience, setSelectedExperience] = useState<Experience | null>(null)
     const [showResearchDetail, setShowResearchDetail] = useState(false)
+    const shouldReduceMotion = useReducedMotion()
 
     useEffect(() => {
         const fetchData = async () => {
@@ -386,7 +387,7 @@ export const About = () => {
                 <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
                 <motion.div
                     className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-br from-secondary/20 to-primary/20 rounded-full blur-3xl -z-10"
-                    animate={{
+                    animate={shouldReduceMotion ? {} : {
                         scale: [1, 1.1, 1],
                         opacity: [0.3, 0.5, 0.3]
                     }}
@@ -398,7 +399,7 @@ export const About = () => {
                 />
                 <motion.div
                     className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-tr from-primary/20 to-secondary/20 rounded-full blur-3xl -z-10"
-                    animate={{
+                    animate={shouldReduceMotion ? {} : {
                         scale: [1, 1.2, 1],
                         opacity: [0.2, 0.4, 0.2]
                     }}

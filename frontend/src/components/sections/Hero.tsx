@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
-import { GraduationCap, Briefcase, FlaskConical, ArrowDown, Mail } from 'lucide-react'
+import { GraduationCap, Briefcase, FlaskConical } from 'lucide-react'
 import 'tw-animate-css'
 import { getHeroData, HeroData } from '@/lib/api/hero'
 
@@ -69,32 +69,6 @@ export const Hero = () => {
         )
     }
 
-    const scrollToContact = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault()
-        const element = document.getElementById('contact')
-        if (!element) return
-        const header = document.getElementById('main-header')
-        const headerHeight = header ? header.offsetHeight : 80
-        const offsetPosition = element.offsetTop - headerHeight - 20
-        window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-        })
-    }
-
-    const scrollToAbout = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault()
-        const element = document.getElementById('about')
-        if (!element) return
-        const header = document.getElementById('main-header')
-        const headerHeight = header ? header.offsetHeight : 80
-        const offsetPosition = element.offsetTop - headerHeight - 20
-        window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-        })
-    }
-
     return (
         <section id="hero" className="relative pt-2 md:pt-4 pb-1 md:pb-2 px-4 md:px-6 min-h-screen flex flex-col justify-start overflow-hidden">
             {/* 背景グラデーション */}
@@ -124,33 +98,11 @@ export const Hero = () => {
                         AI × Web Engineer
                     </p>
                     <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-neutral-900 dark:text-neutral-100 mb-4 leading-tight">
-                        青木 俊介
+                        青木 駿介
                         <span className="block text-xl md:text-2xl lg:text-3xl font-normal text-neutral-600 dark:text-neutral-400 mt-2">
                             Shunsuke Aoki
                         </span>
                     </h2>
-                    <p className="text-body-lg md:text-h4 text-neutral-600 dark:text-neutral-400 max-w-xl leading-relaxed">
-                        AIとWebテクノロジーで、
-                        <span className="text-neutral-900 dark:text-neutral-100 font-medium">複雑な課題をシンプルに解決</span>
-                        するエンジニア
-                    </p>
-                    {/* CTAボタン */}
-                    <div className="flex flex-wrap gap-4 mt-6">
-                        <button
-                            onClick={scrollToContact}
-                            className="inline-flex items-center gap-2 px-6 py-3 bg-brand-600 hover:bg-brand-700 dark:bg-brand-500 dark:hover:bg-brand-600 text-white font-medium rounded-lg transition-colors duration-200 cursor-pointer"
-                        >
-                            <Mail className="w-5 h-5" />
-                            お問い合わせ
-                        </button>
-                        <button
-                            onClick={scrollToAbout}
-                            className="inline-flex items-center gap-2 px-6 py-3 border border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 font-medium rounded-lg transition-colors duration-200 cursor-pointer"
-                        >
-                            <ArrowDown className="w-5 h-5" />
-                            詳しく見る
-                        </button>
-                    </div>
                 </motion.div>
 
                 <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-start">

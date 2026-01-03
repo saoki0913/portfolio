@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useRef, useEffect } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { motion, useInView, useReducedMotion } from 'framer-motion'
 import { getAllWorks } from '@/lib/api/works'
 import { Work } from '@/lib/types/work'
 
@@ -13,6 +13,7 @@ export const Works = () => {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
     const sectionRef = useRef<HTMLElement>(null)
     const isInView = useInView(sectionRef, { once: true, margin: "-100px" })
+    const shouldReduceMotion = useReducedMotion()
 
     useEffect(() => {
         const fetchWorks = async () => {
@@ -34,7 +35,7 @@ export const Works = () => {
             <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-primary/5 dark:via-primary/10 to-transparent" />
             <motion.div
                 className="absolute top-20 right-10 w-96 h-96 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full blur-3xl -z-10"
-                animate={{
+                animate={shouldReduceMotion ? {} : {
                     scale: [1, 1.1, 1],
                     opacity: [0.3, 0.5, 0.3]
                 }}
@@ -46,7 +47,7 @@ export const Works = () => {
             />
             <motion.div
                 className="absolute bottom-20 left-10 w-80 h-80 bg-gradient-to-tr from-secondary/20 to-primary/20 rounded-full blur-3xl -z-10"
-                animate={{
+                animate={shouldReduceMotion ? {} : {
                     scale: [1, 1.2, 1],
                     opacity: [0.2, 0.4, 0.2]
                 }}
