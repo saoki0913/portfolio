@@ -8,6 +8,7 @@ import { About } from '@/components/sections/About'
 import { Works } from '@/components/sections/Works'
 import { Skills } from '@/components/sections/Skills'
 import { Contact } from '@/components/sections/Contact'
+import { Footer } from '@/components/sections/Footer'
 import { OpeningLoading } from '@/components/ui/OpeningLoading'
 import 'tw-animate-css'
 
@@ -162,6 +163,7 @@ function HomeContent() {
             <Skills />
             <Contact />
           </div>
+          <Footer />
         </main>
       </div>
     </div>
