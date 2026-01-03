@@ -382,7 +382,7 @@ export const About = () => {
 
     return (
         <>
-            <section id="about" className="mt-24 md:mt-32 py-16 md:py-24 px-4 md:px-6 ml-2 relative overflow-hidden">
+            <section id="about" className="mt-24 md:mt-32 py-16 md:py-24 px-4 md:px-6 relative overflow-hidden">
                 {/* 背景装飾 */}
                 <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
                 <motion.div

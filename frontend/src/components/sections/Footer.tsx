@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { Github, Linkedin, Mail } from 'lucide-react'
 
 const navLinks = [
@@ -32,6 +32,7 @@ const socialLinks = [
 
 export const Footer = () => {
     const currentYear = new Date().getFullYear()
+    const shouldReduceMotion = useReducedMotion()
 
     const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
         e.preventDefault()
