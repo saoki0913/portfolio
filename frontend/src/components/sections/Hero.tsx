@@ -105,8 +105,8 @@ export const Hero = () => {
                     </h2>
                 </motion.div>
 
-                <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-start">
-                    {/* 左側: タイムライン（スクロール可能） */}
+                <div className="flex flex-col-reverse md:flex-row gap-8 md:gap-12 items-start">
+                    {/* 左側: タイムライン（スクロール可能） - モバイルでは下に表示 */}
                     <motion.div
                         className="w-full md:w-1/2"
                         style={{ y }}
@@ -116,11 +116,11 @@ export const Hero = () => {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, delay: 0.4 }}
                         >
-                            <h3 className="text-h4 md:text-h3 font-semibold mb-6 uppercase text-neutral-900 dark:text-neutral-100 tracking-wide flex items-center">
+                            <h3 className="text-lg md:text-h3 font-semibold mb-4 md:mb-6 uppercase text-neutral-900 dark:text-neutral-100 tracking-wide flex flex-wrap items-center gap-2">
                                 経歴
-                                <span className="ml-3 text-label-md text-neutral-500 dark:text-neutral-400 normal-case font-medium">スクロールして詳細を見る</span>
+                                <span className="text-xs md:text-label-md text-neutral-500 dark:text-neutral-400 normal-case font-medium">スクロールして詳細を見る</span>
                             </h3>
-                            <div className="relative max-h-[50vh] md:max-h-[60vh] overflow-y-auto pr-4 no-scrollbar">
+                            <div className="relative max-h-[40vh] md:max-h-[60vh] overflow-y-auto pr-2 md:pr-4 no-scrollbar">
                                 {/* タイムラインの線 */}
                                 <div className="absolute top-0 bottom-[-240px] left-[15px] w-[2px] bg-gradient-to-b from-brand-500 via-accent-500 to-brand-500"></div>
 
@@ -130,43 +130,43 @@ export const Hero = () => {
                                     return (
                                         <motion.div
                                             key={item.id}
-                                            className="mb-6 relative pl-14 group"
+                                            className="mb-4 md:mb-6 relative pl-12 md:pl-14 group"
                                             initial={{ opacity: 0, x: -20 }}
                                             animate={{ opacity: 1, x: 0 }}
                                             transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
                                         >
                                             {/* アイコン付きドットマーカー */}
-                                            <div className="absolute left-0 top-[4px] w-8 h-8 rounded-full border-2 border-brand-500 dark:border-brand-400 bg-white dark:bg-neutral-800 shadow-sm flex items-center justify-center">
-                                                <Icon className="w-4 h-4 text-brand-600 dark:text-brand-400" />
+                                            <div className="absolute left-0 top-[4px] w-7 h-7 md:w-8 md:h-8 rounded-full border-2 border-brand-500 dark:border-brand-400 bg-white dark:bg-neutral-800 shadow-sm flex items-center justify-center">
+                                                <Icon className="w-3.5 h-3.5 md:w-4 md:h-4 text-brand-600 dark:text-brand-400" />
                                             </div>
 
                                             {/* 年代ラベル */}
-                                            <div className="text-label-lg tracking-wide font-semibold uppercase text-neutral-500 dark:text-neutral-400 mb-2 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors duration-300">
+                                            <div className="text-xs md:text-label-lg tracking-wide font-semibold uppercase text-neutral-500 dark:text-neutral-400 mb-1 md:mb-2 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors duration-300">
                                                 {item.period}
                                             </div>
 
                                             {/* コンテンツカード */}
                                             <motion.div
-                                                className="p-4 md:p-6 bg-white/90 dark:bg-neutral-800/90 backdrop-blur-sm border border-neutral-200 dark:border-neutral-700 rounded-xl shadow-sm cursor-pointer transition-all duration-300 hover:shadow-[0_8px_32px_rgba(59,130,246,0.15)] hover:border-blue-300/50 dark:hover:shadow-[0_12px_40px_rgba(168,85,247,0.25)] dark:hover:border-purple-500/50"
+                                                className="p-3 md:p-6 bg-white/90 dark:bg-neutral-800/90 backdrop-blur-sm border border-neutral-200 dark:border-neutral-700 rounded-lg md:rounded-xl shadow-sm cursor-pointer transition-all duration-300 hover:shadow-[0_8px_32px_rgba(59,130,246,0.15)] hover:border-blue-300/50 dark:hover:shadow-[0_12px_40px_rgba(168,85,247,0.25)] dark:hover:border-purple-500/50"
                                                 whileHover={{ y: -4 }}
                                                 transition={{ duration: 0.3 }}
                                             >
-                                                <h4 className="text-body-lg md:text-h4 font-semibold text-neutral-900 dark:text-neutral-100 mb-1">{item.title}</h4>
-                                                {item.subtitle && <p className="text-body-md text-neutral-600 dark:text-neutral-400">{item.subtitle}</p>}
+                                                <h4 className="text-sm md:text-h4 font-semibold text-neutral-900 dark:text-neutral-100 mb-0.5 md:mb-1">{item.title}</h4>
+                                                {item.subtitle && <p className="text-xs md:text-body-md text-neutral-600 dark:text-neutral-400">{item.subtitle}</p>}
                                             </motion.div>
                                         </motion.div>
                                     )
                                 })}
                                 {/* 最後のアイテムがグラデーションに隠れないようにするスペーサー */}
-                                <div className="h-32"></div>
+                                <div className="h-24 md:h-32"></div>
 
                                 {/* スクロールインジケーター（フェードアウト効果） - アイコン部分を避ける */}
-                                <div className="absolute bottom-0 left-14 right-0 h-10 bg-gradient-to-t from-white dark:from-neutral-900 to-transparent pointer-events-none"></div>
+                                <div className="absolute bottom-0 left-12 md:left-14 right-0 h-8 md:h-10 bg-gradient-to-t from-white dark:from-neutral-900 to-transparent pointer-events-none"></div>
                             </div>
                         </motion.div>
                     </motion.div>
 
-                    {/* 右側: プロフィール画像 */}
+                    {/* 右側: プロフィール画像 - モバイルでは上に表示 */}
                     <motion.div
                         className="w-full md:w-1/2"
                         style={{ opacity }}
@@ -174,21 +174,24 @@ export const Hero = () => {
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.8, delay: 0.3 }}
                     >
-                        <motion.div
-                            className="aspect-[4/3] relative md:ml-auto max-h-[50vh] md:max-h-[70vh] group"
-                            whileHover={{ scale: 1.02 }}
-                            transition={{ duration: 0.3 }}
-                        >
-                            <div className="absolute inset-0 bg-gradient-primary rounded-2xl blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500"></div>
-                            <Image
-                                src="/profile.jpg"
-                                alt="Shunsuke Aoki"
-                                fill
-                                className="object-cover rounded-2xl shadow-xl relative z-10"
-                                priority
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-tr from-brand-500/20 via-transparent to-accent-500/20 rounded-2xl z-20"></div>
-                        </motion.div>
+                        <div className="w-full max-w-sm mx-auto md:max-w-none md:ml-auto group">
+                            <motion.div
+                                className="relative w-full aspect-square md:aspect-[4/3] rounded-2xl overflow-hidden"
+                                whileHover={{ scale: 1.02 }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                <div className="absolute inset-0 bg-gradient-primary rounded-2xl blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500"></div>
+                                <Image
+                                    src="/profile.jpg"
+                                    alt="Shunsuke Aoki"
+                                    fill
+                                    sizes="(max-width: 768px) 100vw, 50vw"
+                                    className="object-cover rounded-2xl shadow-xl relative z-10"
+                                    priority
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-tr from-brand-500/20 via-transparent to-accent-500/20 rounded-2xl z-20"></div>
+                            </motion.div>
+                        </div>
                     </motion.div>
                 </div>
             </div>
