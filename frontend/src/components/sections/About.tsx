@@ -144,7 +144,7 @@ const ResearchDetailModal = ({
                                 <span className="w-1 h-4 bg-neutral-800 dark:bg-neutral-200 rounded-full"></span>
                                 技術手法
                             </h4>
-                            <div className="grid grid-cols-3 gap-3">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                 {researchDetails.methodology.map((method, idx) => (
                                     <motion.div
                                         key={idx}
